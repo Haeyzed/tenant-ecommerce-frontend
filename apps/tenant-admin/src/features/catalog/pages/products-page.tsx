@@ -120,11 +120,11 @@ function Filters({
   const brand =
     filters.brand_id === null
       ? null
-      : (brands.data?.find((b) => b.id === filters.brand_id) ?? null)
+      : (brands.data?.find((b) => b.value === filters.brand_id) ?? null)
   const category =
     filters.category_id === null
       ? null
-      : (categories.data?.find((c) => c.id === filters.category_id) ?? null)
+      : (categories.data?.find((c) => c.value === filters.category_id) ?? null)
 
   const wrap = compact ? "flex flex-col gap-4" : "contents"
 
@@ -207,10 +207,10 @@ function Filters({
           search={lookupSearch(queryClient, "brands")}
           value={brand}
           onChange={(item) =>
-            setFilters({ brand_id: item?.id ?? null, page: 1 })
+            setFilters({ brand_id: item ? Number(item.value) : null, page: 1 })
           }
-          getId={(b) => b.id}
-          getLabel={(b) => b.name}
+          getId={(b) => b.value}
+          getLabel={(b) => b.label}
           placeholder="Any brand"
           emptyText="No brands"
         />
@@ -221,10 +221,10 @@ function Filters({
           search={lookupSearch(queryClient, "categories")}
           value={category}
           onChange={(item) =>
-            setFilters({ category_id: item?.id ?? null, page: 1 })
+            setFilters({ category_id: item ? Number(item.value) : null, page: 1 })
           }
-          getId={(c) => c.id}
-          getLabel={(c) => c.name}
+          getId={(c) => c.value}
+          getLabel={(c) => c.label}
           placeholder="Any category"
           emptyText="No categories"
         />

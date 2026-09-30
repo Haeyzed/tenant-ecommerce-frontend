@@ -9847,7 +9847,10 @@ export interface operations {
             content: {
                 "application/json": {
                     reason?: string | null;
-                    values: string[];
+                    /** @description Setting key to new value, only the keys being changed. */
+                    values: {
+                        [key: string]: unknown;
+                    };
                 };
             };
         };

@@ -4,7 +4,7 @@ import { Geist_Mono, Inter } from "next/font/google"
 import "@workspace/ui/globals.css"
 import { cn } from "@workspace/ui/lib/utils"
 
-import { Providers } from "@/shell/providers"
+import { AdminProviders } from "@workspace/admin-kit/providers"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 const fontMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" })
@@ -29,7 +29,7 @@ export default function RootLayout({
       )}
     >
       <body>
-        <Providers>{children}</Providers>
+        <AdminProviders>{children}</AdminProviders>
       </body>
     </html>
   )

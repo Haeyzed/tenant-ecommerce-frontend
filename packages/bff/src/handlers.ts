@@ -6,6 +6,7 @@ import {
   serializeCookie,
   sessionCookieName,
 } from "./cookies"
+import { passesCsrf } from "./csrf"
 import {
   csrfRejected,
   errorEnvelope,
@@ -33,6 +34,10 @@ export type BffOptions = {
     login: string
     logout: string
     refresh?: string
+    /** POST {email}: sends a reset link (spec §9.4). */
+    forgot?: string
+    /** POST {token, email, password, password_confirmation}. */
+    reset?: string
   }
   /** The app's login page, for expired-session redirects. */
   loginPath: string
@@ -48,27 +53,6 @@ const json = (body: unknown, status = 200, headers: HeadersInit = {}) =>
     status,
     headers: { "Content-Type": "application/json", ...headers },
   })
-
-/** The app's own origin as the browser sees it, from the Host the edge preserved. */
-function ownOrigin(request: Request): string | null {
-  const host = request.headers.get("host")
-  if (!host) return null
-  const proto =
-    request.headers.get("x-forwarded-proto") ??
-    new URL(request.url).protocol.replace(":", "")
-  return `${proto}://${host}`
-}
-
-/** Non-GET BFF requests need the app's Origin and X-Requested-With: bff (spec §8.6). */
-function passesCsrf(request: Request): boolean {
-  if (request.method === "GET" || request.method === "HEAD") return true
-  const origin = request.headers.get("origin")
-  return (
-    origin !== null &&
-    origin === ownOrigin(request) &&
-    request.headers.get("x-requested-with") === "bff"
-  )
-}
 
 export function createBff(options: BffOptions) {
   const { config, actor } = options
@@ -301,6 +285,34 @@ export function createBff(options: BffOptions) {
     )
   }
 
+  /**
+   * `/bff/auth/forgot` and `/bff/auth/reset` (spec §9.4): sessionless
+   * passthroughs that forward only the expected fields.
+   */
+  async function passwordAction(request: Request, action: "forgot" | "reset"): Promise<Response> {
+    if (!passesCsrf(request)) return csrfRejected()
+
+    const ctx = context(request)
+    const path = options.auth[action]
+    if (ctx === null || !path) return notFound()
+
+    const input = await request.json().catch(() => null)
+    if (!isRecord(input)) return errorEnvelope(422, "validation_failed", "Check the form and try again.")
+
+    const fields = action === "forgot" ? ["email"] : ["token", "email", "password", "password_confirmation"]
+    const body: Record<string, string> = {}
+    for (const field of fields) {
+      if (typeof input[field] === "string") body[field] = (input[field] as string).slice(0, 255)
+    }
+
+    const response = await upstream(
+      ctx,
+      { method: "POST", path, body: JSON.stringify(body), headers: new Headers({ "content-type": "application/json" }) },
+      config
+    )
+    return new Response(response.body, { status: response.status, headers: response.headers })
+  }
+
   /** `/bff/session`: `{authenticated, actor, expiresAt}`, never the token. */
   async function sessionStatus(request: Request): Promise<Response> {
     const ctx = context(request)
@@ -368,11 +380,31 @@ export function createBff(options: BffOptions) {
     return { tenant, session: valid, fetch: fetchUpstream }
   }
 
+  /** `/bff/auth/{action}`: one route handler for every auth action. */
+  function auth(request: Request, action: string): Promise<Response> | Response {
+    switch (action) {
+      case "login":
+        return login(request)
+      case "logout":
+        return logout(request)
+      case "refresh":
+        return refresh(request)
+      case "forgot":
+      case "reset":
+        return passwordAction(request, action)
+      default:
+        return notFound()
+    }
+  }
+
   return {
+    auth,
     proxy,
     login,
     refresh,
     logout,
+    forgot: (request: Request) => passwordAction(request, "forgot"),
+    reset: (request: Request) => passwordAction(request, "reset"),
     session: sessionStatus,
     expired,
     server,

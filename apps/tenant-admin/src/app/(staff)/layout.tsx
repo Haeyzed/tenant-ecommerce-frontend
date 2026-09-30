@@ -6,7 +6,7 @@ import { allowedRoutes } from "@workspace/access"
 import { visibleNav } from "@workspace/admin-kit/nav"
 import { tenantRoutes } from "@workspace/contract/routes/tenant"
 
-import { FullPageState } from "@/features/auth/components/store-unavailable"
+import { FullPageState } from "@workspace/admin-kit/auth"
 import { toAccessSnapshot } from "@/features/session/me"
 import { ShellBanners } from "@/features/session/shell-banners"
 import { loadStaffSession, loadStoreBranding } from "@/server/api"

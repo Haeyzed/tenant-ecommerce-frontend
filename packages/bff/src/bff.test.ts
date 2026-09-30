@@ -8,6 +8,7 @@ vi.mock("server-only", () => ({}))
 import type { BffConfig } from "./config"
 import { createBff } from "./handlers"
 import { isAllowed, normalizeUpstreamPath, safeNext } from "./paths"
+import { createPublicProxy } from "./public"
 import { isSessionValid, sealSession, unsealSession } from "./session"
 import { resolveTenantContext } from "./tenant"
 
@@ -151,6 +152,38 @@ async function sessionCookie(
   )
   return `__Host-staff=${sealed}`
 }
+
+describe("local admin hosts", () => {
+  it("maps {slug}.admin.localhost to the store only when configured", () => {
+    const dev = { ...config, devAdminHost: "admin.localhost" }
+    expect(resolveTenantContext("shop.admin.localhost:3001", dev)).toMatchObject({ apiHost: "shop.ecommerce.localhost", slug: "shop" })
+    expect(resolveTenantContext("a.b.admin.localhost", dev)).toBeNull()
+    expect(resolveTenantContext("shop.admin.localhost", config)).toBeNull()
+  })
+})
+
+describe("public proxy", () => {
+  const proxy = () =>
+    createPublicProxy({
+      config: { ...config, kind: "landlord" },
+      allow: [
+        { methods: ["GET"], prefix: "/api/plans" },
+        { methods: ["POST"], prefix: "/api/register" },
+      ],
+    })
+
+  it("forwards allowed paths to the landlord host without any token", async () => {
+    const response = await proxy().proxy(req("/bff/api/plans", { headers: { cookie: await sessionCookie("1|tea_x") } }), ["plans"])
+    expect(response.status).toBe(200)
+    expect(lastHeaders.host).toBe("ecommerce.localhost")
+    expect(lastHeaders.authorization).toBeUndefined()
+  })
+
+  it("applies the allow-list and CSRF rules", async () => {
+    expect((await proxy().proxy(req("/bff/api/admin/tenants"), ["admin", "tenants"])).status).toBe(404)
+    expect((await proxy().proxy(req("/bff/api/register", { method: "POST", body: "{}" }), ["register"])).status).toBe(403)
+  })
+})
 
 describe("tenant resolution", () => {
   it("maps {slug}.admin.ROOT to {slug}.ROOT and refuses anything else", () => {

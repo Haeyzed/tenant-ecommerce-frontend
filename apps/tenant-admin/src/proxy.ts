@@ -19,6 +19,7 @@ export function proxy(request: NextRequest) {
     kind: "tenant-admin",
     rootDomain: env.ROOT_DOMAIN,
     devTenantSlug: env.APP_ENV === "local" ? env.DEV_TENANT_SLUG : undefined,
+    devAdminHost: env.APP_ENV === "local" ? env.DEV_ADMIN_HOST : undefined,
   })
 
   if (tenant === null) {

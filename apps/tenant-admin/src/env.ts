@@ -28,6 +28,8 @@ const schema = z.object({
   INSECURE_COOKIES: z.enum(["true", "false"]).default("false"),
   /** Local development without the edge: the tenant served on localhost (spec §38.6). */
   DEV_TENANT_SLUG: z.string().optional(),
+  /** Local development: {slug}.{DEV_ADMIN_HOST} reaches any store, e.g. "admin.localhost" (spec §38.6). */
+  DEV_ADMIN_HOST: z.string().optional(),
 })
 
 const parsed = schema.safeParse(process.env)
@@ -40,10 +42,10 @@ if (!parsed.success) {
 
 if (
   parsed.data.APP_ENV === "production" &&
-  (parsed.data.INSECURE_COOKIES === "true" || parsed.data.DEV_TENANT_SLUG)
+  (parsed.data.INSECURE_COOKIES === "true" || parsed.data.DEV_TENANT_SLUG || parsed.data.DEV_ADMIN_HOST)
 ) {
   throw new Error(
-    "INSECURE_COOKIES and DEV_TENANT_SLUG are local-development settings and are refused in production."
+    "INSECURE_COOKIES, DEV_TENANT_SLUG and DEV_ADMIN_HOST are local-development settings and are refused in production."
   )
 }
 

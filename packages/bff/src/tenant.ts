@@ -34,7 +34,7 @@ const isLocalHost = (host: string) =>
  */
 export function resolveTenantContext(
   rawHost: string | null,
-  config: Pick<BffConfig, "kind" | "rootDomain" | "devTenantSlug">
+  config: Pick<BffConfig, "kind" | "rootDomain" | "devTenantSlug" | "devAdminHost">
 ): TenantContext | null {
   const root = config.rootDomain.toLowerCase()
 
@@ -44,6 +44,15 @@ export function resolveTenantContext(
 
   const host = normalizeHost(rawHost)
   if (host === null) return null
+
+  // Local development: {slug}.admin.localhost reaches any store without the edge (spec §38.6).
+  if (config.kind === "tenant-admin" && config.devAdminHost) {
+    const suffix = `.${config.devAdminHost.toLowerCase()}`
+    if (host.endsWith(suffix)) {
+      const slug = host.slice(0, -suffix.length)
+      return SLUG.test(slug) ? { kind: "tenant", apiHost: `${slug}.${root}`, requestHost: host, slug } : null
+    }
+  }
 
   // Local development without the edge: a fixed tenant (spec §38.6).
   if (config.devTenantSlug && isLocalHost(host)) {

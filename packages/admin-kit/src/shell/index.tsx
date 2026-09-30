@@ -261,6 +261,7 @@ export function AppShell({
   userMenu,
   onLogout,
   defaultOpen = true,
+  homeHref = "/",
   headerStart,
   headerEnd,
   banners,
@@ -272,6 +273,8 @@ export function AppShell({
   userMenu?: ReactNode
   onLogout: () => void
   defaultOpen?: boolean
+  /** Where the brand links to. */
+  homeHref?: string
   headerStart?: ReactNode
   headerEnd?: ReactNode
   banners?: ReactNode
@@ -285,7 +288,7 @@ export function AppShell({
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton size="lg" render={<Link href="/" />}>
+              <SidebarMenuButton size="lg" render={<Link href={homeHref} />}>
                 <Avatar className="size-8 rounded-lg">
                   {brand.logoUrl ? (
                     <AvatarImage src={brand.logoUrl} alt="" />

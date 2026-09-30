@@ -15,18 +15,26 @@
     "./states": "./src/states/index.tsx",
     "./table": "./src/table/index.tsx",
     "./forms": "./src/forms/index.tsx",
-    "./lookup": "./src/lookup/index.tsx"
+    "./lookup": "./src/lookup/index.tsx",
+    "./auth": "./src/auth/index.ts",
+    "./dashboard": "./src/dashboard/index.ts",
+    "./providers": "./src/providers.tsx"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.9.1",
     "@tanstack/react-query": "^5.104.0",
     "@tanstack/react-table": "^9.2.4",
     "@workspace/access": "workspace:*",
     "@workspace/api-client": "workspace:*",
+    "@workspace/bff": "workspace:*",
     "@workspace/contract": "workspace:*",
+    "@workspace/format": "workspace:*",
     "@workspace/ui": "workspace:*",
     "next-themes": "^0.4.6",
     "nuqs": "^2.10.1",
-    "react-hook-form": "^7.89.0"
+    "react-hook-form": "^7.89.0",
+    "recharts": "3.8.0",
+    "zod": "^4.6.5"
   },
   "peerDependencies": {
     "next": "16.3.3",

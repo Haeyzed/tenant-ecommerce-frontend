@@ -34,4 +34,10 @@ export type BffConfig = {
    * on localhost without the edge (spec §38.6). Ignored unless set.
    */
   devTenantSlug?: string | undefined
+  /**
+   * Local development only: the admin host suffix that maps
+   * `{slug}.{devAdminHost}` to the store `{slug}.{rootDomain}`, e.g.
+   * "admin.localhost" (browsers resolve *.localhost to this machine).
+   */
+  devAdminHost?: string | undefined
 }

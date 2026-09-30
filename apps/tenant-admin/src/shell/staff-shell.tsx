@@ -8,7 +8,7 @@ import { AccessProvider } from "@workspace/access/react"
 import type { VisibleGroup } from "@workspace/admin-kit/nav"
 import { AppShell } from "@workspace/admin-kit/shell"
 
-import { SessionKeeper } from "@/features/session/session-keeper"
+import { SessionKeeper } from "@workspace/admin-kit/auth"
 import { StoreProvider, type StoreContextValue } from "@/shell/store-context"
 
 type Props = {
@@ -55,7 +55,7 @@ export function StaffShell({
         modules={modules}
         isOwner={isOwner}
       >
-        <SessionKeeper />
+        <SessionKeeper app="tenant-admin" actor="staff" />
         <AppShell
           brand={{
             name: store.name,

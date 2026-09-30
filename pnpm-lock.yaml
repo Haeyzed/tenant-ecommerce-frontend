@@ -81,12 +81,36 @@ importers:
 
   apps/platform-admin:
     dependencies:
+      '@hookform/resolvers':
+        specifier: ^5.9.1
+        version: 5.9.1(@standard-schema/spec@1.1.0)(ajv-formats@2.1.1(ajv@8.20.0))(ajv@8.20.0)(react-hook-form@7.89.0(@types/react@19.2.15)(react@19.2.4))(zod@4.6.5)
       '@hugeicons/core-free-icons':
         specifier: ^4.3.5
         version: 4.3.5
       '@hugeicons/react':
         specifier: ^1.1.10
         version: 1.1.10(react@19.2.4)
+      '@tanstack/react-query':
+        specifier: ^5.104.0
+        version: 5.104.0(react@19.2.4)
+      '@workspace/access':
+        specifier: workspace:*
+        version: link:../../packages/access
+      '@workspace/admin-kit':
+        specifier: workspace:*
+        version: link:../../packages/admin-kit
+      '@workspace/api-client':
+        specifier: workspace:*
+        version: link:../../packages/api-client
+      '@workspace/bff':
+        specifier: workspace:*
+        version: link:../../packages/bff
+      '@workspace/contract':
+        specifier: workspace:*
+        version: link:../../packages/contract
+      '@workspace/format':
+        specifier: workspace:*
+        version: link:../../packages/format
       '@workspace/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -105,7 +129,22 @@ importers:
       react-dom:
         specifier: 19.2.4
         version: 19.2.4(react@19.2.4)
+      react-hook-form:
+        specifier: ^7.89.0
+        version: 7.89.0(@types/react@19.2.15)(react@19.2.4)
+      recharts:
+        specifier: 3.8.0
+        version: 3.8.0(@types/react@19.2.15)(react-dom@19.2.4(react@19.2.4))(react-is@16.13.1)(react@19.2.4)(redux@5.0.1)
+      server-only:
+        specifier: ^0.0.1
+        version: 0.0.1
+      zod:
+        specifier: ^4.6.5
+        version: 4.6.5
     devDependencies:
+      '@playwright/test':
+        specifier: ^1.63.0
+        version: 1.63.0
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.3.0
@@ -130,15 +169,36 @@ importers:
       typescript:
         specifier: ^5
         version: 5.9.3
+      vitest:
+        specifier: ^5.0.2
+        version: 5.0.2(@types/node@20.19.41)(vite@8.3.1(@types/node@20.19.41)(jiti@2.7.0))
 
   apps/platform-web:
     dependencies:
+      '@hookform/resolvers':
+        specifier: ^5.9.1
+        version: 5.9.1(@standard-schema/spec@1.1.0)(ajv-formats@2.1.1(ajv@8.20.0))(ajv@8.20.0)(react-hook-form@7.89.0(@types/react@19.2.15)(react@19.2.4))(zod@4.6.5)
       '@hugeicons/core-free-icons':
         specifier: ^4.3.5
         version: 4.3.5
       '@hugeicons/react':
         specifier: ^1.1.10
         version: 1.1.10(react@19.2.4)
+      '@tanstack/react-query':
+        specifier: ^5.104.0
+        version: 5.104.0(react@19.2.4)
+      '@workspace/api-client':
+        specifier: workspace:*
+        version: link:../../packages/api-client
+      '@workspace/bff':
+        specifier: workspace:*
+        version: link:../../packages/bff
+      '@workspace/contract':
+        specifier: workspace:*
+        version: link:../../packages/contract
+      '@workspace/format':
+        specifier: workspace:*
+        version: link:../../packages/format
       '@workspace/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -157,7 +217,19 @@ importers:
       react-dom:
         specifier: 19.2.4
         version: 19.2.4(react@19.2.4)
+      react-hook-form:
+        specifier: ^7.89.0
+        version: 7.89.0(@types/react@19.2.15)(react@19.2.4)
+      server-only:
+        specifier: ^0.0.1
+        version: 0.0.1
+      zod:
+        specifier: ^4.6.5
+        version: 4.6.5
     devDependencies:
+      '@playwright/test':
+        specifier: ^1.63.0
+        version: 1.63.0
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.3.0
@@ -359,6 +431,9 @@ importers:
 
   packages/admin-kit:
     dependencies:
+      '@hookform/resolvers':
+        specifier: ^5.9.1
+        version: 5.9.1(@standard-schema/spec@1.1.0)(ajv-formats@2.1.1(ajv@8.20.0))(ajv@8.20.0)(react-hook-form@7.89.0(@types/react@19.2.15)(react@19.2.4))(zod@4.6.5)
       '@tanstack/react-query':
         specifier: ^5.104.0
         version: 5.104.0(react@19.2.4)
@@ -371,9 +446,15 @@ importers:
       '@workspace/api-client':
         specifier: workspace:*
         version: link:../api-client
+      '@workspace/bff':
+        specifier: workspace:*
+        version: link:../bff
       '@workspace/contract':
         specifier: workspace:*
         version: link:../contract
+      '@workspace/format':
+        specifier: workspace:*
+        version: link:../format
       '@workspace/ui':
         specifier: workspace:*
         version: link:../ui
@@ -386,6 +467,12 @@ importers:
       react-hook-form:
         specifier: ^7.89.0
         version: 7.89.0(@types/react@19.2.15)(react@19.2.4)
+      recharts:
+        specifier: 3.8.0
+        version: 3.8.0(@types/react@19.2.15)(react-dom@19.2.4(react@19.2.4))(react-is@16.13.1)(react@19.2.4)(redux@5.0.1)
+      zod:
+        specifier: ^4.6.5
+        version: 4.6.5
     devDependencies:
       '@types/react':
         specifier: ^19
@@ -4715,9 +4802,6 @@ packages:
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
-  zod@4.4.3:
-    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
-
   zod@4.6.5:
     resolution: {integrity: sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q==}
 
@@ -6618,8 +6702,8 @@ snapshots:
       '@babel/parser': 7.29.7
       eslint: 9.39.4(jiti@2.7.0)
       hermes-parser: 0.25.1
-      zod: 4.4.3
-      zod-validation-error: 4.0.2(zod@4.4.3)
+      zod: 4.6.5
+      zod-validation-error: 4.0.2(zod@4.6.5)
     transitivePeerDependencies:
       - supports-color
 
@@ -8702,12 +8786,10 @@ snapshots:
     dependencies:
       zod: 3.25.76
 
-  zod-validation-error@4.0.2(zod@4.4.3):
+  zod-validation-error@4.0.2(zod@4.6.5):
     dependencies:
-      zod: 4.4.3
+      zod: 4.6.5
 
   zod@3.25.76: {}
-
-  zod@4.4.3: {}
 
   zod@4.6.5: {}

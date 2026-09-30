@@ -1,19 +1,45 @@
 import type { Metadata } from "next"
 import { redirect } from "next/navigation"
 
+import {
+  AuthLayout,
+  FullPageState,
+  LoginForm,
+  type Problem,
+} from "@workspace/admin-kit/auth"
 import { safeNext } from "@workspace/bff/paths"
 
-import { AuthLayout } from "@/features/auth/components/auth-layout"
-import { LoginForm } from "@/features/auth/components/login-form"
-import { FullPageState } from "@/features/auth/components/store-unavailable"
 import { getServerContext, loadStoreBranding } from "@/server/api"
 
 export const metadata: Metadata = { title: "Sign in" }
 
-type Props = { searchParams: Promise<{ next?: string; expired?: string }> }
+/** Tenant states the login can reveal (spec §9.2 step 5, §11.4). */
+const TENANT_STATES: Record<string, Problem> = {
+  tenant_suspended: {
+    title: "This store is suspended",
+    body: "Contact platform support to restore access.",
+  },
+  tenant_closed: {
+    title: "This store is closed",
+    body: "The store has been closed and can no longer be managed.",
+  },
+  tenant_provisioning: {
+    title: "Your store is being set up",
+    body: "This usually takes a minute. Try again shortly.",
+  },
+  subscription_payment_required: {
+    title: "Payment required",
+    body: "Sign in as the owner to complete the first payment.",
+  },
+  maintenance: { title: "Down for maintenance", body: "We'll be back shortly." },
+}
+
+type Props = {
+  searchParams: Promise<{ next?: string; expired?: string; email?: string }>
+}
 
 export default async function LoginPage({ searchParams }: Props) {
-  const [{ next, expired }, branding, ctx] = await Promise.all([
+  const [{ next, expired, email }, branding, ctx] = await Promise.all([
     searchParams,
     loadStoreBranding(),
     getServerContext(),
@@ -34,11 +60,23 @@ export default async function LoginPage({ searchParams }: Props) {
 
   return (
     <AuthLayout
-      branding={branding.kind === "ok" ? branding.branding : null}
+      brand={{
+        name: branding.kind === "ok" ? branding.branding.name : "Store admin",
+        logoUrl: branding.kind === "ok" ? branding.branding.logoUrl : null,
+        caption: "Store administration",
+        headline: "Run your whole store from one place.",
+        blurb:
+          "Orders, catalogue, customers, inventory and every module your plan includes, with your team's access kept exactly where you set it.",
+      }}
       title="Sign in"
       description="Use the email and password your store owner set up for you."
     >
-      <LoginForm next={next} expired={expired === "1"} />
+      <LoginForm
+        next={next}
+        expired={expired === "1"}
+        initialEmail={email ?? ""}
+        states={TENANT_STATES}
+      />
     </AuthLayout>
   )
 }

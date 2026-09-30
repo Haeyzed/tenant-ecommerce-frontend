@@ -16,6 +16,7 @@ export const staffBff = createBff({
     fallbackTtlMinutes: env.SANCTUM_TTL_MINUTES,
     secureCookies: env.INSECURE_COOKIES !== "true",
     devTenantSlug: env.APP_ENV === "local" ? env.DEV_TENANT_SLUG : undefined,
+    devAdminHost: env.APP_ENV === "local" ? env.DEV_ADMIN_HOST : undefined,
   },
   actor: "staff",
   allow: staffAllowList,
@@ -23,6 +24,8 @@ export const staffBff = createBff({
     login: "/api/admin/auth/login",
     logout: "/api/admin/auth/logout",
     refresh: "/api/admin/auth/refresh",
+    forgot: "/api/admin/auth/password/forgot",
+    reset: "/api/admin/auth/password/reset",
   },
   loginPath: "/login",
 })

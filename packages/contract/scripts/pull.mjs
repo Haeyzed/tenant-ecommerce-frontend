@@ -28,7 +28,8 @@ if (args.includes("--openapi")) {
   exportArgs.push("--openapi")
 }
 
-execFileSync("php", exportArgs, { cwd: backend, stdio: "inherit" })
+// On Windows, php is often a .bat shim (Laravel Herd), which needs a shell.
+execFileSync("php", exportArgs, { cwd: backend, stdio: "inherit", shell: process.platform === "win32" })
 
 const commit = execFileSync("git", ["rev-parse", "HEAD"], {
   cwd: backend,

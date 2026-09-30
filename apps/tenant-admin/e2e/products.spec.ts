@@ -58,6 +58,17 @@ test.describe("product list (spec §18.3, §19.1)", () => {
     await expect(page.getByRole("alertdialog")).toBeHidden()
   })
 
+  test("the brand filter searches the brand lookup and narrows the list", async ({ page }) => {
+    await page.getByPlaceholder("Any brand").click()
+    await page.getByPlaceholder("Any brand").fill("North")
+    await page.getByRole("option", { name: "Northwind" }).click()
+    await expect(page).toHaveURL(/brand_id=\d+/)
+    await expect(page.locator("table tbody tr").first()).toBeVisible()
+    const count = await page.locator("table tbody tr").count()
+    expect(count).toBeGreaterThan(0)
+    expect(count).toBeLessThan(25)
+  })
+
   test("pagination moves through pages", async ({ page }) => {
     const pager = page.getByRole("navigation", { name: "Pagination" })
     await expect(pager).toContainText(/of \d+/)
