@@ -18,8 +18,8 @@ import { presentError } from "../states"
  * for fields the form does not render are returned so they can be shown in
  * a form-level alert. Focuses the first invalid field.
  */
-export function applyApiErrors<T extends FieldValues>(
-  form: UseFormReturn<T>,
+export function applyApiErrors<T extends FieldValues, C, O extends FieldValues>(
+  form: UseFormReturn<T, C, O>,
   error: unknown
 ): string[] {
   if (!isApiError(error)) return [presentError(error).description]

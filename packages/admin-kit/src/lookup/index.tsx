@@ -134,3 +134,5 @@ export function EntityCombobox<T>({
     </Combobox>
   )
 }
+
+export { MultiCombobox, type Option } from "./multi"

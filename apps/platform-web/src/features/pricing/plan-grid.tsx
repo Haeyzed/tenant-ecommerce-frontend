@@ -10,7 +10,7 @@ import { ToggleGroup, ToggleGroupItem } from "@workspace/ui/components/toggle-gr
 import { Icon } from "@workspace/ui/icons"
 import { cn } from "@workspace/ui/lib/utils"
 
-import { formatLimit, INTERVAL_LABELS, LIMIT_LABELS, type Plan } from "@/features/signup/model"
+import { formatLimit, INTERVAL_LABELS, LIMIT_LABELS, SITE_LOCALE, type Plan } from "@/features/signup/model"
 
 type Interval = "monthly" | "yearly"
 
@@ -72,7 +72,7 @@ export function PlanGrid({ plans, initialInterval, referral }: { plans: Plan[]; 
               {price ? (
                 <div className="flex flex-col gap-1">
                   <p className="flex items-baseline gap-1">
-                    <span className="text-3xl font-semibold tabular-nums">{formatMoney(price.amount, price.currencyCode)}</span>
+                    <span className="text-3xl font-semibold tabular-nums">{formatMoney(price.amount, price.currencyCode, SITE_LOCALE)}</span>
                     <span className="text-sm text-muted-foreground">/ {INTERVAL_LABELS[price.interval] ?? price.interval}</span>
                   </p>
                   <p className="text-sm text-muted-foreground">

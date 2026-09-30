@@ -1,6 +1,7 @@
 import type { NavEntry, NavGroup } from "@workspace/admin-kit/nav"
 
 import { dashboardNav } from "@/features/dashboard/nav"
+import { paymentGatewaysNav } from "@/features/payment-gateways/nav"
 import { registrationsNav } from "@/features/registrations/nav"
 import { settingsNav } from "@/features/settings/nav"
 
@@ -16,4 +17,4 @@ export const navGroups: NavGroup[] = [
 ]
 
 /** Each feature contributes its entries; visibility comes from permissions (spec §17.2). */
-export const navEntries: NavEntry[] = [...dashboardNav, ...registrationsNav, ...settingsNav]
+export const navEntries: NavEntry[] = [...dashboardNav, ...registrationsNav, ...paymentGatewaysNav, ...settingsNav]

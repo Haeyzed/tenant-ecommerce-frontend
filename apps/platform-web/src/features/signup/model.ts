@@ -150,7 +150,13 @@ export const LIMIT_LABELS: Record<string, string> = {
 export function formatLimit(key: string, value: number | null): string {
   if (value === null) return "Unlimited"
   if (key === "max_storage_mb") return value >= 1024 ? `${Math.round(value / 1024)} GB` : `${value} MB`
-  return new Intl.NumberFormat().format(value)
+  return new Intl.NumberFormat(SITE_LOCALE).format(value)
 }
+
+/**
+ * One locale for server and browser rendering, so prices hydrate
+ * identically (Node and the browser default to different locales).
+ */
+export const SITE_LOCALE = "en-US"
 
 export const INTERVAL_LABELS: Record<string, string> = { monthly: "month", yearly: "year" }

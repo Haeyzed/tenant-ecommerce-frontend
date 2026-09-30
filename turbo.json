@@ -25,7 +25,8 @@
       "outputs": []
     },
     "test:e2e": {
-      "cache": false
+      "cache": false,
+      "env": ["E2E_BASE_URL", "E2E_PASSWORD", "E2E_ADMIN_EMAIL", "E2E_OWNER_EMAIL", "E2E_CLERK_EMAIL"]
     },
     "contract:generate": {
       "inputs": ["bundle/**", "scripts/**"],

@@ -19,7 +19,7 @@ import { Input } from "@workspace/ui/components/input"
 import { Spinner } from "@workspace/ui/components/spinner"
 import { Icon } from "@workspace/ui/icons"
 
-import type { LegalDocument } from "./model"
+import { SITE_LOCALE, type LegalDocument } from "./model"
 import { LookupCombobox } from "./lookup-combobox"
 import { rememberSignupEmail } from "./signup-store"
 import { api } from "@/shell/api-client"
@@ -282,7 +282,7 @@ export function SignupForm({
                 <FieldDescription className="text-primary">
                   <Icon name="success" className="mr-1 inline size-4 align-text-bottom" />
                   {appliedCoupon.description ?? "Coupon applied."}
-                  {appliedCoupon.discount ? ` You save ${formatMoney(appliedCoupon.discount, appliedCoupon.currency_code)}.` : ""}
+                  {appliedCoupon.discount ? ` You save ${formatMoney(appliedCoupon.discount, appliedCoupon.currency_code, SITE_LOCALE)}.` : ""}
                 </FieldDescription>
               ) : null}
               <FieldError errors={[fieldState.error]} />
@@ -334,7 +334,7 @@ export function SignupForm({
           {submitting ? "Creating your store…" : planSummary.trialDays > 0 ? "Start my free trial" : "Continue"}
         </Button>
         <p className="text-center text-sm text-muted-foreground">
-          {planSummary.name} · {formatMoney(planSummary.amount, planSummary.currency)} / {planSummary.interval}
+          {planSummary.name} · {formatMoney(planSummary.amount, planSummary.currency, SITE_LOCALE)} / {planSummary.interval}
           {planSummary.trialDays > 0 ? ` after your ${planSummary.trialDays}-day trial` : ""}
         </p>
       </div>
