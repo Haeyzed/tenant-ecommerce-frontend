@@ -104,9 +104,14 @@ export const MAX_CUSTOM_DAYS = 731
  * The dashboard's date query, sent as-is to GET …/dashboard/{section}:
  * a preset, or `custom` with `from`/`to` (Y-m-d, in the business timezone).
  */
-export type DashboardQuery =
-  | { range: RangePreset; compare: CompareOption }
-  | { range: "custom"; from: string; to: string; compare: CompareOption }
+export type DashboardQuery = ({ range: RangePreset } | { range: "custom"; from: string; to: string }) & {
+  compare: CompareOption
+  /** Landlord money metrics only: live (default) or test billing records. */
+  mode?: BillingMode
+}
+
+export const BILLING_MODES = ["live", "test"] as const
+export type BillingMode = (typeof BILLING_MODES)[number]
 
 /** GET …/dashboard: the sections this user may see. */
 export function normalizeSections(data: unknown): { key: string; label: string }[] {

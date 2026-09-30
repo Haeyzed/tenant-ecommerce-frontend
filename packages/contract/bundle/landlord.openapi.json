@@ -98,6 +98,18 @@
                             "minLength": 3,
                             "maxLength": 3
                         }
+                    },
+                    {
+                        "name": "mode",
+                        "in": "query",
+                        "description": "Landlord money metrics: live (default) or test billing records.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "live",
+                                "test"
+                            ]
+                        }
                     }
                 ],
                 "responses": {
@@ -1568,6 +1580,18 @@
                             "minLength": 3,
                             "maxLength": 3
                         }
+                    },
+                    {
+                        "name": "mode",
+                        "in": "query",
+                        "description": "Landlord money metrics: live (default) or test billing records.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "live",
+                                "test"
+                            ]
+                        }
                     }
                 ],
                 "responses": {
@@ -2137,6 +2161,18 @@
                             "type": "string",
                             "minLength": 3,
                             "maxLength": 3
+                        }
+                    },
+                    {
+                        "name": "mode",
+                        "in": "query",
+                        "description": "Landlord money metrics: live (default) or test billing records.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "live",
+                                "test"
+                            ]
                         }
                     }
                 ],
@@ -7614,6 +7650,18 @@
                             "minLength": 3,
                             "maxLength": 3
                         }
+                    },
+                    {
+                        "name": "mode",
+                        "in": "query",
+                        "description": "Landlord money metrics: live (default) or test billing records.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "live",
+                                "test"
+                            ]
+                        }
                     }
                 ],
                 "responses": {
@@ -7811,6 +7859,18 @@
                             "type": "string",
                             "minLength": 3,
                             "maxLength": 3
+                        }
+                    },
+                    {
+                        "name": "mode",
+                        "in": "query",
+                        "description": "Landlord money metrics: live (default) or test billing records.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "live",
+                                "test"
+                            ]
                         }
                     }
                 ],
@@ -15007,6 +15067,18 @@
                             "minLength": 3,
                             "maxLength": 3
                         }
+                    },
+                    {
+                        "name": "mode",
+                        "in": "query",
+                        "description": "Landlord money metrics: live (default) or test billing records.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "live",
+                                "test"
+                            ]
+                        }
                     }
                 ],
                 "responses": {
@@ -17651,6 +17723,18 @@
                             "type": "string",
                             "minLength": 3,
                             "maxLength": 3
+                        }
+                    },
+                    {
+                        "name": "mode",
+                        "in": "query",
+                        "description": "Landlord money metrics: live (default) or test billing records.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "live",
+                                "test"
+                            ]
                         }
                     }
                 ],
@@ -21162,6 +21246,18 @@
                             "minLength": 3,
                             "maxLength": 3
                         }
+                    },
+                    {
+                        "name": "mode",
+                        "in": "query",
+                        "description": "Landlord money metrics: live (default) or test billing records.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "live",
+                                "test"
+                            ]
+                        }
                     }
                 ],
                 "responses": {
@@ -22547,6 +22643,18 @@
                             "type": "string",
                             "minLength": 3,
                             "maxLength": 3
+                        }
+                    },
+                    {
+                        "name": "mode",
+                        "in": "query",
+                        "description": "Landlord money metrics: live (default) or test billing records.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "live",
+                                "test"
+                            ]
                         }
                     }
                 ],

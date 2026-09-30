@@ -19987,6 +19987,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -22342,6 +22344,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -23672,6 +23676,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -23744,6 +23750,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
             };
@@ -24712,6 +24720,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -25444,6 +25454,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -28219,6 +28231,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -31493,6 +31507,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -32955,6 +32971,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -34277,6 +34295,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -36951,6 +36971,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -39715,6 +39737,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -40686,6 +40710,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -41614,6 +41640,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -42688,6 +42716,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -47565,6 +47595,7 @@ export interface operations {
                                 compare: string;
                                 from: string;
                                 interval: string;
+                                mode: string;
                                 preset: string;
                                 timezone: string;
                                 to: string;
@@ -49755,6 +49786,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -50055,6 +50088,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -51147,6 +51182,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -52311,6 +52348,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -52987,6 +53026,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -55176,6 +55217,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;
@@ -56726,6 +56769,8 @@ export interface operations {
                 currency?: string;
                 from?: string;
                 interval?: "auto" | "hour" | "day" | "week" | "month";
+                /** @description Landlord money metrics: live (default) or test billing records. */
+                mode?: "live" | "test";
                 range?: "today" | "yesterday" | "last_7_days" | "last_30_days" | "this_month" | "last_month" | "this_quarter" | "this_year" | "last_year" | "custom";
                 to?: string;
                 warehouse_id?: number;

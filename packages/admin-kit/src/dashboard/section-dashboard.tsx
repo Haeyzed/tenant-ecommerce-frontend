@@ -14,12 +14,13 @@ import { Skeleton } from "@workspace/ui/components/skeleton"
 import { StatCard, StatCardSkeleton } from "@workspace/ui/components/stat-card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@workspace/ui/components/table"
 import { Tabs, TabsList, TabsTrigger } from "@workspace/ui/components/tabs"
+import { ToggleGroup, ToggleGroupItem } from "@workspace/ui/components/toggle-group"
 import { Icon } from "@workspace/ui/icons"
 
 import { ErrorState, StateView } from "../states"
 import { formatKpi } from "./kpi-value"
 import { RangeControl } from "./range-control"
-import { COMPARE_OPTIONS, RANGE_PRESETS, type DashboardQuery, type RangePreset, type Section, type TableBlock } from "./types"
+import { BILLING_MODES, COMPARE_OPTIONS, RANGE_PRESETS, type BillingMode, type DashboardQuery, type RangePreset, type Section, type TableBlock } from "./types"
 
 export type { DashboardQuery, RangePreset }
 
@@ -38,6 +39,7 @@ const searchParams = {
   from: parseAsString,
   to: parseAsString,
   compare: parseAsStringLiteral(compareValues).withDefault("previous_period"),
+  mode: parseAsStringLiteral(BILLING_MODES).withDefault("live"),
 }
 
 /** The URL state as an API query; an incomplete custom range falls back to the default preset. */
@@ -129,6 +131,7 @@ export function SectionDashboard({
   loadSection,
   before,
   display,
+  billingModeToggle = false,
 }: {
   title: string
   description: string
@@ -136,6 +139,8 @@ export function SectionDashboard({
   loadSections: (signal: AbortSignal) => Promise<SectionSummary[]>
   /** GET …/dashboard/{section}?range=…[&from=&to=]&compare=… */
   loadSection: (key: string, query: DashboardQuery, signal: AbortSignal) => Promise<Section>
+  /** Landlord only: a Live/Test data switch sent as `mode` (§22.1). */
+  billingModeToggle?: boolean
   /** Content between the header and the sections, e.g. the onboarding checklist. */
   before?: ReactNode
   display?: DisplaySettings
@@ -147,7 +152,7 @@ export function SectionDashboard({
     staleTime: 5 * 60_000,
   })
   const active = params.section ?? sections.data?.[0]?.key ?? null
-  const query = toQuery(params)
+  const query: DashboardQuery = billingModeToggle ? { ...toQuery(params), mode: params.mode } : toQuery(params)
   // One query per section; refreshed every 5 minutes while visible (spec §14.3).
   const section = useQuery({
     queryKey: ["dashboard", "section", active, query],
@@ -164,13 +169,33 @@ export function SectionDashboard({
         title={title}
         description={description}
         actions={
+          <div className="flex flex-wrap items-center gap-2">
+            {billingModeToggle ? (
+              <ToggleGroup
+                variant="outline"
+                value={[params.mode]}
+                onValueChange={(next: string[]) => {
+                  const mode: BillingMode | undefined = BILLING_MODES.find((m) => m === next[0])
+                  if (mode) void setParams({ mode })
+                }}
+                aria-label="Billing data"
+              >
+                <ToggleGroupItem value="live">Live data</ToggleGroupItem>
+                <ToggleGroupItem value="test">Test data</ToggleGroupItem>
+              </ToggleGroup>
+            ) : null}
           <RangeControl
             query={query}
             display={display}
             onChange={(next) =>
-              void setParams(next.range === "custom" ? next : { range: next.range, compare: next.compare, from: null, to: null })
+              void setParams(
+                next.range === "custom"
+                  ? { range: next.range, from: next.from, to: next.to, compare: next.compare }
+                  : { range: next.range, compare: next.compare, from: null, to: null }
+              )
             }
           />
+          </div>
         }
       />
 
