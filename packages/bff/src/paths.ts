@@ -5,7 +5,9 @@ import type { AllowRule, HttpMethod } from "./config"
  * `..` or `.` segments, encoded slashes or backslashes, double slashes and
  * control characters. Returns the upstream path ("/api/...") or null.
  */
-export function normalizeUpstreamPath(segments: readonly string[]): string | null {
+export function normalizeUpstreamPath(
+  segments: readonly string[]
+): string | null {
   if (segments.length === 0) return null
 
   for (const segment of segments) {
@@ -17,20 +19,37 @@ export function normalizeUpstreamPath(segments: readonly string[]): string | nul
   return `/api/${segments.join("/")}`
 }
 
-export function isAllowed(rules: readonly AllowRule[], method: string, path: string): boolean {
+export function isAllowed(
+  rules: readonly AllowRule[],
+  method: string,
+  path: string
+): boolean {
   const upper = method.toUpperCase() as HttpMethod
 
   return rules.some(
     (rule) =>
       rule.methods.includes(upper) &&
-      (path === rule.prefix.replace(/\/$/, "") || path.startsWith(rule.prefix)) &&
-      !(rule.except ?? []).some((blocked) => path === blocked.replace(/\/$/, "") || path.startsWith(blocked)),
+      (path === rule.prefix.replace(/\/$/, "") ||
+        path.startsWith(rule.prefix)) &&
+      !(rule.except ?? []).some(
+        (blocked) =>
+          path === blocked.replace(/\/$/, "") || path.startsWith(blocked)
+      )
   )
 }
 
 /** Validates a post-login `next` target: a same-origin relative path only (spec §9.2). */
-export function safeNext(next: string | null | undefined, fallback: string): string {
-  if (!next || !next.startsWith("/") || next.startsWith("//") || next.startsWith("/\\")) return fallback
+export function safeNext(
+  next: string | null | undefined,
+  fallback: string
+): string {
+  if (
+    !next ||
+    !next.startsWith("/") ||
+    next.startsWith("//") ||
+    next.startsWith("/\\")
+  )
+    return fallback
   if (/[\u0000-\u001f]/.test(next)) return fallback
   return next
 }

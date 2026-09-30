@@ -1,4 +1,8 @@
-import { routeVisibility, type AccessSnapshot, type Manifest } from "@workspace/access"
+import {
+  routeVisibility,
+  type AccessSnapshot,
+  type Manifest,
+} from "@workspace/access"
 import type { IconName } from "@workspace/ui/icons"
 
 /** One navigation entry (spec §17.2). Module and permission come from the route manifest. */
@@ -17,13 +21,23 @@ export type NavEntry = {
 
 export type NavGroup = { id: string; label: string }
 
-export type VisibleEntry = NavEntry & { inactive: boolean; children?: VisibleEntry[] }
+export type VisibleEntry = NavEntry & {
+  inactive: boolean
+  children?: VisibleEntry[]
+}
 
 export type VisibleGroup = NavGroup & { entries: VisibleEntry[] }
 
-export const INACTIVE_GROUP: NavGroup = { id: "inactive", label: "Inactive modules" }
+export const INACTIVE_GROUP: NavGroup = {
+  id: "inactive",
+  label: "Inactive modules",
+}
 
-function resolve(entry: NavEntry, snapshot: AccessSnapshot, manifest: Manifest): VisibleEntry | null {
+function resolve(
+  entry: NavEntry,
+  snapshot: AccessSnapshot,
+  manifest: Manifest
+): VisibleEntry | null {
   const children = entry.children
     ?.map((child) => resolve(child, snapshot, manifest))
     .filter((child): child is VisibleEntry => child !== null)
@@ -45,7 +59,12 @@ function resolve(entry: NavEntry, snapshot: AccessSnapshot, manifest: Manifest):
  * The navigation the user sees: groups in order, entries sorted, inactive
  * module entries moved to the "Inactive modules" group (spec §17.2).
  */
-export function visibleNav(groups: readonly NavGroup[], entries: readonly NavEntry[], snapshot: AccessSnapshot, manifest: Manifest): VisibleGroup[] {
+export function visibleNav(
+  groups: readonly NavGroup[],
+  entries: readonly NavEntry[],
+  snapshot: AccessSnapshot,
+  manifest: Manifest
+): VisibleGroup[] {
   const resolved = entries
     .map((entry) => resolve(entry, snapshot, manifest))
     .filter((entry): entry is VisibleEntry => entry !== null)
@@ -53,7 +72,9 @@ export function visibleNav(groups: readonly NavGroup[], entries: readonly NavEnt
 
   const result: VisibleGroup[] = groups.map((group) => ({
     ...group,
-    entries: resolved.filter((entry) => entry.group === group.id && !entry.inactive),
+    entries: resolved.filter(
+      (entry) => entry.group === group.id && !entry.inactive
+    ),
   }))
 
   const inactive = resolved.filter((entry) => entry.inactive)
@@ -64,5 +85,8 @@ export function visibleNav(groups: readonly NavGroup[], entries: readonly NavEnt
 
 /** Every route a navigation tree references, for the generated missing-route test (spec §17.2 rule 1). */
 export function navRoutes(entries: readonly NavEntry[]): string[] {
-  return entries.flatMap((entry) => [entry.route, ...navRoutes(entry.children ?? [])])
+  return entries.flatMap((entry) => [
+    entry.route,
+    ...navRoutes(entry.children ?? []),
+  ])
 }

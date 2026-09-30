@@ -194,12 +194,21 @@ export const icons = {
 export type IconName = keyof typeof icons
 export type IconSvg = (typeof icons)[IconName]
 
-type IconProps = Omit<ComponentProps<typeof HugeiconsIcon>, "icon"> & { name: IconName }
+type IconProps = Omit<ComponentProps<typeof HugeiconsIcon>, "icon"> & {
+  name: IconName
+}
 
 /**
  * `<Icon name="orders" />`. Inside buttons add `data-icon="inline-start"`;
  * components size icons themselves, so no size classes are needed there.
  */
 export function Icon({ name, strokeWidth = 2, ...props }: IconProps) {
-  return <HugeiconsIcon icon={icons[name]} strokeWidth={strokeWidth} aria-hidden={props["aria-label"] ? undefined : true} {...props} />
+  return (
+    <HugeiconsIcon
+      icon={icons[name]}
+      strokeWidth={strokeWidth}
+      aria-hidden={props["aria-label"] ? undefined : true}
+      {...props}
+    />
+  )
 }

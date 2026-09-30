@@ -10,10 +10,18 @@ const schema = z.object({
   APP_ENV: z.enum(["local", "staging", "production"]).default("local"),
   ROOT_DOMAIN: z.string().min(3),
   LARAVEL_INTERNAL_URL: z.url(),
-  SESSION_SECRET: z.string().refine((v) => Buffer.from(v, "base64").length === 32, "SESSION_SECRET must be 32 bytes, base64."),
+  SESSION_SECRET: z
+    .string()
+    .refine(
+      (v) => Buffer.from(v, "base64").length === 32,
+      "SESSION_SECRET must be 32 bytes, base64."
+    ),
   SESSION_SECRET_PREVIOUS: z
     .string()
-    .refine((v) => Buffer.from(v, "base64").length === 32, "SESSION_SECRET_PREVIOUS must be 32 bytes, base64.")
+    .refine(
+      (v) => Buffer.from(v, "base64").length === 32,
+      "SESSION_SECRET_PREVIOUS must be 32 bytes, base64."
+    )
     .optional(),
   SANCTUM_TTL_MINUTES: z.coerce.number().int().positive().default(720),
   /** Plain-http local development only; production always uses __Host- cookies. */
@@ -25,11 +33,18 @@ const schema = z.object({
 const parsed = schema.safeParse(process.env)
 
 if (!parsed.success) {
-  throw new Error(`Invalid environment for tenant-admin:\n${z.prettifyError(parsed.error)}`)
+  throw new Error(
+    `Invalid environment for tenant-admin:\n${z.prettifyError(parsed.error)}`
+  )
 }
 
-if (parsed.data.APP_ENV === "production" && (parsed.data.INSECURE_COOKIES === "true" || parsed.data.DEV_TENANT_SLUG)) {
-  throw new Error("INSECURE_COOKIES and DEV_TENANT_SLUG are local-development settings and are refused in production.")
+if (
+  parsed.data.APP_ENV === "production" &&
+  (parsed.data.INSECURE_COOKIES === "true" || parsed.data.DEV_TENANT_SLUG)
+) {
+  throw new Error(
+    "INSECURE_COOKIES and DEV_TENANT_SLUG are local-development settings and are refused in production."
+  )
 }
 
 export const env = parsed.data

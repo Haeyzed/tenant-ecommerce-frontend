@@ -1,7 +1,13 @@
 import { cn } from "@workspace/ui/lib/utils"
 
 /** The six tones every backend status maps to (spec §23.2). */
-export type StatusTone = "neutral" | "info" | "success" | "warning" | "danger" | "muted"
+export type StatusTone =
+  | "neutral"
+  | "info"
+  | "success"
+  | "warning"
+  | "danger"
+  | "muted"
 
 const TONES: Record<StatusTone, string> = {
   neutral: "bg-secondary text-secondary-foreground",
@@ -40,7 +46,10 @@ function StatusBadge({
         className
       )}
     >
-      <span aria-hidden="true" className={cn("size-1.5 rounded-full", DOTS[tone])} />
+      <span
+        aria-hidden="true"
+        className={cn("size-1.5 rounded-full", DOTS[tone])}
+      />
       {children}
     </span>
   )

@@ -1,8 +1,25 @@
 import type { Actor, AllowRule, BffConfig } from "./config"
-import { clearCookie, cookieOptions, readCookie, serializeCookie, sessionCookieName } from "./cookies"
-import { csrfRejected, errorEnvelope, notFound, unauthenticated } from "./envelope"
+import {
+  clearCookie,
+  cookieOptions,
+  readCookie,
+  serializeCookie,
+  sessionCookieName,
+} from "./cookies"
+import {
+  csrfRejected,
+  errorEnvelope,
+  notFound,
+  unauthenticated,
+} from "./envelope"
 import { isAllowed, normalizeUpstreamPath, safeNext } from "./paths"
-import { isSessionValid, sealSession, sessionFromLogin, unsealSession, type SealedSession } from "./session"
+import {
+  isSessionValid,
+  sealSession,
+  sessionFromLogin,
+  unsealSession,
+  type SealedSession,
+} from "./session"
 import { resolveTenantContext } from "./tenant"
 import { readJson, requestContext, upstream } from "./upstream"
 
@@ -23,16 +40,22 @@ export type BffOptions = {
 
 type JsonRecord = Record<string, unknown>
 
-const isRecord = (value: unknown): value is JsonRecord => typeof value === "object" && value !== null && !Array.isArray(value)
+const isRecord = (value: unknown): value is JsonRecord =>
+  typeof value === "object" && value !== null && !Array.isArray(value)
 
 const json = (body: unknown, status = 200, headers: HeadersInit = {}) =>
-  new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json", ...headers } })
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { "Content-Type": "application/json", ...headers },
+  })
 
 /** The app's own origin as the browser sees it, from the Host the edge preserved. */
 function ownOrigin(request: Request): string | null {
   const host = request.headers.get("host")
   if (!host) return null
-  const proto = request.headers.get("x-forwarded-proto") ?? new URL(request.url).protocol.replace(":", "")
+  const proto =
+    request.headers.get("x-forwarded-proto") ??
+    new URL(request.url).protocol.replace(":", "")
   return `${proto}://${host}`
 }
 
@@ -40,7 +63,11 @@ function ownOrigin(request: Request): string | null {
 function passesCsrf(request: Request): boolean {
   if (request.method === "GET" || request.method === "HEAD") return true
   const origin = request.headers.get("origin")
-  return origin !== null && origin === ownOrigin(request) && request.headers.get("x-requested-with") === "bff"
+  return (
+    origin !== null &&
+    origin === ownOrigin(request) &&
+    request.headers.get("x-requested-with") === "bff"
+  )
 }
 
 export function createBff(options: BffOptions) {
@@ -49,16 +76,34 @@ export function createBff(options: BffOptions) {
 
   function context(request: Request) {
     const tenant = resolveTenantContext(request.headers.get("host"), config)
-    return tenant === null ? null : requestContext(request.headers, tenant.apiHost)
+    return tenant === null
+      ? null
+      : requestContext(request.headers, tenant.apiHost)
   }
 
-  async function currentSession(request: Request, apiHost: string): Promise<SealedSession | null> {
-    const session = await unsealSession(readCookie(request.headers.get("cookie"), cookie), config)
+  async function currentSession(
+    request: Request,
+    apiHost: string
+  ): Promise<SealedSession | null> {
+    const session = await unsealSession(
+      readCookie(request.headers.get("cookie"), cookie),
+      config
+    )
     return isSessionValid(session, actor, apiHost) ? session : null
   }
 
-  async function withSessionCookie(response: Response, session: SealedSession): Promise<Response> {
-    response.headers.append("Set-Cookie", serializeCookie(cookie, await sealSession(session, config), cookieOptions(config, session.expiresAt)))
+  async function withSessionCookie(
+    response: Response,
+    session: SealedSession
+  ): Promise<Response> {
+    response.headers.append(
+      "Set-Cookie",
+      serializeCookie(
+        cookie,
+        await sealSession(session, config),
+        cookieOptions(config, session.expiresAt)
+      )
+    )
     return response
   }
 
@@ -68,16 +113,26 @@ export function createBff(options: BffOptions) {
   }
 
   /** `/bff/.../api/[...path]`: the authenticated proxy (spec §8.3, §8.5). */
-  async function proxy(request: Request, segments: readonly string[]): Promise<Response> {
+  async function proxy(
+    request: Request,
+    segments: readonly string[]
+  ): Promise<Response> {
     if (!passesCsrf(request)) return csrfRejected()
 
     const ctx = context(request)
     const path = normalizeUpstreamPath(segments)
-    if (ctx === null || path === null || !isAllowed(options.allow, request.method, path)) return notFound()
+    if (
+      ctx === null ||
+      path === null ||
+      !isAllowed(options.allow, request.method, path)
+    )
+      return notFound()
 
     const session = await currentSession(request, ctx.apiHost)
     if (session === null) {
-      return request.headers.get("cookie")?.includes(cookie) ? withClearedCookie(unauthenticated()) : unauthenticated()
+      return request.headers.get("cookie")?.includes(cookie)
+        ? withClearedCookie(unauthenticated())
+        : unauthenticated()
     }
 
     const response = await upstream(
@@ -86,12 +141,19 @@ export function createBff(options: BffOptions) {
         method: request.method,
         path,
         search: new URL(request.url).search,
-        body: request.method === "GET" || request.method === "HEAD" ? null : request.body,
+        body:
+          request.method === "GET" || request.method === "HEAD"
+            ? null
+            : request.body,
         headers: request.headers,
         token: session.token,
-        timeoutMs: (request.headers.get("content-type") ?? "").startsWith("multipart/") ? 120_000 : 30_000,
+        timeoutMs: (request.headers.get("content-type") ?? "").startsWith(
+          "multipart/"
+        )
+          ? 120_000
+          : 30_000,
       },
-      config,
+      config
     )
 
     // A token Laravel no longer accepts clears the cookie (spec §8.3).
@@ -99,18 +161,48 @@ export function createBff(options: BffOptions) {
   }
 
   /** Seals the token of a login or refresh response and removes it from the body (spec §8.4). */
-  async function sealFromAuthResponse(response: Response, apiHost: string): Promise<Response> {
+  async function sealFromAuthResponse(
+    response: Response,
+    apiHost: string
+  ): Promise<Response> {
     const body = await readJson(response)
 
-    if (!response.ok || !isRecord(body) || !isRecord(body.data) || typeof body.data.token !== "string") {
-      return json(body ?? { success: false, message: "The service is temporarily unavailable.", data: null, meta: { error_code: "upstream_unavailable", details: {} }, errors: {} }, response.ok ? 502 : response.status, retryHeaders(response))
+    if (
+      !response.ok ||
+      !isRecord(body) ||
+      !isRecord(body.data) ||
+      typeof body.data.token !== "string"
+    ) {
+      return json(
+        body ?? {
+          success: false,
+          message: "The service is temporarily unavailable.",
+          data: null,
+          meta: { error_code: "upstream_unavailable", details: {} },
+          errors: {},
+        },
+        response.ok ? 502 : response.status,
+        retryHeaders(response)
+      )
     }
 
-    const data = body.data as JsonRecord & { token: string; expires_at?: string | null }
+    const data = body.data as JsonRecord & {
+      token: string
+      expires_at?: string | null
+    }
     const session = sessionFromLogin(actor, apiHost, data, config)
     const { token: _token, token_type: _type, ...rest } = data
 
-    return withSessionCookie(json({ ...body, data: { ...rest, expires_at: new Date(session.expiresAt * 1000).toISOString() } }), session)
+    return withSessionCookie(
+      json({
+        ...body,
+        data: {
+          ...rest,
+          expires_at: new Date(session.expiresAt * 1000).toISOString(),
+        },
+      }),
+      session
+    )
   }
 
   function retryHeaders(response: Response): HeadersInit {
@@ -126,8 +218,16 @@ export function createBff(options: BffOptions) {
     if (ctx === null) return notFound()
 
     const input = await request.json().catch(() => null)
-    if (!isRecord(input) || typeof input.email !== "string" || typeof input.password !== "string") {
-      return errorEnvelope(422, "validation_failed", "Enter your email and password.")
+    if (
+      !isRecord(input) ||
+      typeof input.email !== "string" ||
+      typeof input.password !== "string"
+    ) {
+      return errorEnvelope(
+        422,
+        "validation_failed",
+        "Enter your email and password."
+      )
     }
 
     const body = JSON.stringify({
@@ -136,7 +236,16 @@ export function createBff(options: BffOptions) {
       device_name: (ctx.userAgent ?? "web").slice(0, 100),
     })
 
-    const response = await upstream(ctx, { method: "POST", path: options.auth.login, body, headers: new Headers({ "content-type": "application/json" }) }, config)
+    const response = await upstream(
+      ctx,
+      {
+        method: "POST",
+        path: options.auth.login,
+        body,
+        headers: new Headers({ "content-type": "application/json" }),
+      },
+      config
+    )
     return sealFromAuthResponse(response, ctx.apiHost)
   }
 
@@ -150,7 +259,11 @@ export function createBff(options: BffOptions) {
     const session = await currentSession(request, ctx.apiHost)
     if (session === null) return withClearedCookie(unauthenticated())
 
-    const response = await upstream(ctx, { method: "POST", path: options.auth.refresh, token: session.token }, config)
+    const response = await upstream(
+      ctx,
+      { method: "POST", path: options.auth.refresh, token: session.token },
+      config
+    )
     if (response.status === 401) return withClearedCookie(unauthenticated())
 
     return sealFromAuthResponse(response, ctx.apiHost)
@@ -161,24 +274,48 @@ export function createBff(options: BffOptions) {
     if (!passesCsrf(request)) return csrfRejected()
 
     const ctx = context(request)
-    const session = ctx === null ? null : await currentSession(request, ctx.apiHost)
+    const session =
+      ctx === null ? null : await currentSession(request, ctx.apiHost)
 
     if (ctx !== null && session !== null) {
-      await upstream(ctx, { method: "POST", path: options.auth.logout, token: session.token, timeoutMs: 3_000 }, config)
+      await upstream(
+        ctx,
+        {
+          method: "POST",
+          path: options.auth.logout,
+          token: session.token,
+          timeoutMs: 3_000,
+        },
+        config
+      )
     }
 
-    return withClearedCookie(json({ success: true, message: "Logged out", data: null, meta: {}, errors: {} }))
+    return withClearedCookie(
+      json({
+        success: true,
+        message: "Logged out",
+        data: null,
+        meta: {},
+        errors: {},
+      })
+    )
   }
 
   /** `/bff/session`: `{authenticated, actor, expiresAt}`, never the token. */
   async function sessionStatus(request: Request): Promise<Response> {
     const ctx = context(request)
-    const session = ctx === null ? null : await currentSession(request, ctx.apiHost)
+    const session =
+      ctx === null ? null : await currentSession(request, ctx.apiHost)
 
     return json(
-      { authenticated: session !== null, actor, expiresAt: session?.expiresAt ?? null, issuedAt: session?.issuedAt ?? null },
+      {
+        authenticated: session !== null,
+        actor,
+        expiresAt: session?.expiresAt ?? null,
+        issuedAt: session?.issuedAt ?? null,
+      },
       200,
-      { "Cache-Control": "no-store" },
+      { "Cache-Control": "no-store" }
     )
   }
 
@@ -188,7 +325,9 @@ export function createBff(options: BffOptions) {
     const next = safeNext(url.searchParams.get("next"), "/")
     const location = `${options.loginPath}?next=${encodeURIComponent(next)}&expired=1`
 
-    return withClearedCookie(new Response(null, { status: 303, headers: { Location: location } }))
+    return withClearedCookie(
+      new Response(null, { status: 303, headers: { Location: location } })
+    )
   }
 
   /**
@@ -200,19 +339,45 @@ export function createBff(options: BffOptions) {
     if (tenant === null) return null
 
     const ctx = requestContext(requestHeaders, tenant.apiHost)
-    const session = await unsealSession(readCookie(requestHeaders.get("cookie"), cookie), config)
-    const valid = isSessionValid(session, actor, tenant.apiHost) ? session : null
+    const session = await unsealSession(
+      readCookie(requestHeaders.get("cookie"), cookie),
+      config
+    )
+    const valid = isSessionValid(session, actor, tenant.apiHost)
+      ? session
+      : null
 
     const fetchUpstream = async (req: Request): Promise<Response> => {
       const url = new URL(req.url)
-      const body = req.method === "GET" || req.method === "HEAD" ? null : await req.text()
-      return upstream(ctx, { method: req.method, path: `/api${url.pathname}`, search: url.search, body, headers: req.headers, token: valid?.token ?? null }, config)
+      const body =
+        req.method === "GET" || req.method === "HEAD" ? null : await req.text()
+      return upstream(
+        ctx,
+        {
+          method: req.method,
+          path: `/api${url.pathname}`,
+          search: url.search,
+          body,
+          headers: req.headers,
+          token: valid?.token ?? null,
+        },
+        config
+      )
     }
 
     return { tenant, session: valid, fetch: fetchUpstream }
   }
 
-  return { proxy, login, refresh, logout, session: sessionStatus, expired, server, cookieName: cookie }
+  return {
+    proxy,
+    login,
+    refresh,
+    logout,
+    session: sessionStatus,
+    expired,
+    server,
+    cookieName: cookie,
+  }
 }
 
 export type Bff = ReturnType<typeof createBff>

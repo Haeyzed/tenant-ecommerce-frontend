@@ -14,7 +14,10 @@ import {
 import { Spinner } from "@workspace/ui/components/spinner"
 import { useDebouncedValue } from "@workspace/ui/hooks/use-debounced-value"
 
-export type LookupSearch<T> = (term: string, signal: AbortSignal) => Promise<T[]>
+export type LookupSearch<T> = (
+  term: string,
+  signal: AbortSignal
+) => Promise<T[]>
 
 /**
  * The API-backed lookup used for every relational field (customers,
@@ -72,7 +75,10 @@ export function EntityCombobox<T>({
 
   const items = results.data ?? []
   // Keep the selected item available even when it is not in the current results.
-  const options = value !== null && !items.some((item) => getId(item) === getId(value)) ? [value, ...items] : items
+  const options =
+    value !== null && !items.some((item) => getId(item) === getId(value))
+      ? [value, ...items]
+      : items
 
   return (
     <Combobox
@@ -86,7 +92,13 @@ export function EntityCombobox<T>({
       isItemEqualToValue={(a: T, b: T) => getId(a) === getId(b)}
       disabled={disabled}
     >
-      <ComboboxInput id={id} placeholder={placeholder} showClear={clearable && value !== null} aria-invalid={invalid || undefined} className="w-full" />
+      <ComboboxInput
+        id={id}
+        placeholder={placeholder}
+        showClear={clearable && value !== null}
+        aria-invalid={invalid || undefined}
+        className="w-full"
+      />
       <ComboboxContent>
         <ComboboxEmpty>
           {results.isFetching ? (
@@ -108,7 +120,11 @@ export function EntityCombobox<T>({
               <ComboboxItem key={getId(item)} value={item}>
                 <span className="flex min-w-0 flex-col">
                   <span className="truncate">{getLabel(item)}</span>
-                  {description ? <span className="truncate text-xs text-muted-foreground">{description}</span> : null}
+                  {description ? (
+                    <span className="truncate text-xs text-muted-foreground">
+                      {description}
+                    </span>
+                  ) : null}
                 </span>
               </ComboboxItem>
             )

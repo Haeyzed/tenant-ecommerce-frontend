@@ -20,7 +20,10 @@ export function serializeQuery(query: Record<string, unknown>): string {
     }
 
     if (typeof value === "object") {
-      for (const [sub, item] of Object.entries(value as Record<string, unknown>)) append(`${key}[${sub}]`, item)
+      for (const [sub, item] of Object.entries(
+        value as Record<string, unknown>
+      ))
+        append(`${key}[${sub}]`, item)
       return
     }
 

@@ -24,7 +24,9 @@ export function Providers({ children }: { children: ReactNode }) {
         <QueryProvider
           onUnauthenticated={() => {
             const next = window.location.pathname + window.location.search
-            window.location.assign(`/bff/session/expired?next=${encodeURIComponent(next)}`)
+            window.location.assign(
+              `/bff/session/expired?next=${encodeURIComponent(next)}`
+            )
           }}
           onAccessChanged={() => router.refresh()}
         >

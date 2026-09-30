@@ -19,6 +19,17 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "test": {
+      "dependsOn": ["^typecheck"],
+      "outputs": []
+    },
+    "test:e2e": {
+      "cache": false
+    },
+    "contract:generate": {
+      "inputs": ["bundle/**", "scripts/**"],
+      "outputs": ["src/generated/**", "contract.lock.json"]
     }
   }
 }

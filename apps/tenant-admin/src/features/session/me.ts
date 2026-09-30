@@ -16,9 +16,18 @@ export type StaffUser = {
   last_login_at: string | null
 }
 
-export type TenantIdentity = { id: string; slug: string; primary_domain: string | null }
+export type TenantIdentity = {
+  id: string
+  slug: string
+  primary_domain: string | null
+}
 
-export type LegalDocumentSummary = { id: number; document_type: string; version: string; title: string }
+export type LegalDocumentSummary = {
+  id: number
+  document_type: string
+  version: string
+  title: string
+}
 
 export type StaffSession = {
   user: StaffUser
@@ -35,12 +44,23 @@ export type StaffSession = {
   pendingLegalDocuments: LegalDocumentSummary[]
 }
 
-const MODULE_STATES = new Set<ModuleState>(["unavailable", "available", "enabled", "disabled", "locked", "suspended"])
+const MODULE_STATES = new Set<ModuleState>([
+  "unavailable",
+  "available",
+  "enabled",
+  "disabled",
+  "locked",
+  "suspended",
+])
 
-const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v)
-const str = (v: unknown, fallback = ""): string => (typeof v === "string" ? v : fallback)
-const strOrNull = (v: unknown): string | null => (typeof v === "string" ? v : null)
-const strings = (v: unknown): string[] => (Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : [])
+const isRecord = (v: unknown): v is Record<string, unknown> =>
+  typeof v === "object" && v !== null && !Array.isArray(v)
+const str = (v: unknown, fallback = ""): string =>
+  typeof v === "string" ? v : fallback
+const strOrNull = (v: unknown): string | null =>
+  typeof v === "string" ? v : null
+const strings = (v: unknown): string[] =>
+  Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : []
 
 export function normalizeMe(data: unknown): StaffSession {
   const me = isRecord(data) ? data : {}
@@ -52,7 +72,8 @@ export function normalizeMe(data: unknown): StaffSession {
   const modules: Record<string, ModuleState> = {}
   if (isRecord(me.modules)) {
     for (const [key, state] of Object.entries(me.modules)) {
-      if (typeof state === "string" && MODULE_STATES.has(state as ModuleState)) modules[key] = state as ModuleState
+      if (typeof state === "string" && MODULE_STATES.has(state as ModuleState))
+        modules[key] = state as ModuleState
     }
   }
 
@@ -62,10 +83,17 @@ export function normalizeMe(data: unknown): StaffSession {
       name: str(user.name),
       email: str(user.email),
       phone: strOrNull(user.phone),
-      preferences: { date_format: strOrNull(prefs.date_format), time_format: strOrNull(prefs.time_format) },
+      preferences: {
+        date_format: strOrNull(prefs.date_format),
+        time_format: strOrNull(prefs.time_format),
+      },
       last_login_at: strOrNull(user.last_login_at),
     },
-    tenant: { id: str(tenant.id), slug: str(tenant.slug), primary_domain: strOrNull(tenant.primary_domain) },
+    tenant: {
+      id: str(tenant.id),
+      slug: str(tenant.slug),
+      primary_domain: strOrNull(tenant.primary_domain),
+    },
     roles: strings(me.roles),
     permissions: strings(me.permissions),
     isOwner: me.is_owner === true,

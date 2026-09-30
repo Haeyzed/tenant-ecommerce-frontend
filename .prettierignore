@@ -5,3 +5,6 @@ node_modules/
 coverage/
 pnpm-lock.yaml
 .pnpm-store/
+packages/contract/src/generated
+packages/contract/bundle
+packages/contract/contract.lock.json

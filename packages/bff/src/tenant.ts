@@ -3,7 +3,12 @@ import type { BffConfig } from "./config"
 /** Where a request goes upstream (spec §7.4). */
 export type TenantContext =
   | { kind: "landlord"; apiHost: string }
-  | { kind: "tenant"; apiHost: string; requestHost: string; slug: string | null }
+  | {
+      kind: "tenant"
+      apiHost: string
+      requestHost: string
+      slug: string | null
+    }
 
 const SLUG = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/
 const LABEL = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/
@@ -19,14 +24,18 @@ export function normalizeHost(raw: string | null): string | null {
   return host.split(".").every((label) => LABEL.test(label)) ? host : null
 }
 
-const isLocalHost = (host: string) => host === "localhost" || host === "127.0.0.1"
+const isLocalHost = (host: string) =>
+  host === "localhost" || host === "127.0.0.1"
 
 /**
  * Resolves the upstream host from the request host, once per request. No
  * header, cookie, query or body field selects a tenant (spec §7.5).
  * Returns null when the host is not acceptable; the caller answers 404.
  */
-export function resolveTenantContext(rawHost: string | null, config: Pick<BffConfig, "kind" | "rootDomain" | "devTenantSlug">): TenantContext | null {
+export function resolveTenantContext(
+  rawHost: string | null,
+  config: Pick<BffConfig, "kind" | "rootDomain" | "devTenantSlug">
+): TenantContext | null {
   const root = config.rootDomain.toLowerCase()
 
   if (config.kind === "landlord") {
@@ -39,7 +48,9 @@ export function resolveTenantContext(rawHost: string | null, config: Pick<BffCon
   // Local development without the edge: a fixed tenant (spec §38.6).
   if (config.devTenantSlug && isLocalHost(host)) {
     const slug = config.devTenantSlug.toLowerCase()
-    return SLUG.test(slug) ? { kind: "tenant", apiHost: `${slug}.${root}`, requestHost: host, slug } : null
+    return SLUG.test(slug)
+      ? { kind: "tenant", apiHost: `${slug}.${root}`, requestHost: host, slug }
+      : null
   }
 
   if (config.kind === "tenant-admin") {
@@ -47,10 +58,19 @@ export function resolveTenantContext(rawHost: string | null, config: Pick<BffCon
     if (!host.endsWith(suffix)) return null
 
     const slug = host.slice(0, -suffix.length)
-    return SLUG.test(slug) ? { kind: "tenant", apiHost: `${slug}.${root}`, requestHost: host, slug } : null
+    return SLUG.test(slug)
+      ? { kind: "tenant", apiHost: `${slug}.${root}`, requestHost: host, slug }
+      : null
   }
 
   // Storefront: any valid host; Laravel decides whether it is a tenant.
-  const slug = host.endsWith(`.${root}`) ? host.slice(0, -(root.length + 1)) : null
-  return { kind: "tenant", apiHost: host, requestHost: host, slug: slug !== null && SLUG.test(slug) ? slug : null }
+  const slug = host.endsWith(`.${root}`)
+    ? host.slice(0, -(root.length + 1))
+    : null
+  return {
+    kind: "tenant",
+    apiHost: host,
+    requestHost: host,
+    slug: slug !== null && SLUG.test(slug) ? slug : null,
+  }
 }

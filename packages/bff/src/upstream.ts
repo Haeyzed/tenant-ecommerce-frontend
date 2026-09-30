@@ -42,7 +42,10 @@ const RESPONSE_HEADERS = [
 ]
 
 /** Builds the context from the incoming request's headers; the edge sets X-Real-IP and X-Request-Id. */
-export function requestContext(headers: Headers, apiHost: string): RequestContext {
+export function requestContext(
+  headers: Headers,
+  apiHost: string
+): RequestContext {
   return {
     apiHost,
     clientIp: headers.get("x-real-ip"),
@@ -56,7 +59,11 @@ export function requestContext(headers: Headers, apiHost: string): RequestContex
  * Calls Laravel on its private address with the tenant or landlord Host.
  * A timeout or network failure becomes 502 upstream_unavailable.
  */
-export async function upstream(ctx: RequestContext, init: UpstreamInit, config: Pick<BffConfig, "laravelUrl">): Promise<Response> {
+export async function upstream(
+  ctx: RequestContext,
+  init: UpstreamInit,
+  config: Pick<BffConfig, "laravelUrl">
+): Promise<Response> {
   const headers: Record<string, string> = {
     host: ctx.apiHost,
     accept: "application/json",
@@ -84,17 +91,22 @@ export async function upstream(ctx: RequestContext, init: UpstreamInit, config: 
       ? null
       : typeof init.body === "string"
         ? init.body
-        : Readable.fromWeb(init.body as unknown as NodeWebReadableStream<Uint8Array>)
+        : Readable.fromWeb(
+            init.body as unknown as NodeWebReadableStream<Uint8Array>
+          )
 
   try {
-    const response = await request(`${config.laravelUrl}${init.path}${init.search ?? ""}`, {
-      method: init.method as "GET",
-      headers,
-      body,
-      headersTimeout: timeoutMs,
-      bodyTimeout: timeoutMs,
-      signal: AbortSignal.timeout(timeoutMs),
-    })
+    const response = await request(
+      `${config.laravelUrl}${init.path}${init.search ?? ""}`,
+      {
+        method: init.method as "GET",
+        headers,
+        body,
+        headersTimeout: timeoutMs,
+        bodyTimeout: timeoutMs,
+        signal: AbortSignal.timeout(timeoutMs),
+      }
+    )
 
     const outHeaders = new Headers()
     for (const name of RESPONSE_HEADERS) {
@@ -102,12 +114,20 @@ export async function upstream(ctx: RequestContext, init: UpstreamInit, config: 
       if (typeof value === "string") outHeaders.set(name, value)
     }
 
-    const noBody = response.statusCode === 204 || response.statusCode === 304 || init.method === "HEAD"
-    const stream = noBody ? null : (Readable.toWeb(response.body) as unknown as ReadableStream<Uint8Array>)
+    const noBody =
+      response.statusCode === 204 ||
+      response.statusCode === 304 ||
+      init.method === "HEAD"
+    const stream = noBody
+      ? null
+      : (Readable.toWeb(response.body) as unknown as ReadableStream<Uint8Array>)
 
     if (noBody) await response.body.dump()
 
-    return new Response(stream, { status: response.statusCode, headers: outHeaders })
+    return new Response(stream, {
+      status: response.statusCode,
+      headers: outHeaders,
+    })
   } catch {
     return upstreamUnavailable()
   }

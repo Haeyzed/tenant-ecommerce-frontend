@@ -10,7 +10,12 @@ export const staffAllowList: readonly AllowRule[] = [
   {
     methods: ALL,
     prefix: "/api/admin/",
-    except: ["/api/admin/auth/login", "/api/admin/auth/password/", "/api/admin/auth/logout", "/api/admin/auth/refresh"],
+    except: [
+      "/api/admin/auth/login",
+      "/api/admin/auth/password/",
+      "/api/admin/auth/logout",
+      "/api/admin/auth/refresh",
+    ],
   },
   { methods: ["GET"], prefix: "/api/module-notices" },
   { methods: ["GET"], prefix: "/api/lookups/" },

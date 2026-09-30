@@ -22,16 +22,22 @@ export function proxy(request: NextRequest) {
   })
 
   if (tenant === null) {
-    return new NextResponse("Not found", { status: 404, headers: { "Content-Type": "text/plain" } })
+    return new NextResponse("Not found", {
+      status: 404,
+      headers: { "Content-Type": "text/plain" },
+    })
   }
 
   const { pathname, search } = request.nextUrl
-  const isPublic = pathname.startsWith("/bff/") || PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`))
+  const isPublic =
+    pathname.startsWith("/bff/") ||
+    PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`))
 
   if (!isPublic && !request.cookies.has(staffCookie)) {
     const login = request.nextUrl.clone()
     login.pathname = "/login"
-    login.search = pathname === "/" ? "" : `?next=${encodeURIComponent(pathname + search)}`
+    login.search =
+      pathname === "/" ? "" : `?next=${encodeURIComponent(pathname + search)}`
     return NextResponse.redirect(login)
   }
 
@@ -39,10 +45,15 @@ export function proxy(request: NextRequest) {
   response.headers.set("X-Frame-Options", "DENY")
   response.headers.set("X-Content-Type-Options", "nosniff")
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
-  response.headers.set("Permissions-Policy", "camera=(self), microphone=(), geolocation=()")
+  response.headers.set(
+    "Permissions-Policy",
+    "camera=(self), microphone=(), geolocation=()"
+  )
   return response
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|webp|ico)$).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|webp|ico)$).*)",
+  ],
 }

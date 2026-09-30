@@ -5,8 +5,19 @@ import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
 import type { ReactNode } from "react"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@workspace/ui/components/avatar"
 import { Badge } from "@workspace/ui/components/badge"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@workspace/ui/components/breadcrumb"
 import { Button } from "@workspace/ui/components/button"
 import {
   DropdownMenu,
@@ -41,8 +52,16 @@ import { Icon } from "@workspace/ui/icons"
 
 import type { VisibleEntry, VisibleGroup } from "../nav"
 
-export type ShellUser = { name: string; email: string; avatarUrl?: string | null }
-export type ShellBrand = { name: string; subtitle?: string; logoUrl?: string | null }
+export type ShellUser = {
+  name: string
+  email: string
+  avatarUrl?: string | null
+}
+export type ShellBrand = {
+  name: string
+  subtitle?: string
+  logoUrl?: string | null
+}
 
 const initials = (name: string) =>
   name
@@ -53,16 +72,28 @@ const initials = (name: string) =>
     .join("") || "?"
 
 function isActive(pathname: string, href: string) {
-  return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`)
+  return href === "/"
+    ? pathname === "/"
+    : pathname === href || pathname.startsWith(`${href}/`)
 }
 
-function NavItem({ entry, pathname }: { entry: VisibleEntry; pathname: string }) {
+function NavItem({
+  entry,
+  pathname,
+}: {
+  entry: VisibleEntry
+  pathname: string
+}) {
   const active = isActive(pathname, entry.href)
 
   if (entry.children && entry.children.length > 0) {
     return (
       <SidebarMenuItem>
-        <SidebarMenuButton tooltip={entry.label} isActive={active} render={<Link href={entry.href} />}>
+        <SidebarMenuButton
+          tooltip={entry.label}
+          isActive={active}
+          render={<Link href={entry.href} />}
+        >
           <Icon name={entry.icon} />
           <span>{entry.label}</span>
         </SidebarMenuButton>
@@ -70,7 +101,10 @@ function NavItem({ entry, pathname }: { entry: VisibleEntry; pathname: string })
           <SidebarMenuSub>
             {entry.children.map((child) => (
               <SidebarMenuSubItem key={child.id}>
-                <SidebarMenuSubButton isActive={isActive(pathname, child.href)} render={<Link href={child.href} />}>
+                <SidebarMenuSubButton
+                  isActive={isActive(pathname, child.href)}
+                  render={<Link href={child.href} />}
+                >
                   <span>{child.label}</span>
                 </SidebarMenuSubButton>
               </SidebarMenuSubItem>
@@ -83,7 +117,11 @@ function NavItem({ entry, pathname }: { entry: VisibleEntry; pathname: string })
 
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton tooltip={entry.label} isActive={active} render={<Link href={entry.href} />}>
+      <SidebarMenuButton
+        tooltip={entry.label}
+        isActive={active}
+        render={<Link href={entry.href} />}
+      >
         <Icon name={entry.icon} />
         <span className="truncate">{entry.label}</span>
         {entry.inactive ? (
@@ -96,30 +134,90 @@ function NavItem({ entry, pathname }: { entry: VisibleEntry; pathname: string })
   )
 }
 
+/** "Catalogue › Products" from the visible navigation and the current path. */
+function NavBreadcrumb({
+  groups,
+  pathname,
+}: {
+  groups: VisibleGroup[]
+  pathname: string
+}) {
+  let match: { group: VisibleGroup; entry: VisibleEntry } | null = null
+
+  for (const group of groups) {
+    for (const entry of group.entries) {
+      const candidates = [entry, ...(entry.children ?? [])]
+      for (const candidate of candidates) {
+        if (
+          isActive(pathname, candidate.href) &&
+          (!match || candidate.href.length > match.entry.href.length)
+        ) {
+          match = { group, entry: candidate }
+        }
+      }
+    }
+  }
+
+  if (!match) return null
+
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem className="hidden sm:inline-flex">
+          {match.group.label}
+        </BreadcrumbItem>
+        <BreadcrumbSeparator className="hidden sm:inline-flex" />
+        <BreadcrumbItem>
+          <BreadcrumbPage>{match.entry.label}</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+
 function ThemeMenuItems() {
   const { setTheme, resolvedTheme } = useTheme()
 
   return (
-    <DropdownMenuItem onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}>
+    <DropdownMenuItem
+      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+    >
       <Icon name={resolvedTheme === "dark" ? "sun" : "moon"} />
       {resolvedTheme === "dark" ? "Light theme" : "Dark theme"}
     </DropdownMenuItem>
   )
 }
 
-function UserMenu({ user, menu, onLogout }: { user: ShellUser; menu?: ReactNode; onLogout: () => void }) {
+function UserMenu({
+  user,
+  menu,
+  onLogout,
+}: {
+  user: ShellUser
+  menu?: ReactNode
+  onLogout: () => void
+}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <SidebarMenuButton size="lg" className="data-popup-open:bg-sidebar-accent">
+          <SidebarMenuButton
+            size="lg"
+            className="data-popup-open:bg-sidebar-accent"
+          >
             <Avatar className="size-8 rounded-lg">
-              {user.avatarUrl ? <AvatarImage src={user.avatarUrl} alt="" /> : null}
-              <AvatarFallback className="rounded-lg">{initials(user.name)}</AvatarFallback>
+              {user.avatarUrl ? (
+                <AvatarImage src={user.avatarUrl} alt="" />
+              ) : null}
+              <AvatarFallback className="rounded-lg">
+                {initials(user.name)}
+              </AvatarFallback>
             </Avatar>
             <span className="grid flex-1 text-start text-sm leading-tight">
               <span className="truncate font-medium">{user.name}</span>
-              <span className="truncate text-xs text-muted-foreground">{user.email}</span>
+              <span className="truncate text-xs text-muted-foreground">
+                {user.email}
+              </span>
             </span>
             <Icon name="moreVertical" className="ms-auto size-4" />
           </SidebarMenuButton>
@@ -128,7 +226,9 @@ function UserMenu({ user, menu, onLogout }: { user: ShellUser; menu?: ReactNode;
       <DropdownMenuContent side="top" align="start" className="min-w-56">
         <DropdownMenuGroup>
           <DropdownMenuLabel className="flex flex-col gap-0.5">
-            <span className="truncate text-sm font-medium text-foreground">{user.name}</span>
+            <span className="truncate text-sm font-medium text-foreground">
+              {user.name}
+            </span>
             <span className="truncate text-xs font-normal">{user.email}</span>
           </DropdownMenuLabel>
         </DropdownMenuGroup>
@@ -187,12 +287,20 @@ export function AppShell({
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" render={<Link href="/" />}>
                 <Avatar className="size-8 rounded-lg">
-                  {brand.logoUrl ? <AvatarImage src={brand.logoUrl} alt="" /> : null}
-                  <AvatarFallback className="rounded-lg bg-primary text-primary-foreground">{initials(brand.name)}</AvatarFallback>
+                  {brand.logoUrl ? (
+                    <AvatarImage src={brand.logoUrl} alt="" />
+                  ) : null}
+                  <AvatarFallback className="rounded-lg bg-primary text-primary-foreground">
+                    {initials(brand.name)}
+                  </AvatarFallback>
                 </Avatar>
                 <span className="grid flex-1 text-start text-sm leading-tight">
                   <span className="truncate font-semibold">{brand.name}</span>
-                  {brand.subtitle ? <span className="truncate text-xs text-muted-foreground">{brand.subtitle}</span> : null}
+                  {brand.subtitle ? (
+                    <span className="truncate text-xs text-muted-foreground">
+                      {brand.subtitle}
+                    </span>
+                  ) : null}
                 </span>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -224,18 +332,34 @@ export function AppShell({
       <SidebarInset className="min-w-0">
         <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-2 border-b bg-background/85 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/70">
           <SidebarTrigger className="-ms-1" />
-          <Separator orientation="vertical" className="me-1 data-[orientation=vertical]:h-4" />
-          <div className="flex min-w-0 flex-1 items-center gap-2">{headerStart}</div>
+          <Separator
+            orientation="vertical"
+            className="me-1 data-[orientation=vertical]:h-4"
+          />
+          <div className="flex min-w-0 flex-1 items-center gap-2">
+            {headerStart ?? (
+              <NavBreadcrumb groups={groups} pathname={pathname} />
+            )}
+          </div>
           <div className="flex items-center gap-1">{headerEnd}</div>
         </header>
         {banners ? <div className="flex flex-col">{banners}</div> : null}
-        <div className="mx-auto flex w-full max-w-[1400px] min-w-0 flex-1 flex-col gap-6 p-4 sm:p-6 lg:p-8">{children}</div>
+        <div className="mx-auto flex w-full max-w-[1400px] min-w-0 flex-1 flex-col gap-6 p-4 sm:p-6 lg:p-8">
+          {children}
+        </div>
       </SidebarInset>
     </SidebarProvider>
   )
 }
 
-export function HeaderIconButton({ label, children, ...props }: { label: string; children: ReactNode } & Omit<React.ComponentProps<typeof Button>, "children">) {
+export function HeaderIconButton({
+  label,
+  children,
+  ...props
+}: { label: string; children: ReactNode } & Omit<
+  React.ComponentProps<typeof Button>,
+  "children"
+>) {
   return (
     <Button variant="ghost" size="icon" aria-label={label} {...props}>
       {children}

@@ -1,21 +1,37 @@
 import { describe, expect, it } from "vitest"
 
-import { formatBytes, formatDate, formatDateTime, formatMoney, formatPercent } from "./index"
+import {
+  formatBytes,
+  formatDate,
+  formatDateTime,
+  formatMoney,
+  formatPercent,
+} from "./index"
 
-const lagos = { date_format: "DD MMM YYYY", time_format: "12h", timezone: "Africa/Lagos" }
+const lagos = {
+  date_format: "DD MMM YYYY",
+  time_format: "12h",
+  timezone: "Africa/Lagos",
+}
 
 describe("format", () => {
   it("formats dates in the tenant timezone and chosen format", () => {
     expect(formatDate("2026-09-30T23:30:00Z", lagos)).toBe("01 Oct 2026")
-    expect(formatDateTime("2026-09-30T23:30:00Z", lagos)).toBe("01 Oct 2026 12:30 AM")
+    expect(formatDateTime("2026-09-30T23:30:00Z", lagos)).toBe(
+      "01 Oct 2026 12:30 AM"
+    )
   })
 
   it("never shifts date-only values", () => {
-    expect(formatDate("2026-01-05", { ...lagos, timezone: "Pacific/Kiritimati" })).toBe("05 Jan 2026")
+    expect(
+      formatDate("2026-01-05", { ...lagos, timezone: "Pacific/Kiritimati" })
+    ).toBe("05 Jan 2026")
   })
 
   it("formats money from decimal strings without float loss", () => {
-    expect(formatMoney("1234567890123.45", "USD", "en-US")).toBe("$1,234,567,890,123.45")
+    expect(formatMoney("1234567890123.45", "USD", "en-US")).toBe(
+      "$1,234,567,890,123.45"
+    )
     expect(formatMoney(null, "USD")).toBe("—")
   })
 

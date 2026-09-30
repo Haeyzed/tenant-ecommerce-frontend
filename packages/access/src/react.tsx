@@ -28,13 +28,19 @@ export function AccessProvider({
   isOwner: boolean
   children: ReactNode
 }) {
-  const value = useMemo(() => ({ allowed: new Set(allowedRoutes), modules, isOwner }), [allowedRoutes, modules, isOwner])
-  return <AccessContext.Provider value={value}>{children}</AccessContext.Provider>
+  const value = useMemo(
+    () => ({ allowed: new Set(allowedRoutes), modules, isOwner }),
+    [allowedRoutes, modules, isOwner]
+  )
+  return (
+    <AccessContext.Provider value={value}>{children}</AccessContext.Provider>
+  )
 }
 
 export function useAccess(): AccessValue {
   const value = useContext(AccessContext)
-  if (value === null) throw new Error("useAccess must be used inside <AccessProvider>.")
+  if (value === null)
+    throw new Error("useAccess must be used inside <AccessProvider>.")
   return value
 }
 
@@ -44,6 +50,14 @@ export function useCan(route: string): boolean {
 }
 
 /** Renders children only when the route is callable; otherwise the fallback (default nothing). */
-export function Can({ route, children, fallback = null }: { route: string; children: ReactNode; fallback?: ReactNode }) {
+export function Can({
+  route,
+  children,
+  fallback = null,
+}: {
+  route: string
+  children: ReactNode
+  fallback?: ReactNode
+}) {
   return useCan(route) ? <>{children}</> : <>{fallback}</>
 }

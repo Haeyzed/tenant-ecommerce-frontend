@@ -3,7 +3,11 @@
 import type { FieldPath, FieldValues, UseFormReturn } from "react-hook-form"
 
 import { isApiError } from "@workspace/api-client"
-import { Alert, AlertDescription, AlertTitle } from "@workspace/ui/components/alert"
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@workspace/ui/components/alert"
 import { Icon } from "@workspace/ui/icons"
 
 import { presentError } from "../states"
@@ -14,7 +18,10 @@ import { presentError } from "../states"
  * for fields the form does not render are returned so they can be shown in
  * a form-level alert. Focuses the first invalid field.
  */
-export function applyApiErrors<T extends FieldValues>(form: UseFormReturn<T>, error: unknown): string[] {
+export function applyApiErrors<T extends FieldValues>(
+  form: UseFormReturn<T>,
+  error: unknown
+): string[] {
   if (!isApiError(error)) return [presentError(error).description]
 
   const registered = new Set(Object.keys(form.control._fields))
@@ -35,13 +42,20 @@ export function applyApiErrors<T extends FieldValues>(form: UseFormReturn<T>, er
 
   if (first !== null) form.setFocus(first)
 
-  if (Object.keys(error.fieldErrors).length === 0) unmatched.push(presentError(error).description)
+  if (Object.keys(error.fieldErrors).length === 0)
+    unmatched.push(presentError(error).description)
 
   return unmatched
 }
 
 /** Form-level errors: server messages with no field, and non-validation failures. */
-export function FormErrors({ messages, title = "We couldn't save your changes" }: { messages: string[]; title?: string }) {
+export function FormErrors({
+  messages,
+  title = "We couldn't save your changes",
+}: {
+  messages: string[]
+  title?: string
+}) {
   if (messages.length === 0) return null
 
   return (

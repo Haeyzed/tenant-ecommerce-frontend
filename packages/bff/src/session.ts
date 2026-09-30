@@ -25,7 +25,10 @@ function key(secret: string): Uint8Array {
   return new Uint8Array(bytes)
 }
 
-export async function sealSession(session: SealedSession, config: Pick<BffConfig, "sessionSecret">): Promise<string> {
+export async function sealSession(
+  session: SealedSession,
+  config: Pick<BffConfig, "sessionSecret">
+): Promise<string> {
   return new CompactEncrypt(encoder.encode(JSON.stringify(session)))
     .setProtectedHeader({ alg: "dir", enc: "A256GCM" })
     .encrypt(key(config.sessionSecret))
@@ -48,7 +51,7 @@ function isSession(value: unknown): value is SealedSession {
 /** Decrypts with the current key, then the previous one; null for anything invalid. */
 export async function unsealSession(
   sealed: string | undefined,
-  config: Pick<BffConfig, "sessionSecret" | "sessionSecretPrevious">,
+  config: Pick<BffConfig, "sessionSecret" | "sessionSecretPrevious">
 ): Promise<SealedSession | null> {
   if (!sealed) return null
 
@@ -71,8 +74,18 @@ export async function unsealSession(
  * A session is usable only for the host it was issued for, for its actor,
  * and before it expires (spec §7.5).
  */
-export function isSessionValid(session: SealedSession | null, actor: Actor, apiHost: string, now = Date.now()): session is SealedSession {
-  return session !== null && session.actor === actor && session.apiHost === apiHost && session.expiresAt * 1000 > now
+export function isSessionValid(
+  session: SealedSession | null,
+  actor: Actor,
+  apiHost: string,
+  now = Date.now()
+): session is SealedSession {
+  return (
+    session !== null &&
+    session.actor === actor &&
+    session.apiHost === apiHost &&
+    session.expiresAt * 1000 > now
+  )
 }
 
 /** Builds a session from a login or refresh response. */
@@ -80,11 +93,15 @@ export function sessionFromLogin(
   actor: Actor,
   apiHost: string,
   data: { token: string; expires_at?: string | null },
-  config: Pick<BffConfig, "fallbackTtlMinutes">,
+  config: Pick<BffConfig, "fallbackTtlMinutes">
 ): SealedSession {
   const issuedAt = Math.floor(Date.now() / 1000)
-  const parsed = data.expires_at ? Math.floor(Date.parse(data.expires_at) / 1000) : Number.NaN
-  const expiresAt = Number.isFinite(parsed) ? parsed : issuedAt + config.fallbackTtlMinutes * 60
+  const parsed = data.expires_at
+    ? Math.floor(Date.parse(data.expires_at) / 1000)
+    : Number.NaN
+  const expiresAt = Number.isFinite(parsed)
+    ? parsed
+    : issuedAt + config.fallbackTtlMinutes * 60
 
   return { v: 1, actor, token: data.token, apiHost, issuedAt, expiresAt }
 }

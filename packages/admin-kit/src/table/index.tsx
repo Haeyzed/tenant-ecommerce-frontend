@@ -25,13 +25,29 @@ import {
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu"
 import { Progress } from "@workspace/ui/components/progress"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@workspace/ui/components/select"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@workspace/ui/components/select"
 import { Skeleton } from "@workspace/ui/components/skeleton"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@workspace/ui/components/table"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@workspace/ui/components/table"
 import { Icon } from "@workspace/ui/icons"
 import { cn } from "@workspace/ui/lib/utils"
 
 import { ErrorState } from "../states"
+
+export { isBulkResult, summarizeBulk, type BulkResult } from "./bulk"
 
 const features = tableFeatures({ rowSelectionFeature, columnVisibilityFeature })
 
@@ -46,13 +62,16 @@ export type DataColumn<T> = {
   hideable?: boolean
   /** Hidden until the user shows it. */
   defaultHidden?: boolean
-  /** Card layout below 768 px: `title` and `subtitle` head the card; `detail` rows follow; `hidden` is omitted. */
-  mobile?: "title" | "subtitle" | "detail" | "hidden"
+  /** Card layout below 768 px: `title` and `subtitle` head the card, `meta` (a badge) sits beside the subtitle, `detail` rows follow, `hidden` is omitted. */
+  mobile?: "title" | "subtitle" | "meta" | "detail" | "hidden"
   align?: "start" | "end"
   className?: string
 }
 
-export type SortState = { value: string | null; onChange: (value: string | null) => void }
+export type SortState = {
+  value: string | null
+  onChange: (value: string | null) => void
+}
 
 export type PaginationControls = {
   pagination: LengthAwarePagination | undefined
@@ -91,8 +110,11 @@ const EMPTY: never[] = []
 
 function useStoredVisibility(tableId: string, columns: DataColumn<unknown>[]) {
   const defaults = useMemo(
-    () => Object.fromEntries(columns.filter((c) => c.defaultHidden).map((c) => [c.id, false])) as ColumnVisibilityState,
-    [columns],
+    () =>
+      Object.fromEntries(
+        columns.filter((c) => c.defaultHidden).map((c) => [c.id, false])
+      ) as ColumnVisibilityState,
+    [columns]
   )
   const [visibility, setVisibility] = useState<ColumnVisibilityState>(defaults)
   const key = `admin:${typeof window === "undefined" ? "" : window.location.host}:table:${tableId}:columns`
@@ -100,7 +122,11 @@ function useStoredVisibility(tableId: string, columns: DataColumn<unknown>[]) {
   useEffect(() => {
     try {
       const stored = window.localStorage.getItem(key)
-      if (stored) setVisibility({ ...defaults, ...(JSON.parse(stored) as ColumnVisibilityState) })
+      if (stored)
+        setVisibility({
+          ...defaults,
+          ...(JSON.parse(stored) as ColumnVisibilityState),
+        })
     } catch {
       // Storage unavailable: keep defaults.
     }
@@ -118,28 +144,66 @@ function useStoredVisibility(tableId: string, columns: DataColumn<unknown>[]) {
   return [visibility, update] as const
 }
 
-function SortButton({ column, sort }: { column: DataColumn<unknown>; sort: SortState }) {
+function SortButton({
+  column,
+  sort,
+}: {
+  column: DataColumn<unknown>
+  sort: SortState
+}) {
   const key = column.sortKey as string
-  const current = sort.value === key ? "asc" : sort.value === `-${key}` ? "desc" : null
+  const current =
+    sort.value === key ? "asc" : sort.value === `-${key}` ? "desc" : null
   const next = current === null ? key : current === "asc" ? `-${key}` : null
-  const label = current === "asc" ? "sorted ascending" : current === "desc" ? "sorted descending" : "not sorted"
+  const label =
+    current === "asc"
+      ? "sorted ascending"
+      : current === "desc"
+        ? "sorted descending"
+        : "not sorted"
 
   return (
     <Button
       variant="ghost"
       size="sm"
-      className={cn("-ms-2 h-7 gap-1 px-2 font-medium", column.align === "end" && "-me-2 ms-auto")}
+      className={cn(
+        "-ms-2 h-7 gap-1 px-2 font-medium",
+        column.align === "end" && "ms-auto -me-2"
+      )}
       onClick={() => sort.onChange(next)}
       aria-label={`${column.header}, ${label}. Change sort.`}
     >
       {column.header}
-      <Icon name={current === "asc" ? "arrowUp" : current === "desc" ? "arrowDown" : "sort"} className={cn("size-3.5", current === null && "opacity-50")} />
+      <Icon
+        name={
+          current === "asc"
+            ? "arrowUp"
+            : current === "desc"
+              ? "arrowDown"
+              : "sort"
+        }
+        className={cn("size-3.5", current === null && "opacity-50")}
+      />
     </Button>
   )
 }
 
-function RowCheckbox({ checked, onChange, label }: { checked: boolean; onChange: (value: boolean) => void; label: string }) {
-  return <Checkbox checked={checked} onCheckedChange={(value) => onChange(value === true)} aria-label={label} />
+function RowCheckbox({
+  checked,
+  onChange,
+  label,
+}: {
+  checked: boolean
+  onChange: (value: boolean) => void
+  label: string
+}) {
+  return (
+    <Checkbox
+      checked={checked}
+      onCheckedChange={(value) => onChange(value === true)}
+      aria-label={label}
+    />
+  )
 }
 
 /**
@@ -147,8 +211,26 @@ function RowCheckbox({ checked, onChange, label }: { checked: boolean; onChange:
  * and filtering come from URL state and the API; selection is per page.
  */
 export function DataTable<T extends RowData>(props: DataTableProps<T>) {
-  const { columns, rows, getRowId, isLoading, isFetching, error, onRetry, sort, paging, rowHref, rowActions, bulkActions, toolbar, filtered } = props
-  const [visibility, setVisibility] = useStoredVisibility(props.tableId, columns as DataColumn<unknown>[])
+  const {
+    columns,
+    rows,
+    getRowId,
+    isLoading,
+    isFetching,
+    error,
+    onRetry,
+    sort,
+    paging,
+    rowHref,
+    rowActions,
+    bulkActions,
+    toolbar,
+    filtered,
+  } = props
+  const [visibility, setVisibility] = useStoredVisibility(
+    props.tableId,
+    columns as DataColumn<unknown>[]
+  )
   const [selection, setSelection] = useState<RowSelectionState>({})
   const data = rows ?? (EMPTY as T[])
   const selectable = bulkActions !== undefined
@@ -157,8 +239,13 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
   useEffect(() => setSelection({}), [rows])
 
   const tableColumns = useMemo<ColumnDef<typeof features, T>[]>(
-    () => columns.map((column) => ({ id: column.id, header: column.header, cell: () => null })),
-    [columns],
+    () =>
+      columns.map((column) => ({
+        id: column.id,
+        header: column.header,
+        cell: () => null,
+      })),
+    [columns]
   )
 
   const table = useTable({
@@ -168,23 +255,43 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
     getRowId: (row: T) => getRowId(row),
     enableRowSelection: selectable,
     state: { rowSelection: selection, columnVisibility: visibility },
-    onRowSelectionChange: (updater) => setSelection((prev) => (typeof updater === "function" ? updater(prev) : updater)),
-    onColumnVisibilityChange: (updater) => setVisibility(typeof updater === "function" ? updater(visibility) : updater),
+    onRowSelectionChange: (updater) =>
+      setSelection((prev) =>
+        typeof updater === "function" ? updater(prev) : updater
+      ),
+    onColumnVisibilityChange: (updater) =>
+      setVisibility(
+        typeof updater === "function" ? updater(visibility) : updater
+      ),
   })
 
-  const visibleColumns = columns.filter((column) => visibility[column.id] !== false)
+  const visibleColumns = columns.filter(
+    (column) => visibility[column.id] !== false
+  )
   const selectedIds = Object.keys(selection)
   const pageRows = table.getRowModel().rows
-  const allSelected = pageRows.length > 0 && selectedIds.length === pageRows.length
+  const allSelected =
+    pageRows.length > 0 && selectedIds.length === pageRows.length
   const hideable = columns.filter((c) => c.hideable)
-  const colSpan = visibleColumns.length + (selectable ? 1 : 0) + (rowActions ? 1 : 0)
+  const colSpan =
+    visibleColumns.length + (selectable ? 1 : 0) + (rowActions ? 1 : 0)
 
   const header = (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">{toolbar}</div>
-      {hideable.length > 0 ? (
+      <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
+        {toolbar}
+      </div>
+      {hideable.length > 0 && data.length > 0 ? (
         <DropdownMenu>
-          <DropdownMenuTrigger render={<Button variant="outline" size="sm" className="hidden md:inline-flex" />}>
+          <DropdownMenuTrigger
+            render={
+              <Button
+                variant="outline"
+                size="sm"
+                className="hidden md:inline-flex"
+              />
+            }
+          >
             <Icon name="filter" data-icon="inline-start" />
             Columns
           </DropdownMenuTrigger>
@@ -195,7 +302,12 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                 <DropdownMenuCheckboxItem
                   key={column.id}
                   checked={visibility[column.id] !== false}
-                  onCheckedChange={(checked) => setVisibility({ ...visibility, [column.id]: checked === true })}
+                  onCheckedChange={(checked) =>
+                    setVisibility({
+                      ...visibility,
+                      [column.id]: checked === true,
+                    })
+                  }
                 >
                   {column.header}
                 </DropdownMenuCheckboxItem>
@@ -218,7 +330,9 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
         <Button variant="ghost" size="sm" onClick={() => setSelection({})}>
           Clear
         </Button>
-        <div className="ms-auto flex flex-wrap items-center gap-2">{bulkActions(selectedIds, () => setSelection({}))}</div>
+        <div className="ms-auto flex flex-wrap items-center gap-2">
+          {bulkActions(selectedIds, () => setSelection({}))}
+        </div>
       </div>
     ) : null
 
@@ -232,7 +346,10 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
 
   const cellLink = (row: T, content: ReactNode, first: boolean) =>
     rowHref && first ? (
-      <Link href={rowHref(row)} className="font-medium text-foreground underline-offset-4 outline-none hover:underline focus-visible:underline">
+      <Link
+        href={rowHref(row)}
+        className="font-medium text-foreground underline-offset-4 outline-none hover:underline focus-visible:underline"
+      >
         {content}
       </Link>
     ) : (
@@ -240,11 +357,20 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
     )
 
   return (
-    <section className="flex min-w-0 flex-col gap-3" aria-busy={isLoading || isFetching}>
+    <section
+      className="flex min-w-0 flex-col gap-3"
+      aria-busy={isLoading || isFetching}
+    >
       {header}
       {bulkBar}
       <div className="relative min-w-0 overflow-hidden rounded-xl border bg-card">
-        {isFetching && !isLoading ? <Progress value={null} className="absolute inset-x-0 top-0 h-0.5 rounded-none" aria-label="Refreshing" /> : null}
+        {isFetching && !isLoading ? (
+          <Progress
+            value={null}
+            className="absolute inset-x-0 top-0 h-0.5 rounded-none"
+            aria-label="Refreshing"
+          />
+        ) : null}
 
         {body ?? (
           <>
@@ -256,7 +382,9 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                     <TableHead className="w-10 ps-4">
                       <RowCheckbox
                         checked={allSelected}
-                        onChange={(value) => table.toggleAllPageRowsSelected(value)}
+                        onChange={(value) =>
+                          table.toggleAllPageRowsSelected(value)
+                        }
                         label="Select all rows on this page"
                       />
                     </TableHead>
@@ -264,7 +392,12 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                   {visibleColumns.map((column, index) => (
                     <TableHead
                       key={column.id}
-                      className={cn("text-muted-foreground", index === 0 && !selectable && "ps-4", column.align === "end" && "text-end", column.className)}
+                      className={cn(
+                        "text-muted-foreground",
+                        index === 0 && !selectable && "ps-4",
+                        column.align === "end" && "text-end",
+                        column.className
+                      )}
                       aria-sort={
                         sort && column.sortKey
                           ? sort.value === column.sortKey
@@ -275,10 +408,21 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                           : undefined
                       }
                     >
-                      {sort && column.sortKey ? <SortButton column={column as DataColumn<unknown>} sort={sort} /> : column.header}
+                      {sort && column.sortKey ? (
+                        <SortButton
+                          column={column as DataColumn<unknown>}
+                          sort={sort}
+                        />
+                      ) : (
+                        column.header
+                      )}
                     </TableHead>
                   ))}
-                  {rowActions ? <TableHead className="w-12 pe-4"><span className="sr-only">Actions</span></TableHead> : null}
+                  {rowActions ? (
+                    <TableHead className="w-12 pe-4">
+                      <span className="sr-only">Actions</span>
+                    </TableHead>
+                  ) : null}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -287,27 +431,48 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                       <TableRow key={i} className="hover:bg-transparent">
                         {Array.from({ length: colSpan }, (_, j) => (
                           <TableCell key={j} className={cn(j === 0 && "ps-4")}>
-                            <Skeleton className={cn("h-4", j === 0 ? "w-40" : "w-20")} />
+                            <Skeleton
+                              className={cn("h-4", j === 0 ? "w-40" : "w-20")}
+                            />
                           </TableCell>
                         ))}
                       </TableRow>
                     ))
                   : pageRows.map((row) => (
-                      <TableRow key={row.id} data-state={selection[row.id] ? "selected" : undefined}>
+                      <TableRow
+                        key={row.id}
+                        data-state={selection[row.id] ? "selected" : undefined}
+                      >
                         {selectable ? (
                           <TableCell className="ps-4">
-                            <RowCheckbox checked={selection[row.id] === true} onChange={(value) => row.toggleSelected(value)} label="Select row" />
+                            <RowCheckbox
+                              checked={selection[row.id] === true}
+                              onChange={(value) => row.toggleSelected(value)}
+                              label="Select row"
+                            />
                           </TableCell>
                         ) : null}
                         {visibleColumns.map((column, index) => (
                           <TableCell
                             key={column.id}
-                            className={cn(index === 0 && !selectable && "ps-4", column.align === "end" && "text-end tabular-nums", column.className)}
+                            className={cn(
+                              index === 0 && !selectable && "ps-4",
+                              column.align === "end" && "text-end tabular-nums",
+                              column.className
+                            )}
                           >
-                            {cellLink(row.original, column.cell(row.original), index === 0)}
+                            {cellLink(
+                              row.original,
+                              column.cell(row.original),
+                              index === 0
+                            )}
                           </TableCell>
                         ))}
-                        {rowActions ? <TableCell className="pe-4 text-end">{rowActions(row.original)}</TableCell> : null}
+                        {rowActions ? (
+                          <TableCell className="pe-4 text-end">
+                            {rowActions(row.original)}
+                          </TableCell>
+                        ) : null}
                       </TableRow>
                     ))}
               </TableBody>
@@ -324,31 +489,71 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                   ))
                 : pageRows.map((row) => {
                     const item = row.original
-                    const title = columns.find((c) => c.mobile === "title") ?? columns[0]
-                    const subtitle = columns.find((c) => c.mobile === "subtitle")
+                    const title =
+                      columns.find((c) => c.mobile === "title") ?? columns[0]
+                    const subtitle = columns.find(
+                      (c) => c.mobile === "subtitle"
+                    )
+                    const meta = columns.filter((c) => c.mobile === "meta")
                     const details = columns.filter((c) => c.mobile === "detail")
 
                     return (
-                      <li key={row.id} className="flex gap-3 p-4" data-state={selection[row.id] ? "selected" : undefined}>
+                      <li
+                        key={row.id}
+                        className="flex gap-3 p-4"
+                        data-state={selection[row.id] ? "selected" : undefined}
+                      >
                         {selectable ? (
                           <div className="pt-0.5">
-                            <RowCheckbox checked={selection[row.id] === true} onChange={(value) => row.toggleSelected(value)} label="Select row" />
+                            <RowCheckbox
+                              checked={selection[row.id] === true}
+                              onChange={(value) => row.toggleSelected(value)}
+                              label="Select row"
+                            />
                           </div>
                         ) : null}
                         <div className="flex min-w-0 flex-1 flex-col gap-1.5">
                           <div className="flex items-start justify-between gap-2">
                             <div className="min-w-0">
-                              {title ? <div className="truncate text-sm">{cellLink(item, title.cell(item), true)}</div> : null}
-                              {subtitle ? <div className="truncate text-xs text-muted-foreground">{subtitle.cell(item)}</div> : null}
+                              {title ? (
+                                <div className="truncate text-sm">
+                                  {cellLink(item, title.cell(item), true)}
+                                </div>
+                              ) : null}
+                              {subtitle || meta.length > 0 ? (
+                                <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                                  {subtitle ? (
+                                    <span className="truncate">
+                                      {subtitle.cell(item)}
+                                    </span>
+                                  ) : null}
+                                  {meta.map((column) => (
+                                    <span key={column.id}>
+                                      {column.cell(item)}
+                                    </span>
+                                  ))}
+                                </div>
+                              ) : null}
                             </div>
-                            {rowActions ? <div className="-me-2 -mt-1 shrink-0">{rowActions(item)}</div> : null}
+                            {rowActions ? (
+                              <div className="-me-2 -mt-1 shrink-0">
+                                {rowActions(item)}
+                              </div>
+                            ) : null}
                           </div>
                           {details.length > 0 ? (
                             <dl className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
                               {details.map((column) => (
-                                <div key={column.id} className="flex min-w-0 flex-col">
-                                  <dt className="text-muted-foreground">{column.header}</dt>
-                                  <dd className="truncate">{column.cell(item)}</dd>
+                                <div
+                                  key={column.id}
+                                  className="flex min-w-0 flex-col"
+                                >
+                                  <dt className="text-muted-foreground">
+                                    {column.header}
+                                  </dt>
+                                  <dd className="truncate">
+                                    {column.cell(item)}
+                                  </dd>
                                 </div>
                               ))}
                             </dl>
@@ -361,24 +566,48 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
           </>
         )}
       </div>
-      {paging && paging.pagination && data.length > 0 ? <PaginationBar {...paging} pagination={paging.pagination} /> : null}
+      {paging && paging.pagination && data.length > 0 ? (
+        <PaginationBar {...paging} pagination={paging.pagination} />
+      ) : null}
     </section>
   )
 }
 
-function PaginationBar({ pagination, onPageChange, onPerPageChange }: PaginationControls & { pagination: LengthAwarePagination }) {
-  const { current_page: page, last_page: last, from, to, total, per_page: perPage } = pagination
+function PaginationBar({
+  pagination,
+  onPageChange,
+  onPerPageChange,
+}: PaginationControls & { pagination: LengthAwarePagination }) {
+  const {
+    current_page: page,
+    last_page: last,
+    from,
+    to,
+    total,
+    per_page: perPage,
+  } = pagination
 
   return (
-    <nav aria-label="Pagination" className="flex flex-col-reverse items-center justify-between gap-3 text-sm sm:flex-row">
+    <nav
+      aria-label="Pagination"
+      className="flex flex-col-reverse items-center justify-between gap-3 text-sm sm:flex-row"
+    >
       <p className="text-muted-foreground">
         {from ?? 0}–{to ?? 0} of {total.toLocaleString()}
       </p>
       <div className="flex items-center gap-2">
         <div className="hidden items-center gap-2 sm:flex">
           <span className="text-muted-foreground">Rows</span>
-          <Select value={String(perPage)} onValueChange={(value) => value && onPerPageChange(Number(value))} items={PAGE_SIZE_OPTIONS.map((v) => ({ value: v, label: v }))}>
-            <SelectTrigger size="sm" className="w-18" aria-label="Rows per page">
+          <Select
+            value={String(perPage)}
+            onValueChange={(value) => value && onPerPageChange(Number(value))}
+            items={PAGE_SIZE_OPTIONS.map((v) => ({ value: v, label: v }))}
+          >
+            <SelectTrigger
+              size="sm"
+              className="w-18"
+              aria-label="Rows per page"
+            >
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -395,10 +624,22 @@ function PaginationBar({ pagination, onPageChange, onPerPageChange }: Pagination
         <span className="px-1 text-muted-foreground tabular-nums">
           Page {page} of {Math.max(last, 1)}
         </span>
-        <Button variant="outline" size="icon-sm" onClick={() => onPageChange(page - 1)} disabled={page <= 1} aria-label="Previous page">
+        <Button
+          variant="outline"
+          size="icon-sm"
+          onClick={() => onPageChange(page - 1)}
+          disabled={page <= 1}
+          aria-label="Previous page"
+        >
           <Icon name="arrowLeft" />
         </Button>
-        <Button variant="outline" size="icon-sm" onClick={() => onPageChange(page + 1)} disabled={page >= last} aria-label="Next page">
+        <Button
+          variant="outline"
+          size="icon-sm"
+          onClick={() => onPageChange(page + 1)}
+          disabled={page >= last}
+          aria-label="Next page"
+        >
           <Icon name="arrowRight" />
         </Button>
       </div>

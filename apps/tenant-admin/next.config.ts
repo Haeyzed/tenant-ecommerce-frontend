@@ -3,6 +3,8 @@ import type { NextConfig } from "next"
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
+  // The dev badge would otherwise cover the sidebar user menu.
+  devIndicators: { position: "bottom-right" },
   transpilePackages: [
     "@workspace/ui",
     "@workspace/admin-kit",

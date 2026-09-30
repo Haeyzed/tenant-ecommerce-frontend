@@ -7,7 +7,11 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "turbo format",
-    "typecheck": "turbo typecheck"
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "test:e2e": "turbo test:e2e",
+    "contract:pull": "pnpm --filter @workspace/contract contract:pull --",
+    "contract:generate": "pnpm --filter @workspace/contract contract:generate"
   },
   "devDependencies": {
     "@workspace/eslint-config": "workspace:*",

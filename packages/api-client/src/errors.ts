@@ -1,7 +1,11 @@
 import type { BackendErrorCode } from "@workspace/contract/registries"
 
 /** Codes produced by the frontend itself (spec §12.4). */
-export type FrontendErrorCode = "network_error" | "upstream_unavailable" | "csrf_rejected" | "invalid_response"
+export type FrontendErrorCode =
+  | "network_error"
+  | "upstream_unavailable"
+  | "csrf_rejected"
+  | "invalid_response"
 
 /**
  * Every backend and frontend code, widened because a few backend codes are
@@ -43,13 +47,20 @@ export class ApiError extends Error {
   static fromResponse(response: Response, body: unknown): ApiError {
     const requestId = response.headers.get("X-Request-Id")
     const retryAfterHeader = response.headers.get("Retry-After")
-    const retryAfter = retryAfterHeader !== null && /^\d+$/.test(retryAfterHeader) ? Number(retryAfterHeader) : null
+    const retryAfter =
+      retryAfterHeader !== null && /^\d+$/.test(retryAfterHeader)
+        ? Number(retryAfterHeader)
+        : null
 
     if (!isEnvelope(body)) {
       return new ApiError({
         status: response.status,
-        code: response.status >= 500 ? "upstream_unavailable" : "invalid_response",
-        message: response.status >= 500 ? "The service is temporarily unavailable." : "The server sent an unexpected response.",
+        code:
+          response.status >= 500 ? "upstream_unavailable" : "invalid_response",
+        message:
+          response.status >= 500
+            ? "The service is temporarily unavailable."
+            : "The server sent an unexpected response.",
         requestId,
         retryAfter,
       })
@@ -59,7 +70,10 @@ export class ApiError extends Error {
 
     return new ApiError({
       status: response.status,
-      code: typeof meta.error_code === "string" ? meta.error_code : statusCode(response.status),
+      code:
+        typeof meta.error_code === "string"
+          ? meta.error_code
+          : statusCode(response.status),
       message: body.message,
       details: isRecord(meta.details) ? meta.details : {},
       fieldErrors: toFieldErrors(body.errors),
@@ -72,7 +86,8 @@ export class ApiError extends Error {
     const error = new ApiError({
       status: 0,
       code: "network_error",
-      message: "We could not reach the server. Check your connection and try again.",
+      message:
+        "We could not reach the server. Check your connection and try again.",
     })
     error.cause = cause
     return error
@@ -83,7 +98,12 @@ export function isApiError(error: unknown): error is ApiError {
   return error instanceof ApiError
 }
 
-const MODULE_CODES = new Set(["feature_unavailable", "module_disabled", "module_locked", "module_suspended"])
+const MODULE_CODES = new Set([
+  "feature_unavailable",
+  "module_disabled",
+  "module_locked",
+  "module_suspended",
+])
 const TENANT_STATE_CODES = new Set([
   "subscription_payment_required",
   "subscription_past_due",
@@ -93,25 +113,40 @@ const TENANT_STATE_CODES = new Set([
   "maintenance",
 ])
 
-export const isModuleError = (e: unknown): e is ApiError => isApiError(e) && MODULE_CODES.has(e.code)
-export const isLimitError = (e: unknown): e is ApiError => isApiError(e) && e.code === "limit_reached"
-export const isValidation = (e: unknown): e is ApiError => isApiError(e) && e.status === 422 && Object.keys(e.fieldErrors).length > 0
-export const isTenantState = (e: unknown): e is ApiError => isApiError(e) && TENANT_STATE_CODES.has(e.code)
+export const isModuleError = (e: unknown): e is ApiError =>
+  isApiError(e) && MODULE_CODES.has(e.code)
+export const isLimitError = (e: unknown): e is ApiError =>
+  isApiError(e) && e.code === "limit_reached"
+export const isValidation = (e: unknown): e is ApiError =>
+  isApiError(e) && e.status === 422 && Object.keys(e.fieldErrors).length > 0
+export const isTenantState = (e: unknown): e is ApiError =>
+  isApiError(e) && TENANT_STATE_CODES.has(e.code)
 export const isConflict = (e: unknown, code?: ApiErrorCode): e is ApiError =>
   isApiError(e) && e.status === 409 && (code === undefined || e.code === code)
 
 /** Retryable for queries: network, upstream, 503 other than maintenance, and 429 (spec §12.5). */
 export function isRetryable(e: unknown): boolean {
   if (!isApiError(e)) return false
-  if (e.code === "network_error" || e.code === "upstream_unavailable") return true
+  if (e.code === "network_error" || e.code === "upstream_unavailable")
+    return true
   if (e.status === 503) return e.code !== "maintenance"
   return e.status === 429
 }
 
-type EnvelopeShape = { success: boolean; message: string; data?: unknown; meta?: unknown; errors?: unknown }
+type EnvelopeShape = {
+  success: boolean
+  message: string
+  data?: unknown
+  meta?: unknown
+  errors?: unknown
+}
 
 export function isEnvelope(body: unknown): body is EnvelopeShape {
-  return isRecord(body) && typeof body.success === "boolean" && typeof body.message === "string"
+  return (
+    isRecord(body) &&
+    typeof body.success === "boolean" &&
+    typeof body.message === "string"
+  )
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

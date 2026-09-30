@@ -1,4 +1,9 @@
-import { Card, CardContent, CardDescription, CardHeader } from "@workspace/ui/components/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+} from "@workspace/ui/components/card"
 import { Skeleton } from "@workspace/ui/components/skeleton"
 import { Icon } from "@workspace/ui/icons"
 import { cn } from "@workspace/ui/lib/utils"
@@ -35,7 +40,9 @@ function StatCard({
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-1">
-        <span className="truncate font-heading text-2xl font-semibold tracking-tight tabular-nums">{value}</span>
+        <span className="truncate font-heading text-2xl font-semibold tracking-tight tabular-nums">
+          {value}
+        </span>
         {trend || supportingLabel ? (
           <span className="flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
             {trend && trend.changePercent !== null ? (
@@ -47,7 +54,10 @@ function StatCard({
                 )}
               >
                 {trend.direction !== "flat" ? (
-                  <Icon name={trend.direction === "up" ? "trendUp" : "trendDown"} className="size-3.5" />
+                  <Icon
+                    name={trend.direction === "up" ? "trendUp" : "trendDown"}
+                    className="size-3.5"
+                  />
                 ) : null}
                 {trend.changePercent}%
               </span>

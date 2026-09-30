@@ -11,12 +11,18 @@ const args = process.argv.slice(2)
 const fromIndex = args.indexOf("--from")
 
 if (fromIndex === -1 || !args[fromIndex + 1]) {
-  console.error("Usage: pnpm contract:pull -- --from <path to tenant-ecommerce-api> [--openapi]")
+  console.error(
+    "Usage: pnpm contract:pull -- --from <path to tenant-ecommerce-api> [--openapi]"
+  )
   process.exit(1)
 }
 
 const backend = resolve(args[fromIndex + 1])
-const exportArgs = ["artisan", "frontend:contract", `--path=${join(root, "bundle")}`]
+const exportArgs = [
+  "artisan",
+  "frontend:contract",
+  `--path=${join(root, "bundle")}`,
+]
 
 if (args.includes("--openapi")) {
   exportArgs.push("--openapi")
@@ -24,7 +30,10 @@ if (args.includes("--openapi")) {
 
 execFileSync("php", exportArgs, { cwd: backend, stdio: "inherit" })
 
-const commit = execFileSync("git", ["rev-parse", "HEAD"], { cwd: backend, encoding: "utf8" }).trim()
+const commit = execFileSync("git", ["rev-parse", "HEAD"], {
+  cwd: backend,
+  encoding: "utf8",
+}).trim()
 const lockFile = join(root, "contract.lock.json")
 let lock = {}
 
@@ -34,5 +43,10 @@ try {
   // No lock yet; contract:generate writes the file hashes.
 }
 
-await writeFile(lockFile, JSON.stringify({ ...lock, backendCommit: commit }, null, 2) + "\n")
-console.log(`Pulled the contract at backend commit ${commit}. Run pnpm contract:generate next.`)
+await writeFile(
+  lockFile,
+  JSON.stringify({ ...lock, backendCommit: commit }, null, 2) + "\n"
+)
+console.log(
+  `Pulled the contract at backend commit ${commit}. Run pnpm contract:generate next.`
+)

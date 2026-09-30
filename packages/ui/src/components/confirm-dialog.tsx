@@ -43,7 +43,10 @@ function ConfirmDialog({
   children?: React.ReactNode
 }) {
   return (
-    <AlertDialog open={open} onOpenChange={(next) => (!pending ? onOpenChange(next) : undefined)}>
+    <AlertDialog
+      open={open}
+      onOpenChange={(next) => (!pending ? onOpenChange(next) : undefined)}
+    >
       <AlertDialogContent>
         <AlertDialogHeader>
           {destructive ? (
@@ -56,8 +59,14 @@ function ConfirmDialog({
         </AlertDialogHeader>
         {children}
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={pending}>{cancelLabel}</AlertDialogCancel>
-          <AlertDialogAction variant={destructive ? "destructive" : "default"} disabled={pending} onClick={onConfirm}>
+          <AlertDialogCancel disabled={pending}>
+            {cancelLabel}
+          </AlertDialogCancel>
+          <AlertDialogAction
+            variant={destructive ? "destructive" : "default"}
+            disabled={pending}
+            onClick={onConfirm}
+          >
             {pending ? <Spinner data-icon="inline-start" /> : null}
             {confirmLabel}
           </AlertDialogAction>

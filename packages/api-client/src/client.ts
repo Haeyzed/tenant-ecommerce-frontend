@@ -42,11 +42,17 @@ const acceptJson: Middleware = {
 function build<Paths extends {}>(options: ClientOptions) {
   const client = createClient<Paths>({
     baseUrl: options.baseUrl,
-    querySerializer: (query) => serializeQuery(query as Record<string, unknown>),
+    querySerializer: (query) =>
+      serializeQuery(query as Record<string, unknown>),
     ...(options.fetch ? { fetch: options.fetch } : {}),
   })
 
-  client.use(requestId, acceptJson, ...(options.browser ? [csrf] : []), ...(options.middleware ?? []))
+  client.use(
+    requestId,
+    acceptJson,
+    ...(options.browser ? [csrf] : []),
+    ...(options.middleware ?? [])
+  )
 
   return client
 }
