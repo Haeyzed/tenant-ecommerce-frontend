@@ -1,29 +1,24 @@
-import { Geist, Geist_Mono, Inter } from "next/font/google"
+import type { Metadata } from "next"
+import { Geist_Mono, Inter } from "next/font/google"
 
 import "@workspace/ui/globals.css"
-import { ThemeProvider } from "@/../components/theme-provider"
-import { cn } from "@workspace/ui/lib/utils";
+import { cn } from "@workspace/ui/lib/utils"
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'})
+import { Providers } from "@/shell/providers"
 
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
+const fontMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" })
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export const metadata: Metadata = {
+  title: { default: "Store admin", template: "%s · Store admin" },
+  robots: { index: false, follow: false },
+}
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
-    >
+    <html lang="en" suppressHydrationWarning className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}>
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )

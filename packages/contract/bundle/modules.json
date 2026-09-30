@@ -1,0 +1,490 @@
+[
+    {
+        "key": "pos",
+        "name": "Point of sale",
+        "class": "module",
+        "section": "\u00a751",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "pos"
+        ],
+        "wind_down": [
+            "tenant.admin.pos.sessions.close",
+            "tenant.admin.pos.sales.store"
+        ]
+    },
+    {
+        "key": "purchasing",
+        "name": "Suppliers and purchasing",
+        "class": "module",
+        "section": "\u00a749",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "suppliers",
+            "supplier-payments",
+            "purchase-orders",
+            "quotation-requests",
+            "supplier-quotations",
+            "purchase-returns",
+            "purchase-return-reasons"
+        ],
+        "wind_down": [
+            "tenant.admin.purchase-orders.receive",
+            "tenant.admin.suppliers.payments.store",
+            "tenant.admin.purchase-returns.store",
+            "tenant.admin.purchase-returns.approve",
+            "tenant.admin.purchase-returns.ship-back",
+            "tenant.admin.purchase-returns.refund"
+        ]
+    },
+    {
+        "key": "accounting",
+        "name": "Accounting (general ledger)",
+        "class": "module",
+        "section": "\u00a757",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "accounting"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "expenses",
+        "name": "Expenses, income and billers",
+        "class": "module",
+        "section": "\u00a757.4",
+        "requires": [],
+        "activation": "auto",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "billers",
+            "expense-categories",
+            "expenses",
+            "income-categories",
+            "income"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "hr",
+        "name": "Human resources",
+        "class": "module",
+        "section": "\u00a758",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "hr"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "hr_payroll",
+        "name": "Payroll",
+        "class": "submodule",
+        "section": "\u00a758.5",
+        "requires": [
+            "hr"
+        ],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "hr.payroll-runs",
+            "hr.payroll-items",
+            "hr.payroll-item-lines",
+            "hr.employees.salary",
+            "hr.employees.payslips",
+            "hr.employees.payroll-history"
+        ],
+        "wind_down": [
+            "tenant.admin.hr.payroll-runs.mark-paid",
+            "tenant.admin.hr.payroll-items.mark-paid"
+        ]
+    },
+    {
+        "key": "hr_recruitment",
+        "name": "Recruitment and careers",
+        "class": "submodule",
+        "section": "\u00a758.7",
+        "requires": [
+            "hr"
+        ],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "hr.job-postings",
+            "hr.applications"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "marketplace",
+        "name": "Sellers, seller groups, ledger and payouts",
+        "class": "module",
+        "section": "\u00a750",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "sellers",
+            "seller-groups",
+            "seller-products"
+        ],
+        "wind_down": [
+            "tenant.auth.seller.login",
+            "tenant.auth.seller.logout",
+            "tenant.auth.seller.password.forgot",
+            "tenant.auth.seller.password.reset",
+            "tenant.seller.profile.show",
+            "tenant.seller.products.index",
+            "tenant.seller.products.show",
+            "tenant.seller.products.variants.index",
+            "tenant.seller.orders.index",
+            "tenant.seller.ledger.index",
+            "tenant.seller.payouts.index",
+            "tenant.seller.product-options.index",
+            "tenant.seller.units.index",
+            "tenant.messaging.seller.push-tokens.destroy",
+            "tenant.admin.sellers.payouts.store",
+            "tenant.admin.sellers.payouts.mark-paid"
+        ]
+    },
+    {
+        "key": "gift_cards",
+        "name": "Gift cards",
+        "class": "module",
+        "section": "\u00a746",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "gift-cards"
+        ],
+        "wind_down": [
+            "tenant.storefront.cart.gift-card.store",
+            "tenant.storefront.cart.gift-card.destroy",
+            "tenant.public.gift-cards.balance"
+        ]
+    },
+    {
+        "key": "installments",
+        "name": "Installment payments",
+        "class": "capability",
+        "section": "\u00a747",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "installment-plans"
+        ],
+        "wind_down": [
+            "tenant.storefront.installment-payments.pay"
+        ]
+    },
+    {
+        "key": "multi_currency",
+        "name": "Multi-currency pricing",
+        "class": "capability",
+        "section": "\u00a748",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "currencies",
+            "products.prices"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "reward_points",
+        "name": "Loyalty and reward points",
+        "class": "module",
+        "section": "\u00a754",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "reward-points",
+            "customers.reward-points"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "sales_quotations",
+        "name": "Sales quotations",
+        "class": "module",
+        "section": "\u00a753",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "sales-quotation-requests",
+            "sales-quotations"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "sales_agents",
+        "name": "Sales agents and commissions",
+        "class": "module",
+        "section": "\u00a752",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "sales-agents",
+            "sales-agent-commissions"
+        ],
+        "wind_down": [
+            "tenant.admin.sales-agent-commissions.mark-paid"
+        ]
+    },
+    {
+        "key": "product_subscriptions",
+        "name": "Recurring product orders",
+        "class": "module",
+        "section": "\u00a755",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "product-subscriptions",
+            "products.subscription-plans"
+        ],
+        "wind_down": [
+            "tenant.customer.account.product-subscriptions.pause",
+            "tenant.customer.account.product-subscriptions.resume",
+            "tenant.customer.account.product-subscriptions.destroy"
+        ]
+    },
+    {
+        "key": "back_in_stock_alerts",
+        "name": "Back-in-stock alerts",
+        "class": "capability",
+        "section": "\u00a756",
+        "requires": [],
+        "activation": "auto",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "products.back-in-stock-subscribers"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "support",
+        "name": "Customer support",
+        "class": "module",
+        "section": "\u00a759",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "support"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "approval_workflows",
+        "name": "Approval workflow engine",
+        "class": "capability",
+        "section": "\u00a760",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "approval-workflows",
+            "approvals"
+        ],
+        "wind_down": [
+            "tenant.admin.approvals.approve",
+            "tenant.admin.approvals.reject"
+        ]
+    },
+    {
+        "key": "advanced_reporting",
+        "name": "Advanced reports",
+        "class": "capability",
+        "section": "\u00a761",
+        "requires": [],
+        "activation": "auto",
+        "read_when_inactive": false,
+        "permission_groups": [
+            "reports"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "ai_assistant",
+        "name": "AI business assistant",
+        "class": "module",
+        "section": "\u00a762",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": false,
+        "permission_groups": [
+            "ai-assistant"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "project_management",
+        "name": "Projects and tasks",
+        "class": "module",
+        "section": "\u00a763",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "projects",
+            "project-categories"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "content_marketing",
+        "name": "Blog, FAQs and testimonials",
+        "class": "capability",
+        "section": "\u00a724.4",
+        "requires": [],
+        "activation": "auto",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "cms.blog-categories",
+            "cms.blog-posts",
+            "cms.tags",
+            "cms.faq-categories",
+            "cms.faqs",
+            "cms.testimonials"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "custom_email",
+        "name": "Tenant's own mail provider",
+        "class": "capability",
+        "section": "\u00a716.2",
+        "requires": [],
+        "activation": "auto",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "settings.mail"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "manufacturing",
+        "name": "Bills of materials and work orders",
+        "class": "vertical",
+        "section": "\u00a764",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "bill-of-materials",
+            "work-orders",
+            "products.bill-of-materials"
+        ],
+        "wind_down": [
+            "tenant.admin.work-orders.complete",
+            "tenant.admin.work-orders.cancel"
+        ]
+    },
+    {
+        "key": "restaurant",
+        "name": "Floors, tables, reservations, modifiers, kitchen display",
+        "class": "vertical",
+        "section": "\u00a765",
+        "requires": [
+            "pos"
+        ],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "restaurant",
+            "products.modifier-groups"
+        ],
+        "wind_down": [
+            "tenant.admin.restaurant.table-orders.settle",
+            "tenant.admin.restaurant.table-orders.void"
+        ]
+    },
+    {
+        "key": "booking",
+        "name": "Bookable services and appointments",
+        "class": "vertical",
+        "section": "\u00a766",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "booking-staff",
+            "bookings",
+            "products.booking-staff"
+        ],
+        "wind_down": [
+            "tenant.admin.bookings.cancel",
+            "tenant.admin.bookings.complete",
+            "tenant.customer.account.bookings.cancel"
+        ]
+    },
+    {
+        "key": "repair",
+        "name": "Repair jobs",
+        "class": "vertical",
+        "section": "\u00a767",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "repair-jobs"
+        ],
+        "wind_down": [
+            "tenant.admin.repair-jobs.status"
+        ]
+    },
+    {
+        "key": "woocommerce",
+        "name": "WooCommerce integration",
+        "class": "integration",
+        "section": "\u00a768",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "woocommerce"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "social_commerce",
+        "name": "Social commerce channels",
+        "class": "integration",
+        "section": "\u00a769",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "social-commerce"
+        ],
+        "wind_down": []
+    },
+    {
+        "key": "whatsapp",
+        "name": "WhatsApp channel",
+        "class": "integration",
+        "section": "\u00a716.4",
+        "requires": [],
+        "activation": "manual",
+        "read_when_inactive": true,
+        "permission_groups": [
+            "whatsapp-settings"
+        ],
+        "wind_down": []
+    }
+]

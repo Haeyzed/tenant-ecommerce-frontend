@@ -1,0 +1,68 @@
+[
+    {
+        "key": "max_users",
+        "label": "Staff accounts",
+        "kind": "count",
+        "unlimited_allowed": true
+    },
+    {
+        "key": "max_products",
+        "label": "Products",
+        "kind": "count",
+        "unlimited_allowed": true
+    },
+    {
+        "key": "max_warehouses",
+        "label": "Locations",
+        "kind": "count",
+        "unlimited_allowed": true
+    },
+    {
+        "key": "max_orders_per_month",
+        "label": "Orders per month",
+        "kind": "count",
+        "unlimited_allowed": true
+    },
+    {
+        "key": "max_storage_mb",
+        "label": "Storage (MB)",
+        "kind": "storage",
+        "unlimited_allowed": false
+    },
+    {
+        "key": "max_pos_registers",
+        "label": "POS registers",
+        "kind": "count",
+        "unlimited_allowed": true
+    },
+    {
+        "key": "max_custom_domains",
+        "label": "Custom domains",
+        "kind": "count",
+        "unlimited_allowed": false
+    },
+    {
+        "key": "max_custom_fields",
+        "label": "Custom fields",
+        "kind": "count",
+        "unlimited_allowed": false
+    },
+    {
+        "key": "max_employees",
+        "label": "Employees",
+        "kind": "count",
+        "unlimited_allowed": true
+    },
+    {
+        "key": "max_sellers",
+        "label": "Sellers",
+        "kind": "count",
+        "unlimited_allowed": true
+    },
+    {
+        "key": "max_api_requests_per_minute",
+        "label": "API requests per minute",
+        "kind": "rate",
+        "unlimited_allowed": false
+    }
+]

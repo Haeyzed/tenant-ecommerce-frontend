@@ -1,0 +1,3910 @@
+[
+    {
+        "code": "account_disabled",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Affiliates",
+            "Auth"
+        ]
+    },
+    {
+        "code": "account_email_unverified",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Auth"
+        ]
+    },
+    {
+        "code": "account_in_use",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Accounting"
+        ]
+    },
+    {
+        "code": "account_inactive",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "account_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Expenses",
+            "Purchasing"
+        ]
+    },
+    {
+        "code": "address_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "ProductSubscriptions",
+            "SalesQuotations"
+        ]
+    },
+    {
+        "code": "address_missing",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "ProductSubscriptions"
+        ]
+    },
+    {
+        "code": "address_not_found",
+        "statuses": [
+            404
+        ],
+        "modules": [
+            "Shipping"
+        ]
+    },
+    {
+        "code": "adjustment_empty",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Inventory"
+        ]
+    },
+    {
+        "code": "adjustment_submitted",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Inventory"
+        ]
+    },
+    {
+        "code": "affiliate_code_not_found",
+        "statuses": [
+            404
+        ],
+        "modules": [
+            "Affiliates"
+        ]
+    },
+    {
+        "code": "affiliate_email_unverified",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Affiliates"
+        ]
+    },
+    {
+        "code": "affiliate_not_active",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Affiliates"
+        ]
+    },
+    {
+        "code": "affiliate_program_unavailable",
+        "statuses": [
+            503
+        ],
+        "modules": [
+            "Affiliates"
+        ]
+    },
+    {
+        "code": "agent_not_eligible",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Support"
+        ]
+    },
+    {
+        "code": "already_applied",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "already_clocked_in",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "already_clocked_out",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "already_decided",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Approvals"
+        ]
+    },
+    {
+        "code": "amount_received_too_low",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Payments"
+        ]
+    },
+    {
+        "code": "application_converted",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "application_not_hired",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "appraisal_incomplete",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "appraisal_submitted",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "appraisal_template_in_use",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "appraisal_template_incomplete",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "approvable_missing",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Approvals"
+        ]
+    },
+    {
+        "code": "approval_module_unknown",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Approvals"
+        ]
+    },
+    {
+        "code": "approval_pending",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Approvals"
+        ]
+    },
+    {
+        "code": "approval_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Repair"
+        ]
+    },
+    {
+        "code": "approval_resolved",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Approvals"
+        ]
+    },
+    {
+        "code": "approval_step_missing",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Approvals"
+        ]
+    },
+    {
+        "code": "assignee_inactive",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "PlatformSupport"
+        ]
+    },
+    {
+        "code": "bad_request",
+        "statuses": [
+            400
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "base_currency_locked",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Currency"
+        ]
+    },
+    {
+        "code": "bom_component_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Manufacturing"
+        ]
+    },
+    {
+        "code": "bom_empty",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Manufacturing"
+        ]
+    },
+    {
+        "code": "bom_in_use",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Manufacturing"
+        ]
+    },
+    {
+        "code": "bom_product_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Manufacturing"
+        ]
+    },
+    {
+        "code": "booking_already_invoiced",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Booking"
+        ]
+    },
+    {
+        "code": "booking_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Repair"
+        ]
+    },
+    {
+        "code": "booking_not_started",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Booking"
+        ]
+    },
+    {
+        "code": "booking_staff_exists",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Booking"
+        ]
+    },
+    {
+        "code": "booking_started",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Booking"
+        ]
+    },
+    {
+        "code": "booking_unavailable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Repair"
+        ]
+    },
+    {
+        "code": "bundle_child_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "bundle_child_not_owned",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Marketplace"
+        ]
+    },
+    {
+        "code": "bundle_item_exists",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "cannot_deactivate_self",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Access"
+        ]
+    },
+    {
+        "code": "cannot_modify_self",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Users"
+        ]
+    },
+    {
+        "code": "cart_empty",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Checkout"
+        ]
+    },
+    {
+        "code": "cart_full",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Cart"
+        ]
+    },
+    {
+        "code": "cart_not_found",
+        "statuses": [
+            404
+        ],
+        "modules": [
+            "Cart"
+        ]
+    },
+    {
+        "code": "category_has_children",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "category_not_attached",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "category_type_fixed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Accounting"
+        ]
+    },
+    {
+        "code": "checkout_unavailable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Tenancy"
+        ]
+    },
+    {
+        "code": "code",
+        "statuses": [
+            404,
+            409
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "commission_on_hold",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Affiliates"
+        ]
+    },
+    {
+        "code": "conversation_closed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "PlatformSupport",
+            "Support"
+        ]
+    },
+    {
+        "code": "coupon_code_too_long",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Promotions"
+        ]
+    },
+    {
+        "code": "coupon_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Billing",
+            "Tenancy"
+        ]
+    },
+    {
+        "code": "coupon_not_applicable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Cart"
+        ]
+    },
+    {
+        "code": "coupon_redeemed",
+        "statuses": [
+            409,
+            422
+        ],
+        "modules": [
+            "Billing",
+            "Promotions"
+        ]
+    },
+    {
+        "code": "criterion_in_use",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "criterion_not_in_template",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "currency_inactive",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Currency"
+        ]
+    },
+    {
+        "code": "currency_is_base",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Currency"
+        ]
+    },
+    {
+        "code": "currency_not_supported",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Currency",
+            "Expenses",
+            "GiftCards",
+            "SalesQuotations"
+        ]
+    },
+    {
+        "code": "currency_unsupported",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "custom_domains_disabled",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Tenancy"
+        ]
+    },
+    {
+        "code": "custom_field_entity_unknown",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "CustomFields"
+        ]
+    },
+    {
+        "code": "custom_field_has_values",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "CustomFields"
+        ]
+    },
+    {
+        "code": "custom_field_option_in_use",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "CustomFields"
+        ]
+    },
+    {
+        "code": "customer_anonymised",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Customers"
+        ]
+    },
+    {
+        "code": "customer_email_missing",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Customers"
+        ]
+    },
+    {
+        "code": "customer_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos",
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "customer_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "dashboard_section_not_found",
+        "statuses": [
+            404
+        ],
+        "modules": [
+            "Dashboard"
+        ]
+    },
+    {
+        "code": "date_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Booking"
+        ]
+    },
+    {
+        "code": "default_group_protected",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Customers"
+        ]
+    },
+    {
+        "code": "default_template",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Documents"
+        ]
+    },
+    {
+        "code": "discount_exceeds_line",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "SalesQuotations"
+        ]
+    },
+    {
+        "code": "document_type_in_use",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "document_type_inactive",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "domain_not_active",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Tenancy"
+        ]
+    },
+    {
+        "code": "domain_not_removable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Tenancy"
+        ]
+    },
+    {
+        "code": "download_unavailable",
+        "statuses": [
+            410
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "driver_inactive",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Shipping"
+        ]
+    },
+    {
+        "code": "employee_inactive",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "employee_not_linked",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "entry_not_reversible",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Accounting"
+        ]
+    },
+    {
+        "code": "exchange_out_of_stock",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Returns"
+        ]
+    },
+    {
+        "code": "exchange_rate_unavailable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Currency",
+            "Purchasing"
+        ]
+    },
+    {
+        "code": "expense_paid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Expenses"
+        ]
+    },
+    {
+        "code": "export_type_unknown",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Exports"
+        ]
+    },
+    {
+        "code": "export_unavailable",
+        "statuses": [
+            410
+        ],
+        "modules": [
+            "Exports"
+        ]
+    },
+    {
+        "code": "feature_unavailable",
+        "statuses": [
+            403,
+            422
+        ],
+        "modules": [
+            "Exports",
+            "Imports",
+            "SalesAgents",
+            "Settings",
+            "Shared"
+        ]
+    },
+    {
+        "code": "file_unavailable",
+        "statuses": [
+            410
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "fiscal_year_closed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Accounting"
+        ]
+    },
+    {
+        "code": "fiscal_year_overlap",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Accounting"
+        ]
+    },
+    {
+        "code": "fiscal_year_too_long",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Accounting"
+        ]
+    },
+    {
+        "code": "flash_sale_claimed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Promotions"
+        ]
+    },
+    {
+        "code": "flash_sale_overlap",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Promotions"
+        ]
+    },
+    {
+        "code": "flash_sale_product_exists",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Promotions"
+        ]
+    },
+    {
+        "code": "floor_has_tables",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "floor_in_service",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "forbidden",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Affiliates",
+            "Customers",
+            "Dashboard",
+            "Exports",
+            "Hr",
+            "Imports",
+            "Reporting",
+            "Shared"
+        ]
+    },
+    {
+        "code": "fulfilment_warehouse_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "gateway_credentials_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Billing",
+            "Payments"
+        ]
+    },
+    {
+        "code": "gateway_error",
+        "statuses": [
+            502
+        ],
+        "modules": [
+            "Payments"
+        ]
+    },
+    {
+        "code": "gateway_not_configured",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "gateway_not_enabled",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Billing"
+        ]
+    },
+    {
+        "code": "gateway_not_verified",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Billing",
+            "Payments"
+        ]
+    },
+    {
+        "code": "gateway_unavailable",
+        "statuses": [
+            422,
+            503
+        ],
+        "modules": [
+            "Billing",
+            "Payments"
+        ]
+    },
+    {
+        "code": "gift_card_changed",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "GiftCards"
+        ]
+    },
+    {
+        "code": "gift_card_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "gift_card_not_found",
+        "statuses": [
+            404
+        ],
+        "modules": [
+            "GiftCards"
+        ]
+    },
+    {
+        "code": "gone",
+        "statuses": [
+            410
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "guest_checkout_disabled",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Booking",
+            "Checkout"
+        ]
+    },
+    {
+        "code": "guest_details_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Booking"
+        ]
+    },
+    {
+        "code": "guest_token_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Booking",
+            "GiftCards",
+            "Support"
+        ]
+    },
+    {
+        "code": "http_error",
+        "statuses": [],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "idempotency_conflict",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "idempotency_in_progress",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "idempotency_key_reused",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "import_type_unknown",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Imports"
+        ]
+    },
+    {
+        "code": "import_warehouse_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "income_received",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Expenses"
+        ]
+    },
+    {
+        "code": "installment_paid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Installments"
+        ]
+    },
+    {
+        "code": "installment_plan_active",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Payments"
+        ]
+    },
+    {
+        "code": "installment_plan_closed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Installments"
+        ]
+    },
+    {
+        "code": "installments_unavailable",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Installments"
+        ]
+    },
+    {
+        "code": "insufficient_components",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Manufacturing"
+        ]
+    },
+    {
+        "code": "insufficient_leave_balance",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "insufficient_points",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "RewardPoints"
+        ]
+    },
+    {
+        "code": "insufficient_stock",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Cart"
+        ]
+    },
+    {
+        "code": "invalid_label_item",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Documents"
+        ]
+    },
+    {
+        "code": "invalid_signature",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "invalid_step_order",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Approvals"
+        ]
+    },
+    {
+        "code": "invalid_transition",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "invoice_not_ready",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Documents"
+        ]
+    },
+    {
+        "code": "item_in_stock",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "BackInStock"
+        ]
+    },
+    {
+        "code": "item_unavailable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos",
+            "ProductSubscriptions",
+            "Restaurant",
+            "SalesQuotations"
+        ]
+    },
+    {
+        "code": "job_posting_closed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "job_posting_deadline_passed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "job_posting_not_draft",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "job_posting_not_open",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "kitchen_status_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "last_active_warehouse",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Inventory"
+        ]
+    },
+    {
+        "code": "last_barcode_setting",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Documents"
+        ]
+    },
+    {
+        "code": "last_login_method",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Auth"
+        ]
+    },
+    {
+        "code": "last_super_admin",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Access"
+        ]
+    },
+    {
+        "code": "leave_days_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "leave_overlap",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "leave_spans_years",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "legal_document_immutable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Legal"
+        ]
+    },
+    {
+        "code": "legal_document_not_pending",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Legal"
+        ]
+    },
+    {
+        "code": "legal_version_outdated",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Affiliates",
+            "Legal"
+        ]
+    },
+    {
+        "code": "limit_reached",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Hr",
+            "Marketplace",
+            "Orders",
+            "Shared"
+        ]
+    },
+    {
+        "code": "line_not_movable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Orders"
+        ]
+    },
+    {
+        "code": "line_not_stocked",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Orders"
+        ]
+    },
+    {
+        "code": "link_type_not_available",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Cms"
+        ]
+    },
+    {
+        "code": "live_payments_disabled",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Billing",
+            "Payments",
+            "Shared"
+        ]
+    },
+    {
+        "code": "maintenance",
+        "statuses": [
+            503
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "method_not_allowed",
+        "statuses": [
+            405
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "modifier_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos",
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "modifier_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "modifiers_unavailable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "module_disable_blocked",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Plans"
+        ]
+    },
+    {
+        "code": "module_disabled",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "module_has_dependents",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Plans"
+        ]
+    },
+    {
+        "code": "module_locked",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "module_requirements_not_enabled",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Plans"
+        ]
+    },
+    {
+        "code": "module_suspended",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "module_unknown",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Plans"
+        ]
+    },
+    {
+        "code": "negative_net_pay",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "no_barcode",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Documents"
+        ]
+    },
+    {
+        "code": "no_barcode_setting",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Documents"
+        ]
+    },
+    {
+        "code": "no_database_capacity",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Tenancy"
+        ]
+    },
+    {
+        "code": "no_linked_employee",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "no_live_gateway",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Billing",
+            "Payments"
+        ]
+    },
+    {
+        "code": "no_payable_employees",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "no_stored_authorization",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Installments",
+            "ProductSubscriptions"
+        ]
+    },
+    {
+        "code": "no_subscription",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Billing"
+        ]
+    },
+    {
+        "code": "not_a_kitchen_item",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "not_an_approver",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Approvals"
+        ]
+    },
+    {
+        "code": "not_clocked_in",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "not_found",
+        "statuses": [
+            404
+        ],
+        "modules": [
+            "Documents",
+            "Shared"
+        ]
+    },
+    {
+        "code": "not_in_wishlist",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Wishlist"
+        ]
+    },
+    {
+        "code": "not_owner",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Users"
+        ]
+    },
+    {
+        "code": "not_refundable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Billing"
+        ]
+    },
+    {
+        "code": "not_stock_tracked",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "BackInStock"
+        ]
+    },
+    {
+        "code": "nothing_to_ship",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Shipping"
+        ]
+    },
+    {
+        "code": "option_in_use",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "option_value_in_use",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "order_account_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "order_cancelled",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Payments",
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "order_confirmed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "SalesAgents"
+        ]
+    },
+    {
+        "code": "order_empty",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations",
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "order_expired",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Payments"
+        ]
+    },
+    {
+        "code": "order_has_payments",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Orders",
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "order_not_open",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Orders"
+        ]
+    },
+    {
+        "code": "order_not_payable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Installments",
+            "Payments"
+        ]
+    },
+    {
+        "code": "order_not_returnable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Returns"
+        ]
+    },
+    {
+        "code": "order_not_shippable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Shipping"
+        ]
+    },
+    {
+        "code": "order_paid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Orders"
+        ]
+    },
+    {
+        "code": "order_shipped",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Orders"
+        ]
+    },
+    {
+        "code": "order_total_mismatch",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "orders_not_supported",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "overtime_exceeds_recorded",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "owner_protected",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Users"
+        ]
+    },
+    {
+        "code": "ownership_same_user",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Users"
+        ]
+    },
+    {
+        "code": "parent_cycle",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Accounting"
+        ]
+    },
+    {
+        "code": "parent_type_mismatch",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Accounting"
+        ]
+    },
+    {
+        "code": "part_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Repair"
+        ]
+    },
+    {
+        "code": "password_already_set",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Auth"
+        ]
+    },
+    {
+        "code": "payment_exceeds_total",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "payment_failed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Billing"
+        ]
+    },
+    {
+        "code": "payment_in_progress",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Billing",
+            "Payments"
+        ]
+    },
+    {
+        "code": "payment_insufficient",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "payment_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos",
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "payment_method_disabled",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos",
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "payment_method_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Billing"
+        ]
+    },
+    {
+        "code": "payment_mode_mismatch",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Billing",
+            "Payments",
+            "Pos"
+        ]
+    },
+    {
+        "code": "payment_not_manual",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Payments"
+        ]
+    },
+    {
+        "code": "payment_refunded",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Payments"
+        ]
+    },
+    {
+        "code": "payment_required",
+        "statuses": [
+            402
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "payout_not_positive",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Marketplace"
+        ]
+    },
+    {
+        "code": "payroll_period_overlap",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "payroll_run_locked",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "payroll_run_not_finalized",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "payslip_not_found",
+        "statuses": [
+            404
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "period_outside_year",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Accounting"
+        ]
+    },
+    {
+        "code": "period_overlap",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Accounting"
+        ]
+    },
+    {
+        "code": "periods_open",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Accounting"
+        ]
+    },
+    {
+        "code": "permission_unknown",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Access",
+            "Users"
+        ]
+    },
+    {
+        "code": "plan_change_requires_confirmation",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Billing"
+        ]
+    },
+    {
+        "code": "plan_limits_incomplete",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Plans"
+        ]
+    },
+    {
+        "code": "plan_not_purchasable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Plans"
+        ]
+    },
+    {
+        "code": "plan_unchanged",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Billing"
+        ]
+    },
+    {
+        "code": "posting_rejected",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Accounting"
+        ]
+    },
+    {
+        "code": "price_changed",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Promotions"
+        ]
+    },
+    {
+        "code": "price_exists",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Currency"
+        ]
+    },
+    {
+        "code": "price_immutable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Plans"
+        ]
+    },
+    {
+        "code": "priority_tickets_only",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Support"
+        ]
+    },
+    {
+        "code": "product_not_bookable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Booking"
+        ]
+    },
+    {
+        "code": "product_not_bundle",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "product_not_digital",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "product_not_purchasable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Purchasing"
+        ]
+    },
+    {
+        "code": "product_not_stock_tracked",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Inventory"
+        ]
+    },
+    {
+        "code": "product_not_subscribable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "ProductSubscriptions"
+        ]
+    },
+    {
+        "code": "product_not_syncable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "product_not_variable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "product_unavailable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Wishlist"
+        ]
+    },
+    {
+        "code": "project_category_in_use",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Projects"
+        ]
+    },
+    {
+        "code": "project_category_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Projects"
+        ]
+    },
+    {
+        "code": "promotion_in_use",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Promotions"
+        ]
+    },
+    {
+        "code": "promotion_not_coupon",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Promotions"
+        ]
+    },
+    {
+        "code": "promotion_unavailable",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Promotions"
+        ]
+    },
+    {
+        "code": "purchase_order_empty",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Purchasing"
+        ]
+    },
+    {
+        "code": "purchase_order_not_payable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Purchasing"
+        ]
+    },
+    {
+        "code": "purchase_order_not_received",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Purchasing"
+        ]
+    },
+    {
+        "code": "purchase_order_received",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Purchasing"
+        ]
+    },
+    {
+        "code": "quotation_expired",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Purchasing",
+            "SalesQuotations"
+        ]
+    },
+    {
+        "code": "quotation_incomplete",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Purchasing"
+        ]
+    },
+    {
+        "code": "quotation_lines_mismatch",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "SalesQuotations"
+        ]
+    },
+    {
+        "code": "quotation_not_sent",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "SalesQuotations"
+        ]
+    },
+    {
+        "code": "quotation_out_of_stock",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "SalesQuotations"
+        ]
+    },
+    {
+        "code": "referral_rejected",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Affiliates"
+        ]
+    },
+    {
+        "code": "refund_exceeds_payment",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Billing",
+            "Payments"
+        ]
+    },
+    {
+        "code": "refund_exceeds_return",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Returns"
+        ]
+    },
+    {
+        "code": "refund_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Payments"
+        ]
+    },
+    {
+        "code": "refund_method_unsupported",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Payments"
+        ]
+    },
+    {
+        "code": "refund_not_pending",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Payments"
+        ]
+    },
+    {
+        "code": "register_inactive",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos",
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "register_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "register_wrong_location",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "registration_already_verified",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Tenancy"
+        ]
+    },
+    {
+        "code": "registration_not_pending",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Tenancy"
+        ]
+    },
+    {
+        "code": "registration_unavailable",
+        "statuses": [
+            503
+        ],
+        "modules": [
+            "Tenancy"
+        ]
+    },
+    {
+        "code": "relation_exists",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "relation_self",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "renewal_in_progress",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "ProductSubscriptions"
+        ]
+    },
+    {
+        "code": "renewal_not_due",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "ProductSubscriptions"
+        ]
+    },
+    {
+        "code": "repair_job_already_invoiced",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Repair"
+        ]
+    },
+    {
+        "code": "repair_job_empty",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Repair"
+        ]
+    },
+    {
+        "code": "repair_job_invoiced",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Repair"
+        ]
+    },
+    {
+        "code": "repair_job_paid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Repair"
+        ]
+    },
+    {
+        "code": "report_unknown",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Reporting"
+        ]
+    },
+    {
+        "code": "reservation_not_found",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Inventory"
+        ]
+    },
+    {
+        "code": "return_not_exchange",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Returns"
+        ]
+    },
+    {
+        "code": "return_not_refundable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Returns"
+        ]
+    },
+    {
+        "code": "return_window_closed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Returns"
+        ]
+    },
+    {
+        "code": "review_note_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Affiliates"
+        ]
+    },
+    {
+        "code": "reviewer_inactive",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "reward_points_changed",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "RewardPoints"
+        ]
+    },
+    {
+        "code": "reward_points_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "RewardPoints"
+        ]
+    },
+    {
+        "code": "role_in_use",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Access"
+        ]
+    },
+    {
+        "code": "role_owner_not_assignable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Users"
+        ]
+    },
+    {
+        "code": "role_protected",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Access"
+        ]
+    },
+    {
+        "code": "role_unknown",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Access"
+        ]
+    },
+    {
+        "code": "roster_too_large",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "salary_effective_date_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "sale_not_voidable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "sale_time_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "sales_agent_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "SalesAgents"
+        ]
+    },
+    {
+        "code": "section_type_not_allowed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Cms"
+        ]
+    },
+    {
+        "code": "seller_not_approved",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Auth"
+        ]
+    },
+    {
+        "code": "server_error",
+        "statuses": [
+            500
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "session_already_open",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "session_closed",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "session_expired",
+        "statuses": [
+            419
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "session_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "session_open",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "session_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "settings_not_found",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "shift_break_too_long",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "shift_in_use",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "shift_times_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "shift_unavailable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "shipment_assigned",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Shipping"
+        ]
+    },
+    {
+        "code": "shipment_closed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Shipping"
+        ]
+    },
+    {
+        "code": "shipment_not_courier",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Shipping"
+        ]
+    },
+    {
+        "code": "shipment_not_in_house",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Shipping"
+        ]
+    },
+    {
+        "code": "shipment_not_pending",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Shipping"
+        ]
+    },
+    {
+        "code": "shipping_address_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Checkout"
+        ]
+    },
+    {
+        "code": "shipping_method_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "ProductSubscriptions"
+        ]
+    },
+    {
+        "code": "shipping_method_unavailable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "ProductSubscriptions"
+        ]
+    },
+    {
+        "code": "slot_unavailable",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Booking"
+        ]
+    },
+    {
+        "code": "sms_gateway_inactive",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Messaging"
+        ]
+    },
+    {
+        "code": "sms_gateway_is_default",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Messaging"
+        ]
+    },
+    {
+        "code": "sms_unavailable",
+        "statuses": [
+            503
+        ],
+        "modules": [
+            "Auth"
+        ]
+    },
+    {
+        "code": "social_auth_failed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Auth"
+        ]
+    },
+    {
+        "code": "social_commerce_connection_failed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "social_commerce_push_failed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "social_commerce_remove_failed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "social_email_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Auth"
+        ]
+    },
+    {
+        "code": "social_email_unverified",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Auth"
+        ]
+    },
+    {
+        "code": "social_identity_in_use",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Auth"
+        ]
+    },
+    {
+        "code": "social_not_linked",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Auth"
+        ]
+    },
+    {
+        "code": "social_provider_already_linked",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Auth"
+        ]
+    },
+    {
+        "code": "social_provider_unavailable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Auth"
+        ]
+    },
+    {
+        "code": "social_state_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Auth"
+        ]
+    },
+    {
+        "code": "state_conflict",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Affiliates",
+            "Shared"
+        ]
+    },
+    {
+        "code": "stickers_do_not_fit",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Documents"
+        ]
+    },
+    {
+        "code": "stock_conflict",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Checkout",
+            "Orders",
+            "Pos",
+            "ProductSubscriptions",
+            "Returns",
+            "SalesQuotations"
+        ]
+    },
+    {
+        "code": "subscription_active",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Billing"
+        ]
+    },
+    {
+        "code": "subscription_cancelled",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "ProductSubscriptions"
+        ]
+    },
+    {
+        "code": "subscription_not_changeable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Billing"
+        ]
+    },
+    {
+        "code": "subscription_not_renewable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "ProductSubscriptions"
+        ]
+    },
+    {
+        "code": "subscription_past_due",
+        "statuses": [
+            402
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "subscription_payment_required",
+        "statuses": [
+            402
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "subscription_plan_unavailable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "ProductSubscriptions"
+        ]
+    },
+    {
+        "code": "supplier_inactive",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Purchasing"
+        ]
+    },
+    {
+        "code": "supplier_refund_locked",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Purchasing"
+        ]
+    },
+    {
+        "code": "system_account",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Accounting"
+        ]
+    },
+    {
+        "code": "system_page",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Cms"
+        ]
+    },
+    {
+        "code": "table_has_open_order",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "table_has_reservations",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "table_management_disabled",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "table_occupied",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "table_order_closed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "table_status_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "tag_unknown",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "tenant_closed",
+        "statuses": [
+            410
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "tenant_never_provisioned",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Tenancy"
+        ]
+    },
+    {
+        "code": "tenant_not_exportable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Tenancy"
+        ]
+    },
+    {
+        "code": "tenant_provisioning",
+        "statuses": [
+            503
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "tenant_suspended",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "tenant_unavailable",
+        "statuses": [
+            403
+        ],
+        "modules": [
+            "Shared"
+        ]
+    },
+    {
+        "code": "terminal_charge_amount_mismatch",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "terminal_charge_not_found",
+        "statuses": [
+            404,
+            422
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "terminal_charge_not_successful",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "terminal_charge_used",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "terminal_error",
+        "statuses": [
+            502
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "terminal_not_configured",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "terminal_refund_unsupported",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Payments"
+        ]
+    },
+    {
+        "code": "too_many_labels",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Documents"
+        ]
+    },
+    {
+        "code": "too_many_requests",
+        "statuses": [
+            429
+        ],
+        "modules": [
+            "Shared",
+            "Tenancy"
+        ]
+    },
+    {
+        "code": "totals_changed",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Checkout",
+            "Pos",
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "tracking_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Shipping"
+        ]
+    },
+    {
+        "code": "transfer_not_draft",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Inventory"
+        ]
+    },
+    {
+        "code": "unauthenticated",
+        "statuses": [
+            401
+        ],
+        "modules": [
+            "Orders",
+            "Returns",
+            "RewardPoints",
+            "Shared",
+            "Support"
+        ]
+    },
+    {
+        "code": "unit_default_protected",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "unit_in_use",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "unknown_image_setting",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Settings"
+        ]
+    },
+    {
+        "code": "unknown_setting",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Settings"
+        ]
+    },
+    {
+        "code": "unsupported_trigger_condition",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Approvals"
+        ]
+    },
+    {
+        "code": "url_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "url_not_public",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "url_unreachable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "user_already_linked",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Hr"
+        ]
+    },
+    {
+        "code": "user_inactive",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Booking",
+            "Users"
+        ]
+    },
+    {
+        "code": "user_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Projects"
+        ]
+    },
+    {
+        "code": "validation_failed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Billing",
+            "Currency",
+            "Payments",
+            "Purchasing",
+            "Shared"
+        ]
+    },
+    {
+        "code": "variant_combination_exists",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "variant_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "BackInStock"
+        ]
+    },
+    {
+        "code": "variant_limit_reached",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Catalog"
+        ]
+    },
+    {
+        "code": "variant_not_applicable",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Inventory"
+        ]
+    },
+    {
+        "code": "variant_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Inventory",
+            "Manufacturing"
+        ]
+    },
+    {
+        "code": "vat_registration_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Documents"
+        ]
+    },
+    {
+        "code": "verification_code_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Tenancy"
+        ]
+    },
+    {
+        "code": "verification_expired",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Tenancy"
+        ]
+    },
+    {
+        "code": "verification_link_invalid",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Affiliates",
+            "Auth"
+        ]
+    },
+    {
+        "code": "verified_purchase_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Reviews"
+        ]
+    },
+    {
+        "code": "void_refund_incomplete",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "void_window_closed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "warehouse_has_reservations",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Inventory"
+        ]
+    },
+    {
+        "code": "warehouse_in_use",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Inventory"
+        ]
+    },
+    {
+        "code": "warehouse_inactive",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations",
+            "Inventory",
+            "Manufacturing",
+            "Orders",
+            "Purchasing",
+            "Repair",
+            "Restaurant"
+        ]
+    },
+    {
+        "code": "warehouse_price_exists",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Inventory"
+        ]
+    },
+    {
+        "code": "warehouse_register_limit",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Pos"
+        ]
+    },
+    {
+        "code": "warehouse_required",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Inventory"
+        ]
+    },
+    {
+        "code": "warehouse_unknown",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Inventory"
+        ]
+    },
+    {
+        "code": "whatsapp_not_configured",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Messaging"
+        ]
+    },
+    {
+        "code": "whatsapp_not_verified",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Messaging"
+        ]
+    },
+    {
+        "code": "wishlist_full",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Wishlist"
+        ]
+    },
+    {
+        "code": "woocommerce_connection_failed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "woocommerce_not_connected",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "woocommerce_push_failed",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Integrations"
+        ]
+    },
+    {
+        "code": "workflow_has_pending_requests",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Approvals"
+        ]
+    },
+    {
+        "code": "workflow_in_use",
+        "statuses": [
+            409
+        ],
+        "modules": [
+            "Approvals"
+        ]
+    },
+    {
+        "code": "workflow_needs_steps",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Approvals"
+        ]
+    },
+    {
+        "code": "zone_has_methods",
+        "statuses": [
+            422
+        ],
+        "modules": [
+            "Shipping"
+        ]
+    }
+]

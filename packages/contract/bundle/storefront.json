@@ -1,0 +1,18 @@
+{
+    "themes": [
+        "default",
+        "minimal",
+        "bold",
+        "classic"
+    ],
+    "fonts": [
+        "inter",
+        "roboto",
+        "open-sans",
+        "lato",
+        "montserrat",
+        "poppins",
+        "playfair-display",
+        "merriweather"
+    ]
+}

@@ -7,6 +7,12 @@
       "skillPath": "skills/migrate-radix-to-base/SKILL.md",
       "computedHash": "4fdc31bf287f674ba6bf91a648120f7b34cd7ef370f998f2cc116fed067789c5"
     },
+    "monorepo-management": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "skillPath": "plugins/developer-essentials/skills/monorepo-management/SKILL.md",
+      "computedHash": "2d6c1bc71cb419b01b7f354d61fe4d9f1d4223bb8aa9c79a2a8ee4ea575966ed"
+    },
     "shadcn": {
       "source": "shadcn/ui",
       "sourceType": "github",

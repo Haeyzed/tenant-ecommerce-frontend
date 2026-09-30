@@ -1,0 +1,25 @@
+{
+  "name": "@workspace/format",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "devDependencies": {
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "eslint": "^9",
+    "typescript": "^5",
+    "vitest": "^5.0.2"
+  },
+  "dependencies": {
+    "@date-fns/tz": "^1.5.0",
+    "date-fns": "^4.4.0"
+  }
+}

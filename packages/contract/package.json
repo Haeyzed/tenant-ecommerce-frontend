@@ -1,0 +1,27 @@
+{
+  "name": "@workspace/contract",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "contract:pull": "node scripts/pull.mjs",
+    "contract:generate": "node scripts/generate.mjs",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    "./landlord": "./src/generated/landlord.ts",
+    "./tenant": "./src/generated/tenant.ts",
+    "./registries": "./src/generated/registries.ts",
+    "./routes/tenant": "./src/generated/routes.tenant.ts",
+    "./routes/landlord": "./src/generated/routes.landlord.ts",
+    "./manifest": "./src/manifest.ts"
+  },
+  "devDependencies": {
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "eslint": "^9",
+    "openapi-typescript": "^7.13.0",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "name": "@workspace/admin-kit",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "exports": {
+    "./query": "./src/query/index.tsx",
+    "./nav": "./src/nav.ts",
+    "./shell": "./src/shell/index.tsx",
+    "./states": "./src/states/index.tsx",
+    "./table": "./src/table/index.tsx",
+    "./forms": "./src/forms/index.tsx",
+    "./lookup": "./src/lookup/index.tsx"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.104.0",
+    "@tanstack/react-table": "^9.2.4",
+    "@workspace/access": "workspace:*",
+    "@workspace/api-client": "workspace:*",
+    "@workspace/contract": "workspace:*",
+    "@workspace/ui": "workspace:*",
+    "next-themes": "^0.4.6",
+    "nuqs": "^2.10.1",
+    "react-hook-form": "^7.89.0"
+  },
+  "peerDependencies": {
+    "next": "16.3.3",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "eslint": "^9",
+    "next": "16.3.3",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "typescript": "^5",
+    "vitest": "^5.0.2"
+  }
+}
