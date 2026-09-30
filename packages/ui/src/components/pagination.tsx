@@ -1,7 +1,7 @@
 import * as React from "react"
 import { cn } from "@workspace/ui/lib/utils"
 
-import { Button } from "@workspace/ui/components/button"
+import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowLeft01Icon, ArrowRight01Icon, MoreHorizontalCircle01Icon } from "@hugeicons/core-free-icons"
 
@@ -45,20 +45,14 @@ function PaginationLink({
   size = "icon",
   ...props
 }: PaginationLinkProps) {
+  // A real link (not a Button rendering one), so it is announced as a link.
   return (
-    <Button
-      variant={isActive ? "outline" : "ghost"}
-      size={size}
-      className={cn(className)}
-      nativeButton={false}
-      render={
-        <a
-          aria-current={isActive ? "page" : undefined}
-          data-slot="pagination-link"
-          data-active={isActive}
-          {...props}
-        />
-      }
+    <a
+      aria-current={isActive ? "page" : undefined}
+      data-slot="pagination-link"
+      data-active={isActive}
+      className={cn(buttonVariants({ variant: isActive ? "outline" : "ghost", size }), className)}
+      {...props}
     />
   )
 }

@@ -59,6 +59,8 @@ function GroupForm({ group, data, canEdit, onDirtyChange }: { group: string; dat
   const [formErrors, setFormErrors] = useState<string[]>([])
   const [reasonOpen, setReasonOpen] = useState(false)
   const [reason, setReason] = useState("")
+  /** The audited keys in the pending save, listed in the reason dialog. */
+  const [needReasonKeys, setNeedReasonKeys] = useState<string[]>([])
   const dirty = form.formState.isDirty
 
   useEffect(() => form.reset(defaults), [defaults, form])
@@ -104,13 +106,11 @@ function GroupForm({ group, data, canEdit, onDirtyChange }: { group: string; dat
   }
 
   function onSubmit(values: SettingsFormValues) {
-    const changed = Object.keys(changes(values))
-    const needsReason = changed.some((key) => data[key]?.reason_required)
-    if (needsReason) setReasonOpen(true)
+    const audited = Object.keys(changes(values)).filter((key) => data[key]?.reason_required)
+    setNeedReasonKeys(audited)
+    if (audited.length > 0) setReasonOpen(true)
     else void save()
   }
-
-  const needReasonKeys = Object.keys(changes(form.watch())).filter((key) => data[key]?.reason_required)
 
   return (
     <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">

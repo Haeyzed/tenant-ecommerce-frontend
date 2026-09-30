@@ -11,7 +11,7 @@ import {
   type RowSelectionState,
 } from "@tanstack/react-table"
 import Link from "next/link"
-import { useEffect, useMemo, useState, type ReactNode } from "react"
+import { useMemo, useState, useSyncExternalStore, type ReactNode } from "react"
 
 import type { LengthAwarePagination } from "@workspace/api-client"
 import { Button } from "@workspace/ui/components/button"
@@ -106,34 +106,23 @@ type DataTableProps<T extends RowData> = {
 }
 
 const PAGE_SIZE_OPTIONS = ["15", "25", "50", "100"]
-const EMPTY: never[] = []
 
-function useStoredVisibility(tableId: string, columns: DataColumn<unknown>[]) {
-  const defaults = useMemo(
-    () =>
-      Object.fromEntries(
-        columns.filter((c) => c.defaultHidden).map((c) => [c.id, false])
-      ) as ColumnVisibilityState,
+function useStoredVisibility(tableId: string, columns: readonly { id: string; defaultHidden?: boolean | undefined }[]) {
+  const defaults = useMemo<ColumnVisibilityState>(
+    () => Object.fromEntries(columns.filter((c) => c.defaultHidden).map((c) => [c.id, false])),
     [columns]
   )
-  const [visibility, setVisibility] = useState<ColumnVisibilityState>(defaults)
   const key = `admin:${typeof window === "undefined" ? "" : window.location.host}:table:${tableId}:columns`
+  // Read through useSyncExternalStore: the server renders the defaults and the
+  // browser switches to the saved choice without a hydration mismatch.
+  const stored = useSyncExternalStore(subscribeToStorage, () => readStorage(key), () => null)
+  // The choice made in this page, used when storage is unavailable.
+  const [local, setLocal] = useState<ColumnVisibilityState | null>(null)
 
-  useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(key)
-      if (stored)
-        setVisibility({
-          ...defaults,
-          ...(JSON.parse(stored) as ColumnVisibilityState),
-        })
-    } catch {
-      // Storage unavailable: keep defaults.
-    }
-  }, [key, defaults])
+  const visibility = useMemo(() => local ?? { ...defaults, ...parseVisibility(stored) }, [local, defaults, stored])
 
   const update = (next: ColumnVisibilityState) => {
-    setVisibility(next)
+    setLocal(next)
     try {
       window.localStorage.setItem(key, JSON.stringify(next))
     } catch {
@@ -142,6 +131,31 @@ function useStoredVisibility(tableId: string, columns: DataColumn<unknown>[]) {
   }
 
   return [visibility, update] as const
+}
+
+function subscribeToStorage(onChange: () => void) {
+  window.addEventListener("storage", onChange)
+  return () => window.removeEventListener("storage", onChange)
+}
+
+function readStorage(key: string): string | null {
+  try {
+    return window.localStorage.getItem(key)
+  } catch {
+    return null
+  }
+}
+
+/** Saved visibility is untrusted input: keep only boolean entries. */
+function parseVisibility(raw: string | null): ColumnVisibilityState {
+  if (raw === null) return {}
+  try {
+    const parsed: unknown = JSON.parse(raw)
+    if (typeof parsed !== "object" || parsed === null) return {}
+    return Object.fromEntries(Object.entries(parsed).filter((entry): entry is [string, boolean] => typeof entry[1] === "boolean"))
+  } catch {
+    return {}
+  }
 }
 
 function SortButton({
@@ -227,16 +241,18 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
     toolbar,
     filtered,
   } = props
-  const [visibility, setVisibility] = useStoredVisibility(
-    props.tableId,
-    columns as DataColumn<unknown>[]
-  )
+  const [visibility, setVisibility] = useStoredVisibility(props.tableId, columns)
   const [selection, setSelection] = useState<RowSelectionState>({})
-  const data = rows ?? (EMPTY as T[])
+  const data = useMemo<T[]>(() => rows ?? [], [rows])
   const selectable = bulkActions !== undefined
 
   // Selection is per page: it clears whenever the rows change (spec §18.3).
-  useEffect(() => setSelection({}), [rows])
+  // Reset during render (React's pattern for state derived from props).
+  const [selectionRows, setSelectionRows] = useState(rows)
+  if (selectionRows !== rows) {
+    setSelectionRows(rows)
+    setSelection({})
+  }
 
   const tableColumns = useMemo<ColumnDef<typeof features, T>[]>(
     () =>

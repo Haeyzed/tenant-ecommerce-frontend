@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test"
 import { trackPageErrors } from "./helpers"
 
 /** Every console page renders at phone width without horizontal scrolling. */
-const PAGES = ["/dashboard", "/tenant-registrations", "/payment-gateways", "/platform-settings"]
+const PAGES = ["/dashboard", "/tenant-registrations", "/plans", "/plans/new", "/payment-gateways", "/platform-settings"]
 
 for (const path of PAGES) {
   test(`${path} fits a phone screen`, async ({ page }) => {

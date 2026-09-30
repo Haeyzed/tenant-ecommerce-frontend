@@ -4,7 +4,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 
 import { Alert, AlertDescription, AlertTitle } from "@workspace/ui/components/alert"
-import { Button } from "@workspace/ui/components/button"
+import { ButtonLink } from "@workspace/ui/components/button-link"
 import { Spinner } from "@workspace/ui/components/spinner"
 import { Icon } from "@workspace/ui/icons"
 
@@ -56,9 +56,9 @@ export function StatusStep({
   if (status.isError || !status.data) {
     return (
       <Problem title="We couldn't find this sign-up" body="The link may be out of date.">
-        <Button nativeButton={false} variant="outline" render={<Link href="/pricing" />}>
+        <ButtonLink variant="outline" render={<Link href="/pricing" />}>
           Back to pricing
-        </Button>
+        </ButtonLink>
       </Problem>
     )
   }
@@ -69,9 +69,9 @@ export function StatusStep({
   if (registrationStatus === "pending_verification") {
     return (
       <Problem title="Verify your email first" body="Enter the code we emailed you to create your store." tone="info">
-        <Button nativeButton={false} render={<Link href={`/register/verify?registration=${encoded}`} />}>
+        <ButtonLink render={<Link href={`/register/verify?registration=${encoded}`} />}>
           Enter the code
-        </Button>
+        </ButtonLink>
       </Problem>
     )
   }
@@ -79,9 +79,9 @@ export function StatusStep({
   if (registrationStatus === "expired") {
     return (
       <Problem title="This sign-up has expired" body="The verification window closed. Start a new sign-up to create your store.">
-        <Button nativeButton={false} render={<Link href="/pricing" />}>
+        <ButtonLink render={<Link href="/pricing" />}>
           Start again
-        </Button>
+        </ButtonLink>
       </Problem>
     )
   }
@@ -89,9 +89,9 @@ export function StatusStep({
   if (tenantStatus === "awaiting_payment") {
     return (
       <Problem title="Payment needed" body="Your store is waiting for its first payment." tone="info">
-        <Button nativeButton={false} render={<Link href={`/signup/payment?registration=${encoded}`} />}>
+        <ButtonLink render={<Link href={`/signup/payment?registration=${encoded}`} />}>
           Complete payment
-        </Button>
+        </ButtonLink>
       </Problem>
     )
   }
@@ -111,10 +111,10 @@ export function StatusStep({
           {domain ? <p className="text-sm text-muted-foreground">It lives at {domain}.</p> : null}
         </div>
         {adminUrl ? (
-          <Button size="lg" className="w-full" nativeButton={false} render={<a href={adminUrl.toString()} />}>
+          <ButtonLink size="lg" className="w-full" render={<a href={adminUrl.toString()} />}>
             Open your admin
             <Icon name="arrowRight" data-icon="inline-end" />
-          </Button>
+          </ButtonLink>
         ) : null}
         <p className="text-xs text-muted-foreground">Sign in with the email and password you just chose.</p>
       </div>

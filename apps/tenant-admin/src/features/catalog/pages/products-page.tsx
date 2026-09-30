@@ -21,6 +21,7 @@ import {
   AvatarImage,
 } from "@workspace/ui/components/avatar"
 import { Button } from "@workspace/ui/components/button"
+import { ButtonLink } from "@workspace/ui/components/button-link"
 import { ConfirmDialog } from "@workspace/ui/components/confirm-dialog"
 import {
   DropdownMenu,
@@ -444,10 +445,10 @@ export function ProductsPage() {
         description="Everything you sell, with prices, categories and availability."
         actions={
           canCreate ? (
-            <Button nativeButton={false} render={<Link href="/products/new" />}>
+            <ButtonLink render={<Link href="/products/new" />}>
               <Icon name="add" data-icon="inline-start" />
               Add product
-            </Button>
+            </ButtonLink>
           ) : null
         }
       />
@@ -617,13 +618,13 @@ export function ProductsPage() {
             description="Add your first product to start building your catalogue."
             action={
               canCreate ? (
-                <Button
-                  nativeButton={false}
+                <ButtonLink
+
                   render={<Link href="/products/new" />}
                 >
                   <Icon name="add" data-icon="inline-start" />
                   Add product
-                </Button>
+                </ButtonLink>
               ) : undefined
             }
           />

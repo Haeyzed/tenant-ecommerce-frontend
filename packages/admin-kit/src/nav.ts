@@ -51,8 +51,8 @@ function resolve(
   const visibility = routeVisibility(snapshot, manifest, entry.route)
   if (visibility === "hidden") return null
 
-  const { children: _none, ...leaf } = entry
-  return { ...leaf, inactive: visibility === "inactive" }
+  // A leaf has no children (the branch above returned for parents).
+  return { ...entry, children: undefined, inactive: visibility === "inactive" }
 }
 
 /**

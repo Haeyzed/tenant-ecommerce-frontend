@@ -5,7 +5,7 @@ import dynamic from "next/dynamic"
 import { parseAsString, parseAsStringLiteral, useQueryStates } from "nuqs"
 import type { ReactNode } from "react"
 
-import { formatDateTime, formatMoney, formatNumber, formatPercent, type DisplaySettings } from "@workspace/format"
+import { formatDate, formatDateTime, formatMoney, formatNumber, formatPercent, type DisplaySettings } from "@workspace/format"
 import { Alert, AlertTitle } from "@workspace/ui/components/alert"
 import { Card, CardContent, CardHeader, CardTitle } from "@workspace/ui/components/card"
 import { PageHeader } from "@workspace/ui/components/page-header"
@@ -18,9 +18,10 @@ import { Icon } from "@workspace/ui/icons"
 
 import { ErrorState, StateView } from "../states"
 import { formatKpi } from "./kpi-value"
-import { RANGE_PRESETS, type RangePreset, type Section, type TableBlock } from "./types"
+import { RangeControl } from "./range-control"
+import { COMPARE_OPTIONS, RANGE_PRESETS, type DashboardQuery, type RangePreset, type Section, type TableBlock } from "./types"
 
-export type { RangePreset }
+export type { DashboardQuery, RangePreset }
 
 // Recharts is heavy and below the fold: load it only with a chart (spec §16.3 rule 7).
 const TrendChart = dynamic(() => import("./trend-chart"), {
@@ -28,10 +29,22 @@ const TrendChart = dynamic(() => import("./trend-chart"), {
   loading: () => <Skeleton className="h-80 w-full rounded-xl" />,
 })
 
-const rangeValues = RANGE_PRESETS.map((r) => r.value)
+const rangeValues = [...RANGE_PRESETS.map((r) => r.value), "custom" as const]
+const compareValues = COMPARE_OPTIONS.map((c) => c.value)
+const YMD = /^d{4}-d{2}-d{2}$/
 const searchParams = {
   section: parseAsString,
   range: parseAsStringLiteral(rangeValues).withDefault("last_30_days"),
+  from: parseAsString,
+  to: parseAsString,
+  compare: parseAsStringLiteral(compareValues).withDefault("previous_period"),
+}
+
+/** The URL state as an API query; an incomplete custom range falls back to the default preset. */
+function toQuery(p: { range: RangePreset | "custom"; from: string | null; to: string | null; compare: DashboardQuery["compare"] }): DashboardQuery {
+  if (p.range !== "custom") return { range: p.range, compare: p.compare }
+  if (p.from && p.to && YMD.test(p.from) && YMD.test(p.to) && p.from <= p.to) return { range: "custom", from: p.from, to: p.to, compare: p.compare }
+  return { range: "last_30_days", compare: p.compare }
 }
 
 export type SectionSummary = { key: string; label: string }
@@ -121,8 +134,8 @@ export function SectionDashboard({
   description: string
   /** GET …/dashboard: the sections this user may see. */
   loadSections: (signal: AbortSignal) => Promise<SectionSummary[]>
-  /** GET …/dashboard/{section}?range=… */
-  loadSection: (key: string, range: RangePreset, signal: AbortSignal) => Promise<Section>
+  /** GET …/dashboard/{section}?range=…[&from=&to=]&compare=… */
+  loadSection: (key: string, query: DashboardQuery, signal: AbortSignal) => Promise<Section>
   /** Content between the header and the sections, e.g. the onboarding checklist. */
   before?: ReactNode
   display?: DisplaySettings
@@ -134,10 +147,11 @@ export function SectionDashboard({
     staleTime: 5 * 60_000,
   })
   const active = params.section ?? sections.data?.[0]?.key ?? null
+  const query = toQuery(params)
   // One query per section; refreshed every 5 minutes while visible (spec §14.3).
   const section = useQuery({
-    queryKey: ["dashboard", "section", active, { range: params.range }],
-    queryFn: ({ signal }) => loadSection(active ?? "", params.range, signal),
+    queryKey: ["dashboard", "section", active, query],
+    queryFn: ({ signal }) => loadSection(active ?? "", query, signal),
     enabled: active !== null,
     staleTime: 60_000,
     refetchInterval: 5 * 60_000,
@@ -150,25 +164,13 @@ export function SectionDashboard({
         title={title}
         description={description}
         actions={
-          <Select
-            value={params.range}
-            onValueChange={(value) => value && void setParams({ range: value as RangePreset })}
-            items={RANGE_PRESETS.map((r) => ({ value: r.value, label: r.label }))}
-          >
-            <SelectTrigger aria-label="Date range" className="min-w-40">
-              <Icon name="calendar" className="text-muted-foreground" />
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent align="end">
-              <SelectGroup>
-                {RANGE_PRESETS.map((r) => (
-                  <SelectItem key={r.value} value={r.value}>
-                    {r.label}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <RangeControl
+            query={query}
+            display={display}
+            onChange={(next) =>
+              void setParams(next.range === "custom" ? next : { range: next.range, compare: next.compare, from: null, to: null })
+            }
+          />
         }
       />
 
@@ -218,6 +220,8 @@ export function SectionDashboard({
             <ErrorState error={section.error} onRetry={() => void section.refetch()} />
           ) : (
             <>
+              {section.data ? <ResolvedRange section={section.data} display={display} /> : null}
+
               {section.data && section.data.alerts.length > 0 ? (
                 <div className="grid gap-3 md:grid-cols-2">
                   {section.data.alerts.map((alert) => (
@@ -273,5 +277,22 @@ export function SectionDashboard({
         </>
       )}
     </>
+  )
+}
+
+/**
+ * The exact dates behind the figures. "Last 7/30 days" end yesterday, and
+ * the comparison range is not obvious from a preset name.
+ */
+function ResolvedRange({ section, display }: { section: Section; display: DisplaySettings | undefined }) {
+  const { from, to } = section.range
+  if (!from || !to) return null
+  const span = (a: string, b: string) => (a === b ? formatDate(a, display) : `${formatDate(a, display)} – ${formatDate(b, display)}`)
+
+  return (
+    <p className="-mt-2 text-sm text-muted-foreground">
+      Showing {span(from, to)}
+      {section.comparison_range ? `, compared with ${span(section.comparison_range.from, section.comparison_range.to)}` : ""}.
+    </p>
   )
 }

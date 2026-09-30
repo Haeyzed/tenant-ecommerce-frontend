@@ -3,7 +3,7 @@ import type { NextConfig } from "next"
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
-  devIndicators: { position: "bottom-right" },
+  devIndicators: { position: "bottom-left" },
   transpilePackages: ["@workspace/ui", "@workspace/api-client", "@workspace/bff", "@workspace/contract", "@workspace/format"],
 }
 

@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { Button } from "@workspace/ui/components/button"
+import { ButtonLink } from "@workspace/ui/components/button-link"
 import { Icon, type IconName } from "@workspace/ui/icons"
 
 import { loadPlatformConfig } from "@/server/api"
@@ -26,10 +26,10 @@ export default async function HomePage() {
           Launch a storefront, take payments and manage stock, staff and customers from one place. Start with a free trial.
         </p>
         <div className="flex flex-wrap gap-3">
-          <Button size="lg" nativeButton={false} render={<Link href="/pricing" />}>
+          <ButtonLink size="lg" render={<Link href="/pricing" />}>
             See plans
             <Icon name="arrowRight" data-icon="inline-end" />
-          </Button>
+          </ButtonLink>
         </div>
       </section>
 

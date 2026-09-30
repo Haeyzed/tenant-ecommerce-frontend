@@ -1,7 +1,7 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
 
-import { Button } from "@workspace/ui/components/button"
+import { ButtonLink } from "@workspace/ui/components/button-link"
 import { Icon } from "@workspace/ui/icons"
 
 import type { PlatformConfig } from "@/features/signup/model"
@@ -24,13 +24,13 @@ export function SiteShell({ config, children }: { config: PlatformConfig; childr
             <span className="truncate">{config.name}</span>
           </Link>
           <nav className="flex items-center gap-1">
-            <Button variant="ghost" size="sm" nativeButton={false} render={<Link href="/pricing" />}>
+            <ButtonLink variant="ghost" size="sm" render={<Link href="/pricing" />}>
               Pricing
-            </Button>
+            </ButtonLink>
             {config.registrationEnabled ? (
-              <Button size="sm" nativeButton={false} render={<Link href="/pricing" />}>
+              <ButtonLink size="sm" render={<Link href="/pricing" />}>
                 Start free
-              </Button>
+              </ButtonLink>
             ) : null}
           </nav>
         </div>

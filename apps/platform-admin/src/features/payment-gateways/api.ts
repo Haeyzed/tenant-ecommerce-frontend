@@ -96,30 +96,60 @@ export function isFreshlyVerified(gateway: Gateway): boolean {
 type Target = { provider: Provider; mode: Mode }
 const path = (t: Target) => ({ params: { path: { provider: t.provider, mode: t.mode } } })
 
-function useInvalidate() {
+type GatewaysData = { billingMode: Mode; gateways: Gateway[] }
+
+/**
+ * After a change: put the returned row into the cache so the card updates at
+ * once, then refetch in the background (not awaited, so the sheet and
+ * dialogs close without waiting for it).
+ */
+function useGatewayCache() {
   const client = useQueryClient()
-  return () => client.invalidateQueries({ queryKey: gatewaysQuery.queryKey })
+  return {
+    put: (row: RawGateway | null) => {
+      const gateway = row ? normalizeGateway(row) : null
+      if (gateway === null) return
+      client.setQueryData<GatewaysData>(gatewaysQuery.queryKey, (data) =>
+        data
+          ? {
+              ...data,
+              gateways: data.gateways.map((g) => {
+                if (g.provider === gateway.provider && g.mode === gateway.mode) return gateway
+                // A new default replaces the old one in the same mode.
+                return gateway.isDefault && g.mode === gateway.mode ? { ...g, isDefault: false } : g
+              }),
+            }
+          : data
+      )
+    },
+    setMode: (mode: Mode) => client.setQueryData<GatewaysData>(gatewaysQuery.queryKey, (data) => (data ? { ...data, billingMode: mode } : data)),
+    refresh: () => void client.invalidateQueries({ queryKey: gatewaysQuery.queryKey }),
+  }
 }
 
 export function useSaveGateway() {
-  const invalidate = useInvalidate()
+  const cache = useGatewayCache()
   return useMutation({
     mutationFn: async ({ body, ...target }: Target & { body: GatewayBody }) =>
       unwrap(api.PUT("/admin/payment-gateways/{provider}/{mode}", { ...path(target), body })),
-    onSuccess: invalidate,
+    onSuccess: (row) => {
+      cache.put(row)
+      cache.refresh()
+    },
   })
 }
 
 export function useTestGateway() {
-  const invalidate = useInvalidate()
+  const cache = useGatewayCache()
   return useMutation({
     mutationFn: async (target: Target) => unwrap(api.POST("/admin/payment-gateways/{provider}/{mode}/test", path(target))),
-    onSuccess: invalidate,
+    // The test returns a verdict, not the row; the refetch brings the new verified time.
+    onSuccess: () => cache.refresh(),
   })
 }
 
 export function useGatewayAction() {
-  const invalidate = useInvalidate()
+  const cache = useGatewayCache()
   return useMutation({
     mutationFn: async ({ action, ...target }: Target & { action: "enable" | "disable" | "set-default" }) => {
       switch (action) {
@@ -131,15 +161,21 @@ export function useGatewayAction() {
           return unwrap(api.POST("/admin/payment-gateways/{provider}/{mode}/set-default", path(target)))
       }
     },
-    onSuccess: invalidate,
+    onSuccess: (row) => {
+      cache.put(row)
+      cache.refresh()
+    },
   })
 }
 
 export function useSetBillingMode() {
-  const invalidate = useInvalidate()
+  const cache = useGatewayCache()
   return useMutation({
     mutationFn: async (body: { mode: Mode; reason: string }) =>
       unwrap(api.POST("/admin/payment-gateways/mode", { body: { ...body, confirm: true } })),
-    onSuccess: invalidate,
+    onSuccess: (_data, body) => {
+      cache.setMode(body.mode)
+      cache.refresh()
+    },
   })
 }

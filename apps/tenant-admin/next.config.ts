@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
   // The dev badge would otherwise cover the sidebar user menu.
-  devIndicators: { position: "bottom-right" },
+  devIndicators: { position: "bottom-left" },
   transpilePackages: [
     "@workspace/ui",
     "@workspace/admin-kit",

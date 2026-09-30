@@ -5,7 +5,7 @@ import { useState } from "react"
 
 import { formatMoney } from "@workspace/format"
 import { Badge } from "@workspace/ui/components/badge"
-import { Button } from "@workspace/ui/components/button"
+import { ButtonLink } from "@workspace/ui/components/button-link"
 import { ToggleGroup, ToggleGroupItem } from "@workspace/ui/components/toggle-group"
 import { Icon } from "@workspace/ui/icons"
 import { cn } from "@workspace/ui/lib/utils"
@@ -83,14 +83,13 @@ export function PlanGrid({ plans, initialInterval, referral }: { plans: Plan[]; 
               ) : null}
 
               {price ? (
-                <Button
+                <ButtonLink
                   size="lg"
                   variant={plan.isRecommended ? "default" : "outline"}
-                  nativeButton={false}
                   render={<Link href={signupHref(price.id, referral)} />}
                 >
                   {price.trialDays > 0 ? "Start free trial" : `Choose ${plan.name}`}
-                </Button>
+                </ButtonLink>
               ) : null}
 
               <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">

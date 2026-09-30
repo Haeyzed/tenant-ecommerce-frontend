@@ -8,6 +8,7 @@ import { z } from "zod"
 
 import { Alert, AlertDescription, AlertTitle } from "@workspace/ui/components/alert"
 import { Button } from "@workspace/ui/components/button"
+import { ButtonLink } from "@workspace/ui/components/button-link"
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@workspace/ui/components/field"
 import { Input } from "@workspace/ui/components/input"
 import { Spinner } from "@workspace/ui/components/spinner"
@@ -49,9 +50,9 @@ export function ForgotPasswordForm({ loginHref = "/login" }: { loginHref?: strin
           <AlertTitle>Check your email</AlertTitle>
           <AlertDescription>If an account exists for {sentTo}, a link to reset the password is on its way.</AlertDescription>
         </Alert>
-        <Button variant="outline" nativeButton={false} render={<Link href={loginHref} />}>
+        <ButtonLink variant="outline" render={<Link href={loginHref} />}>
           Back to sign in
-        </Button>
+        </ButtonLink>
       </div>
     )
   }
@@ -137,9 +138,9 @@ export function ResetPasswordForm({ token, email, loginHref = "/login" }: { toke
           <AlertTitle>Password saved</AlertTitle>
           <AlertDescription>You can now sign in with your new password.</AlertDescription>
         </Alert>
-        <Button nativeButton={false} render={<Link href={`${loginHref}?email=${encodeURIComponent(email)}`} />}>
+        <ButtonLink render={<Link href={`${loginHref}?email=${encodeURIComponent(email)}`} />}>
           Sign in
-        </Button>
+        </ButtonLink>
       </div>
     )
   }
