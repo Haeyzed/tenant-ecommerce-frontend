@@ -4,12 +4,14 @@ import type { ReactNode } from "react"
 import { ButtonLink } from "@workspace/ui/components/button-link"
 import { Icon } from "@workspace/ui/icons"
 
+import { ReferralCapture } from "@/features/referral/referral-capture"
 import type { PlatformConfig } from "@/features/signup/model"
 
 /** The site header and footer (spec §24.1). CMS menus replace the fixed links once the CMS pages ship. */
 export function SiteShell({ config, children }: { config: PlatformConfig; children: ReactNode }) {
   return (
     <div className="flex min-h-svh flex-col">
+      <ReferralCapture />
       <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
         <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-4 px-4">
           <Link href="/" className="flex min-w-0 items-center gap-2 font-semibold">

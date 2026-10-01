@@ -122,7 +122,7 @@ A paid sign-up involves two separate URLs, and they go to different places:
 | | Who calls it | URL | Needs a public URL locally? |
 |---|---|---|---|
 | **Webhook** (payment confirmed) | The gateway's servers, server to server | **Laravel API** on the root domain: `{APP_URL}/api/webhooks/{provider}/{mode}` | **Yes**, because Paystack, Flutterwave or Stripe can't reach `tenant-ecommerce-api.test` |
-| **Return URL** (after the payment page) | The customer's browser | Tenant admin: `http://{slug}.admin.localhost:3001/billing/callback?reference=...` | No. It's a browser redirect on your own machine. |
+| **Return URL** (after the payment page) | The customer's browser | First payment at sign-up: the website, `http://localhost:3003/signup/status?registration=...&reference=...`. Later payments by an existing store: tenant admin, `http://{slug}.admin.localhost:3001/billing/callback?reference=...` | No. It's a browser redirect on your own machine. |
 
 So the webhook never points at a tenant domain or at any Next.js app. It always points at the Laravel API on the landlord (root) domain:
 
@@ -163,5 +163,6 @@ If no webhook arrives, the charge stays pending and the store stays `awaiting_pa
 
 ### Current gaps
 
-- **Return page not built.** tenant-admin's `/billing/callback` page arrives with the billing slice. Until then, the browser lands on the admin login after paying; the webhook still activates the store.
+- **Sign-up payments return to the website.** The status page shows "Confirming your payment…" for up to 90 seconds while the webhook arrives, then follows the store into provisioning.
+- **Existing-store return page not built.** tenant-admin's `/billing/callback` (for plan changes and renewals paid by card) arrives with the tenant-admin billing slice. Until then, those payments land on the admin; the webhook still applies them.
 - **Gateway list not filtered.** The sign-up payment step offers all three gateways, because no public route lists the enabled ones yet (spec BG-19).

@@ -20,6 +20,7 @@ import { api } from "@/shell/api-client"
 
 type Gateway = operations["landlord.register.checkout"]["requestBody"]["content"]["application/json"]["gateway"]
 
+/** Descriptions for the gateways the API offers; it decides which are available (BG-19). */
 const GATEWAYS: { value: Gateway; label: string; description: string }[] = [
   { value: "paystack", label: "Paystack", description: "Cards, bank transfer and USSD" },
   { value: "flutterwave", label: "Flutterwave", description: "Cards, mobile money and bank transfer" },
@@ -36,19 +37,23 @@ const isGateway = (value: unknown): value is Gateway => GATEWAYS.some((g) => g.v
 export function PaymentStep({ registration }: { registration: string }) {
   const router = useRouter()
   const status = useRegistrationStatus(registration)
-  const [gateway, setGateway] = useState<Gateway>("paystack")
+  const [chosen, setChosen] = useState<Gateway | null>(null)
   const [problem, setProblem] = useState<string | null>(null)
   const statusPath = `/signup/status?registration=${encodeURIComponent(registration)}`
 
   const tenantStatus = status.data?.tenant_status ?? null
+  // Only gateways enabled for this store's currency and country, default first.
+  const available = (status.data?.available_gateways ?? []).map((g) => g.provider)
+  const options = available.flatMap((provider) => GATEWAYS.filter((g) => g.value === provider))
+  const gateway = chosen !== null && available.includes(chosen) ? chosen : (options[0]?.value ?? null)
 
   useEffect(() => {
     if (status.data && tenantStatus !== "awaiting_payment") router.replace(statusPath)
   }, [status.data, tenantStatus, router, statusPath])
 
   const checkout = useMutation({
-    mutationFn: async () =>
-      unwrap(api.POST("/register/{registration}/checkout", { params: { path: { registration } }, body: { gateway } })),
+    mutationFn: async (selected: Gateway) =>
+      unwrap(api.POST("/register/{registration}/checkout", { params: { path: { registration } }, body: { gateway: selected } })),
     onSuccess: (result) => {
       if (result.checkout_url) window.location.assign(result.checkout_url)
       else setProblem("This payment method didn't return a checkout page. Choose another method.")
@@ -104,10 +109,20 @@ export function PaymentStep({ registration }: { registration: string }) {
         </Alert>
       ) : null}
 
-      <FieldSet>
+      {options.length === 0 ? (
+        <Alert>
+          <Icon name="info" />
+          <AlertTitle>No payment method is available yet</AlertTitle>
+          <AlertDescription>
+            Payments for your currency aren&apos;t open right now. Your sign-up is saved; try again later or contact us and we&apos;ll help you finish.
+          </AlertDescription>
+        </Alert>
+      ) : null}
+
+      <FieldSet hidden={options.length === 0}>
         <FieldLegend variant="label">Payment method</FieldLegend>
-        <RadioGroup value={gateway} onValueChange={(value) => (isGateway(value) ? setGateway(value) : null)}>
-          {GATEWAYS.map((option) => (
+        <RadioGroup value={gateway} onValueChange={(value) => (isGateway(value) ? setChosen(value) : null)}>
+          {options.map((option) => (
             <FieldLabel key={option.value} htmlFor={`gateway-${option.value}`}>
               <Field orientation="horizontal">
                 <FieldContent>
@@ -124,10 +139,11 @@ export function PaymentStep({ registration }: { registration: string }) {
       <Button
         size="lg"
         className="w-full"
-        disabled={busy}
+        disabled={busy || gateway === null}
         onClick={() => {
+          if (gateway === null) return
           setProblem(null)
-          checkout.mutate()
+          checkout.mutate(gateway)
         }}
       >
         {busy ? <Spinner data-icon="inline-start" /> : <Icon name="billing" data-icon="inline-start" />}

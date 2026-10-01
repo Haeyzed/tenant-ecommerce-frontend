@@ -14,6 +14,9 @@ import { useSignupEmail } from "./signup-store"
 
 const POLL_MS = 15_000
 const GIVE_UP_MS = 10 * 60_000
+/** After returning from checkout, the payment webhook usually lands within seconds. */
+const CONFIRM_POLL_MS = 5_000
+const CONFIRM_MS = 90_000
 
 /** Statuses after which polling stops. */
 const SETTLED = new Set(["active", "provisioning_failed", "awaiting_payment", "suspended", "closed", "purged"])
@@ -21,19 +24,24 @@ const SETTLED = new Set(["active", "provisioning_failed", "awaiting_payment", "s
 /**
  * Steps 5 and 6 of sign-up (spec §24.3): polls the registration every 15
  * seconds while the store is being provisioned, stops after 10 minutes, and
- * links to the new store's admin once it is active.
+ * links to the new store's admin once it is active. Back from checkout
+ * (`?reference=`), it waits for the payment to be confirmed before asking
+ * for payment again.
  */
 export function StatusStep({
   registration,
   adminUrlTemplate,
   supportEmail,
+  returnedFromPayment = false,
 }: {
   registration: string
   adminUrlTemplate: string
   supportEmail: string | null
+  returnedFromPayment?: boolean
 }) {
   const [startedAt] = useState(() => Date.now())
   const [gaveUp, setGaveUp] = useState(false)
+  const [confirming, setConfirming] = useState(returnedFromPayment)
   const email = useSignupEmail(registration)
 
   useEffect(() => {
@@ -41,11 +49,18 @@ export function StatusStep({
     return () => clearTimeout(timer)
   }, [startedAt])
 
+  useEffect(() => {
+    if (!returnedFromPayment) return
+    const timer = setTimeout(() => setConfirming(false), CONFIRM_MS)
+    return () => clearTimeout(timer)
+  }, [returnedFromPayment])
+
   const status = useRegistrationStatus(registration, {
     refetchInterval: (query) => {
       const data = query.state.data
       if (gaveUp) return false
       if (data?.registration_status === "pending_verification") return false
+      if (data?.tenant_status === "awaiting_payment" && confirming) return CONFIRM_POLL_MS
       if (data?.tenant_status && SETTLED.has(data.tenant_status)) return false
       return POLL_MS
     },
@@ -86,9 +101,21 @@ export function StatusStep({
     )
   }
 
+  if (tenantStatus === "awaiting_payment" && confirming) {
+    return <Working title="Confirming your payment…" body="This usually takes a few seconds. Please keep this page open." />
+  }
+
   if (tenantStatus === "awaiting_payment") {
     return (
-      <Problem title="Payment needed" body="Your store is waiting for its first payment." tone="info">
+      <Problem
+        title="Payment needed"
+        body={
+          returnedFromPayment
+            ? "We haven't received confirmation of your payment yet. If you completed it, it can take a few minutes to arrive and we'll email you when your store is ready. If you didn't finish paying, continue below."
+            : "Your store is waiting for its first payment."
+        }
+        tone="info"
+      >
         <ButtonLink render={<Link href={`/signup/payment?registration=${encoded}`} />}>
           Complete payment
         </ButtonLink>

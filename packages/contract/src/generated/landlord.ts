@@ -13233,6 +13233,12 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: {
+                            /** @description Gateways for the first payment while awaiting it (BG-19); empty otherwise. */
+                            available_gateways: {
+                                label: string;
+                                /** @enum {string} */
+                                provider: "flutterwave" | "paystack" | "stripe";
+                            }[];
                             domain: string | null;
                             registration_status: string;
                             tenant_status: string | null;
