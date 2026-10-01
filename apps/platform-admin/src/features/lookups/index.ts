@@ -31,3 +31,25 @@ export const lookupQuery = (key: LookupKey) =>
 export function useLookup(key: LookupKey) {
   return useQuery(lookupQuery(key))
 }
+
+/** Admin-only landlord lookups (`/api/admin/lookups/{key}`) used as plain options. */
+export type AdminLookupKey = "platform-roles" | "legal-document-types" | "tenant-statuses" | "payment-gateways"
+
+export const adminLookupQuery = (key: AdminLookupKey) =>
+  queryOptions({
+    queryKey: ["lookup", "admin", key],
+    queryFn: async ({ signal }): Promise<Option[]> => {
+      const data = await unwrap(api.GET("/admin/lookups/{key}", { params: { path: { key } }, signal }))
+      return (Array.isArray(data) ? data : []).filter(isRow).map((row) => ({ value: String(row.value), label: row.label }))
+    },
+    staleTime: 30 * 60_000,
+  })
+
+export function useAdminLookup(key: AdminLookupKey) {
+  return useQuery(adminLookupQuery(key))
+}
+
+/** The label for a value, or the value itself while the list loads. */
+export function optionLabel(options: readonly Option[] | undefined, value: string): string {
+  return options?.find((o) => o.value === value)?.label ?? value
+}

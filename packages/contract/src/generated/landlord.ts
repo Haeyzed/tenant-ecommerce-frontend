@@ -1263,7 +1263,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        get: operations["landlord.legal.show"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7600,6 +7600,7 @@ export interface operations {
         parameters: {
             query?: {
                 document_type?: string;
+                page?: number;
                 per_page?: number;
                 status?: "draft" | "published" | "retired";
             };
@@ -7686,6 +7687,39 @@ export interface operations {
             };
         };
     };
+    "landlord.legal.show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The document ID */
+                document: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["LegalDocumentResource"];
+                        errors: {
+                            [key: string]: unknown;
+                        };
+                        message: string;
+                        meta: {
+                            [key: string]: unknown;
+                        };
+                        success: boolean;
+                    };
+                };
+            };
+            404: components["responses"]["ModelNotFoundException"];
+        };
+    };
     "landlord.legal.update": {
         parameters: {
             query?: never;
@@ -7734,6 +7768,7 @@ export interface operations {
     "landlord.legal.acceptances.index": {
         parameters: {
             query?: {
+                page?: number;
                 per_page?: number;
             };
             header?: never;
@@ -7786,6 +7821,7 @@ export interface operations {
                 };
             };
             404: components["responses"]["ModelNotFoundException"];
+            422: components["responses"]["ValidationException"];
         };
     };
     "landlord.legal.publish": {
@@ -8055,7 +8091,10 @@ export interface operations {
                     "application/json": {
                         data: {
                             body: string;
-                            channels: boolean[];
+                            /** @description Channel to on/off */
+                            channels: {
+                                [key: string]: boolean;
+                            };
                             is_active: boolean;
                             is_customized: boolean;
                             is_mandatory: boolean;
@@ -8066,7 +8105,8 @@ export interface operations {
                             };
                             subject: string | null;
                             target_audience: string[];
-                            variables: unknown[];
+                            /** @description Placeholders the subject and body may use */
+                            variables: string[];
                         }[];
                         errors: {
                             [key: string]: unknown;
@@ -8109,7 +8149,10 @@ export interface operations {
                     "application/json": {
                         data: {
                             body: string;
-                            channels: boolean[];
+                            /** @description Channel to on/off */
+                            channels: {
+                                [key: string]: boolean;
+                            };
                             is_active: boolean;
                             is_customized: boolean;
                             is_mandatory: boolean;
@@ -8120,7 +8163,8 @@ export interface operations {
                             };
                             subject: string | null;
                             target_audience: string[];
-                            variables: unknown[];
+                            /** @description Placeholders the subject and body may use */
+                            variables: string[];
                         };
                         errors: {
                             [key: string]: unknown;
@@ -8155,7 +8199,10 @@ export interface operations {
                     "application/json": {
                         data: {
                             body: string;
-                            channels: boolean[];
+                            /** @description Channel to on/off */
+                            channels: {
+                                [key: string]: boolean;
+                            };
                             is_active: boolean;
                             is_customized: boolean;
                             is_mandatory: boolean;
@@ -8166,7 +8213,8 @@ export interface operations {
                             };
                             subject: string | null;
                             target_audience: string[];
-                            variables: unknown[];
+                            /** @description Placeholders the subject and body may use */
+                            variables: string[];
                         };
                         errors: {
                             [key: string]: unknown;
@@ -8286,7 +8334,9 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: {
-                            channels: unknown[];
+                            channels: {
+                                [key: string]: boolean;
+                            };
                             is_active: boolean;
                             is_mandatory: boolean;
                             key: string;
@@ -8318,7 +8368,9 @@ export interface operations {
             content: {
                 "application/json": {
                     audience?: string[];
-                    channels?: string[];
+                    channels?: {
+                        [key: string]: boolean;
+                    };
                 };
             };
         };
@@ -8330,7 +8382,9 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: {
-                            channels: unknown[];
+                            channels: {
+                                [key: string]: boolean;
+                            };
                             is_active: boolean;
                             is_mandatory: boolean;
                             key: string;
@@ -10205,6 +10259,7 @@ export interface operations {
         parameters: {
             query?: {
                 is_active?: boolean;
+                page?: number;
                 per_page?: number;
                 role?: string;
                 search?: string;
@@ -10230,11 +10285,7 @@ export interface operations {
                             is_active: boolean;
                             last_login_at: string | null;
                             name: string;
-                            roles: {
-                                relations: [
-                                    "roles"
-                                ];
-                            }[];
+                            roles: string[];
                         }[];
                         errors: {
                             [key: string]: unknown;
@@ -10296,11 +10347,7 @@ export interface operations {
                             is_active: boolean;
                             last_login_at: string | null;
                             name: string;
-                            roles: {
-                                relations: [
-                                    "roles"
-                                ];
-                            }[];
+                            roles: string[];
                         };
                         errors: {
                             [key: string]: unknown;
@@ -10351,11 +10398,7 @@ export interface operations {
                             is_active: boolean;
                             last_login_at: string | null;
                             name: string;
-                            roles: {
-                                relations: [
-                                    "roles"
-                                ];
-                            }[];
+                            roles: string[];
                         };
                         errors: {
                             [key: string]: unknown;
@@ -10398,11 +10441,7 @@ export interface operations {
                             is_active: boolean;
                             last_login_at: string | null;
                             name: string;
-                            roles: {
-                                relations: [
-                                    "roles"
-                                ];
-                            }[];
+                            roles: string[];
                         };
                         errors: {
                             [key: string]: unknown;
@@ -10451,11 +10490,7 @@ export interface operations {
                             is_active: boolean;
                             last_login_at: string | null;
                             name: string;
-                            roles: {
-                                relations: [
-                                    "roles"
-                                ];
-                            }[];
+                            roles: string[];
                         };
                         errors: {
                             [key: string]: unknown;
@@ -10500,11 +10535,7 @@ export interface operations {
                             is_active: boolean;
                             last_login_at: string | null;
                             name: string;
-                            roles: {
-                                relations: [
-                                    "roles"
-                                ];
-                            }[];
+                            roles: string[];
                         };
                         errors: {
                             [key: string]: unknown;

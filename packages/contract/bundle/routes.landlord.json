@@ -3078,6 +3078,25 @@
         "signed": false
     },
     {
+        "name": "landlord.legal.show",
+        "methods": [
+            "GET"
+        ],
+        "uri": "/api/admin/legal-documents/{document}",
+        "group": "landlord.admin",
+        "actor": "platform",
+        "actor_optional": false,
+        "module": null,
+        "module_notice": null,
+        "wind_down": false,
+        "read_when_inactive": false,
+        "permission": "legal-documents.view",
+        "acting_permission": null,
+        "idempotency": false,
+        "usage_limit": null,
+        "signed": false
+    },
+    {
         "name": "landlord.legal.store",
         "methods": [
             "POST"

@@ -32371,7 +32371,10 @@ export interface operations {
                     "application/json": {
                         data: {
                             body: string;
-                            channels: boolean[];
+                            /** @description Channel to on/off */
+                            channels: {
+                                [key: string]: boolean;
+                            };
                             is_active: boolean;
                             is_customized: boolean;
                             is_mandatory: boolean;
@@ -32382,7 +32385,8 @@ export interface operations {
                             };
                             subject: string | null;
                             target_audience: string[];
-                            variables: unknown[];
+                            /** @description Placeholders the subject and body may use */
+                            variables: string[];
                         }[];
                         errors: {
                             [key: string]: unknown;
@@ -32425,7 +32429,10 @@ export interface operations {
                     "application/json": {
                         data: {
                             body: string;
-                            channels: boolean[];
+                            /** @description Channel to on/off */
+                            channels: {
+                                [key: string]: boolean;
+                            };
                             is_active: boolean;
                             is_customized: boolean;
                             is_mandatory: boolean;
@@ -32436,7 +32443,8 @@ export interface operations {
                             };
                             subject: string | null;
                             target_audience: string[];
-                            variables: unknown[];
+                            /** @description Placeholders the subject and body may use */
+                            variables: string[];
                         };
                         errors: {
                             [key: string]: unknown;
@@ -32471,7 +32479,10 @@ export interface operations {
                     "application/json": {
                         data: {
                             body: string;
-                            channels: boolean[];
+                            /** @description Channel to on/off */
+                            channels: {
+                                [key: string]: boolean;
+                            };
                             is_active: boolean;
                             is_customized: boolean;
                             is_mandatory: boolean;
@@ -32482,7 +32493,8 @@ export interface operations {
                             };
                             subject: string | null;
                             target_audience: string[];
-                            variables: unknown[];
+                            /** @description Placeholders the subject and body may use */
+                            variables: string[];
                         };
                         errors: {
                             [key: string]: unknown;
@@ -32599,7 +32611,9 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: {
-                            channels: unknown[];
+                            channels: {
+                                [key: string]: boolean;
+                            };
                             is_active: boolean;
                             is_mandatory: boolean;
                             key: string;
@@ -32631,7 +32645,9 @@ export interface operations {
             content: {
                 "application/json": {
                     audience?: string[];
-                    channels?: string[];
+                    channels?: {
+                        [key: string]: boolean;
+                    };
                 };
             };
         };
@@ -32643,7 +32659,9 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: {
-                            channels: unknown[];
+                            channels: {
+                                [key: string]: boolean;
+                            };
                             is_active: boolean;
                             is_mandatory: boolean;
                             key: string;
