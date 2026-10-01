@@ -213,3 +213,8 @@ export function normalizeSection(data: unknown): Section {
     alerts: list(d.alerts, alert),
   }
 }
+
+/** A list screen's KPI strip (`GET …/metrics`, spec §22.4): `{kpis: []}` in the dashboard KPI shape. */
+export function normalizeKpis(data: unknown): Kpi[] {
+  return list(isRecord(data) ? data.kpis : null, kpi)
+}

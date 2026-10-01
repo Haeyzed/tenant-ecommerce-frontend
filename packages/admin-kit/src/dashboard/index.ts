@@ -1,6 +1,7 @@
 export { formatKpi } from "./kpi-value"
+export { KpiStrip } from "./kpi-strip"
 export { RangeControl } from "./range-control"
 export { SectionDashboard } from "./section-dashboard"
 export type { SectionSummary } from "./section-dashboard"
-export { BILLING_MODES, COMPARE_OPTIONS, MAX_CUSTOM_DAYS, normalizeSection, normalizeSections, RANGE_PRESETS } from "./types"
+export { BILLING_MODES, COMPARE_OPTIONS, MAX_CUSTOM_DAYS, normalizeKpis, normalizeSection, normalizeSections, RANGE_PRESETS } from "./types"
 export type { BillingMode, Chart, CompareOption, DashboardAlert, DashboardQuery, Kpi, KpiFormat, RangePreset, Section, TableBlock } from "./types"

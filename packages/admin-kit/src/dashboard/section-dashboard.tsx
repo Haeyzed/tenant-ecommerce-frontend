@@ -58,6 +58,10 @@ function kpiColumns(count: number): number {
   return Math.max(count, 1)
 }
 
+function kpiStyle(count: number): React.CSSProperties & { "--kpi-cols": number } {
+  return { "--kpi-cols": kpiColumns(count) }
+}
+
 /** TableBlock cell formats: text, count, quantity, money (currency_code on the row), percent, datetime, status. */
 function cellValue(row: Record<string, unknown>, key: string, format: string): string {
   const value = row[key]
@@ -265,7 +269,7 @@ export function SectionDashboard({
 
               <div
                 className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-[repeat(var(--kpi-cols),minmax(0,1fr))]"
-                style={{ "--kpi-cols": kpiColumns(section.data?.kpis.length ?? 4) } as React.CSSProperties}
+                style={kpiStyle(section.data?.kpis.length ?? 4)}
               >
                 {section.isPending
                   ? Array.from({ length: 4 }, (_, i) => <StatCardSkeleton key={i} />)

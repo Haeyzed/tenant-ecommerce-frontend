@@ -3461,7 +3461,9 @@ export interface components {
             line_items: {
                 [key: string]: unknown;
             }[];
-            meta?: string;
+            meta?: {
+                [key: string]: unknown;
+            };
             mode: string;
             paid_at: string | null;
             provider: string;
@@ -3469,8 +3471,14 @@ export interface components {
             reason: string | null;
             reference: string;
             refund_of_payment_transaction_id: number | null;
+            refundable_amount?: string | null;
             status: string;
             subscription_id: number;
+            tenant?: {
+                id: string;
+                name: string;
+                slug: string;
+            } | null;
             tenant_id: string;
             type: string;
         };
@@ -3526,6 +3534,11 @@ export interface components {
             payment_transaction_id: number | null;
             rate: string;
             status: string;
+            tenant?: {
+                id: string;
+                name: string;
+                slug: string;
+            } | null;
             tenant_id: string;
             waived_reason: string | null;
         };
@@ -3600,6 +3613,11 @@ export interface components {
             scheduled_plan_price_id: number | null;
             starts_at: string;
             status: string;
+            tenant?: {
+                id: string;
+                name: string;
+                slug: string;
+            } | null;
             tenant_id: string;
             trial_days: number;
             trial_ends_at: string | null;
@@ -8693,6 +8711,7 @@ export interface operations {
             query?: {
                 from?: string;
                 mode?: "test" | "live";
+                page?: number;
                 per_page?: number;
                 provider?: "flutterwave" | "paystack" | "stripe";
                 status?: "pending" | "successful" | "failed";
@@ -9361,6 +9380,7 @@ export interface operations {
         parameters: {
             query?: {
                 currency?: string;
+                page?: number;
                 per_page?: number;
                 status?: "pending" | "billed" | "collected" | "waived";
                 tenant?: string;
@@ -9450,6 +9470,7 @@ export interface operations {
             query?: {
                 affiliate_id?: number;
                 is_active?: boolean;
+                page?: number;
                 per_page?: number;
                 status?: "scheduled" | "running" | "ended";
             };
@@ -9571,10 +9592,13 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: {
-                            coupon: components["schemas"]["PlatformCouponResource"] & Record<string, never>;
+                            coupon: components["schemas"]["PlatformCouponResource"];
                             usage: {
-                                by_status: number[];
-                                remaining: unknown;
+                                /** @description Redemptions per status */
+                                by_status: {
+                                    [key: string]: number;
+                                };
+                                remaining: number | null;
                                 times_redeemed: number;
                                 total_discount_amount: string;
                             };
@@ -9692,6 +9716,7 @@ export interface operations {
     "landlord.billing.platform-coupons.redemptions.index": {
         parameters: {
             query?: {
+                page?: number;
                 per_page?: number;
             };
             header?: never;
@@ -9721,6 +9746,7 @@ export interface operations {
                             status: string;
                             subscription_id: number;
                             tenant_id: string;
+                            tenant_name: string;
                             total_discount_amount: string;
                         }[];
                         errors: {
@@ -9748,6 +9774,7 @@ export interface operations {
                 };
             };
             404: components["responses"]["ModelNotFoundException"];
+            422: components["responses"]["ValidationException"];
         };
     };
     "landlord.billing.platform-coupons.metrics": {
@@ -10497,6 +10524,7 @@ export interface operations {
         parameters: {
             query?: {
                 mode?: "test" | "live";
+                page?: number;
                 per_page?: number;
                 plan_id?: number;
                 status?: "incomplete" | "trialing" | "active" | "past_due" | "cancelled";
@@ -10659,6 +10687,7 @@ export interface operations {
         parameters: {
             query?: {
                 email?: string;
+                page?: number;
                 per_page?: number;
                 status?: "pending_verification" | "converted" | "expired";
             };

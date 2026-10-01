@@ -13077,7 +13077,9 @@ export interface components {
             line_items: {
                 [key: string]: unknown;
             }[];
-            meta?: string;
+            meta?: {
+                [key: string]: unknown;
+            };
             mode: string;
             paid_at: string | null;
             provider: string;
@@ -13085,8 +13087,14 @@ export interface components {
             reason: string | null;
             reference: string;
             refund_of_payment_transaction_id: number | null;
+            refundable_amount?: string | null;
             status: string;
             subscription_id: number;
+            tenant?: {
+                id: string;
+                name: string;
+                slug: string;
+            } | null;
             tenant_id: string;
             type: string;
         };
@@ -13103,6 +13111,11 @@ export interface components {
             payment_transaction_id: number | null;
             rate: string;
             status: string;
+            tenant?: {
+                id: string;
+                name: string;
+                slug: string;
+            } | null;
             tenant_id: string;
             waived_reason: string | null;
         };
@@ -13192,6 +13205,11 @@ export interface components {
             scheduled_plan_price_id: number | null;
             starts_at: string;
             status: string;
+            tenant?: {
+                id: string;
+                name: string;
+                slug: string;
+            } | null;
             tenant_id: string;
             trial_days: number;
             trial_ends_at: string | null;

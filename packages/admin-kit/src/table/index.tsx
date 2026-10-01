@@ -48,6 +48,7 @@ import { cn } from "@workspace/ui/lib/utils"
 import { ErrorState } from "../states"
 
 export { isBulkResult, summarizeBulk, type BulkResult } from "./bulk"
+export { FilterSelect } from "./filter-select"
 
 const features = tableFeatures({ rowSelectionFeature, columnVisibilityFeature })
 

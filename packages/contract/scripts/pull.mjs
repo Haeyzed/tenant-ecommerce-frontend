@@ -1,6 +1,10 @@
 // Runs the backend's contract export into ./bundle and records the backend
 // commit in contract.lock.json (spec §13.3).
-// Usage: pnpm contract:pull -- --from ../../../tenant-ecommerce-api [--openapi]
+// Usage: pnpm contract:pull -- --from ../../../tenant-ecommerce-api [--no-openapi]
+//
+// The OpenAPI documents are re-exported from the current backend code by
+// default. --no-openapi copies the backend's last exported documents
+// instead, which may be stale.
 import { execFileSync } from "node:child_process"
 import { readFile, writeFile } from "node:fs/promises"
 import { dirname, join, resolve } from "node:path"
@@ -12,7 +16,7 @@ const fromIndex = args.indexOf("--from")
 
 if (fromIndex === -1 || !args[fromIndex + 1]) {
   console.error(
-    "Usage: pnpm contract:pull -- --from <path to tenant-ecommerce-api> [--openapi]"
+    "Usage: pnpm contract:pull -- --from <path to tenant-ecommerce-api> [--no-openapi]"
   )
   process.exit(1)
 }
@@ -24,7 +28,7 @@ const exportArgs = [
   `--path=${join(root, "bundle")}`,
 ]
 
-if (args.includes("--openapi")) {
+if (!args.includes("--no-openapi")) {
   exportArgs.push("--openapi")
 }
 
