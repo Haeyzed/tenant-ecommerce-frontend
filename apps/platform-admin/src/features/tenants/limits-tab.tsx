@@ -11,7 +11,7 @@ import { formatDate, formatMoney, formatNumber } from "@workspace/format"
 import { Button } from "@workspace/ui/components/button"
 import { Checkbox } from "@workspace/ui/components/checkbox"
 import { ConfirmDialog } from "@workspace/ui/components/confirm-dialog"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@workspace/ui/components/dialog"
+import { ResponsiveDialog, ResponsiveDialogContent, ResponsiveDialogDescription, ResponsiveDialogFooter, ResponsiveDialogHeader, ResponsiveDialogTitle } from "@workspace/ui/components/responsive-dialog"
 import { Field, FieldContent, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldTitle } from "@workspace/ui/components/field"
 import { Input } from "@workspace/ui/components/input"
 import { Label } from "@workspace/ui/components/label"
@@ -130,11 +130,11 @@ export function LimitsTab({ details }: { details: TenantDetails }) {
         </Table>
       </div>
 
-      <Dialog open={editing !== null} onOpenChange={(o) => (o ? null : setEditing(null))}>
-        <DialogContent className="sm:max-w-lg">
+      <ResponsiveDialog open={editing !== null} onOpenChange={(o) => (o ? null : setEditing(null))}>
+        <ResponsiveDialogContent className="sm:max-w-lg">
           {editing ? <LimitForm key={editing.key} tenantId={tenantId} limit={editing} current={byKey.get(editing.key) ?? null} planLimit={details.usage?.[editing.key]?.limit} onDone={() => setEditing(null)} /> : null}
-        </DialogContent>
-      </Dialog>
+        </ResponsiveDialogContent>
+      </ResponsiveDialog>
       <ConfirmDialog
         open={removing !== null}
         onOpenChange={(o) => (o ? null : setRemoving(null))}
@@ -219,10 +219,10 @@ function LimitForm({
 
   return (
     <form noValidate onSubmit={submit} className="flex flex-col gap-6">
-      <DialogHeader>
-        <DialogTitle>{limit.label}</DialogTitle>
-        <DialogDescription>Plan limit: {planLimit === undefined ? "—" : amount(limit.key, planLimit)}. The override applies to this store only.</DialogDescription>
-      </DialogHeader>
+      <ResponsiveDialogHeader>
+        <ResponsiveDialogTitle>{limit.label}</ResponsiveDialogTitle>
+        <ResponsiveDialogDescription>Plan limit: {planLimit === undefined ? "—" : amount(limit.key, planLimit)}. The override applies to this store only.</ResponsiveDialogDescription>
+      </ResponsiveDialogHeader>
       {errors.form ? <p className="text-sm text-destructive">{errors.form}</p> : null}
       <FieldGroup>
         <Field data-invalid={errors.limit_value ? true : undefined}>
@@ -269,7 +269,7 @@ function LimitForm({
           <Textarea id="limit-reason" rows={2} maxLength={255} value={reason} onChange={(e) => setReason(e.target.value)} />
         </Field>
       </FieldGroup>
-      <DialogFooter>
+      <ResponsiveDialogFooter>
         <Button type="button" variant="outline" onClick={onDone} disabled={save.isPending}>
           Cancel
         </Button>
@@ -277,7 +277,7 @@ function LimitForm({
           {save.isPending ? <Spinner data-icon="inline-start" /> : null}
           Save override
         </Button>
-      </DialogFooter>
+      </ResponsiveDialogFooter>
     </form>
   )
 }

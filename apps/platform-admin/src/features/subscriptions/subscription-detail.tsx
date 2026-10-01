@@ -11,7 +11,7 @@ import { formatDate, formatDateTime, formatMoney } from "@workspace/format"
 import { Button } from "@workspace/ui/components/button"
 import { ButtonLink } from "@workspace/ui/components/button-link"
 import { Card, CardContent, CardHeader, CardTitle } from "@workspace/ui/components/card"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@workspace/ui/components/dialog"
+import { ResponsiveDialog, ResponsiveDialogContent, ResponsiveDialogDescription, ResponsiveDialogFooter, ResponsiveDialogHeader, ResponsiveDialogTitle } from "@workspace/ui/components/responsive-dialog"
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@workspace/ui/components/field"
 import { Input } from "@workspace/ui/components/input"
 import { PageHeader } from "@workspace/ui/components/page-header"
@@ -197,13 +197,13 @@ function ExtendTrialDialog({ subscription, open, onOpenChange }: { subscription:
   const preview = Number.isInteger(n) && n >= 1 && n <= 365 ? new Date(base.getTime() + n * 86_400_000) : null
 
   return (
-    <Dialog open={open} onOpenChange={close}>
-      <DialogContent className="sm:max-w-md">
+    <ResponsiveDialog open={open} onOpenChange={close}>
+      <ResponsiveDialogContent className="sm:max-w-md">
         <form noValidate onSubmit={submit} className="flex flex-col gap-6">
-          <DialogHeader>
-            <DialogTitle>Extend trial</DialogTitle>
-            <DialogDescription>{subscription.tenant?.name ?? "The store"} keeps full access until the new end date, without being charged.</DialogDescription>
-          </DialogHeader>
+          <ResponsiveDialogHeader>
+            <ResponsiveDialogTitle>Extend trial</ResponsiveDialogTitle>
+            <ResponsiveDialogDescription>{subscription.tenant?.name ?? "The store"} keeps full access until the new end date, without being charged.</ResponsiveDialogDescription>
+          </ResponsiveDialogHeader>
           {errors.form ? <p className="text-sm text-destructive">{errors.form}</p> : null}
           <FieldGroup>
             <Field data-invalid={errors.days ? true : undefined}>
@@ -223,7 +223,7 @@ function ExtendTrialDialog({ subscription, open, onOpenChange }: { subscription:
               {errors.reason ? <FieldError>{errors.reason}</FieldError> : <FieldDescription>Recorded in the activity log with your name.</FieldDescription>}
             </Field>
           </FieldGroup>
-          <DialogFooter>
+          <ResponsiveDialogFooter>
             <Button type="button" variant="outline" onClick={() => close(false)} disabled={extend.isPending}>
               Cancel
             </Button>
@@ -231,9 +231,9 @@ function ExtendTrialDialog({ subscription, open, onOpenChange }: { subscription:
               {extend.isPending ? <Spinner data-icon="inline-start" /> : null}
               Extend trial
             </Button>
-          </DialogFooter>
+          </ResponsiveDialogFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   )
 }

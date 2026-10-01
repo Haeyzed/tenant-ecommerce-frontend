@@ -13,7 +13,7 @@ import { formatMoney } from "@workspace/format"
 import { Alert, AlertDescription } from "@workspace/ui/components/alert"
 import { Button } from "@workspace/ui/components/button"
 import { ConfirmDialog } from "@workspace/ui/components/confirm-dialog"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@workspace/ui/components/dialog"
+import { ResponsiveDialog, ResponsiveDialogContent, ResponsiveDialogDescription, ResponsiveDialogFooter, ResponsiveDialogHeader, ResponsiveDialogTitle } from "@workspace/ui/components/responsive-dialog"
 import { Field, FieldContent, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldTitle } from "@workspace/ui/components/field"
 import { Input } from "@workspace/ui/components/input"
 import { NativeSelect, NativeSelectOption } from "@workspace/ui/components/native-select"
@@ -196,13 +196,13 @@ function AddPriceDialog({ plan, open, onOpenChange }: { plan: Plan; open: boolea
   }
 
   return (
-    <Dialog open={open} onOpenChange={close}>
-      <DialogContent className="sm:max-w-lg">
+    <ResponsiveDialog open={open} onOpenChange={close}>
+      <ResponsiveDialogContent className="sm:max-w-lg">
         <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
-          <DialogHeader>
-            <DialogTitle>Add a price</DialogTitle>
-            <DialogDescription>For {plan.name}. It becomes the active price for its currency and interval.</DialogDescription>
-          </DialogHeader>
+          <ResponsiveDialogHeader>
+            <ResponsiveDialogTitle>Add a price</ResponsiveDialogTitle>
+            <ResponsiveDialogDescription>For {plan.name}. It becomes the active price for its currency and interval.</ResponsiveDialogDescription>
+          </ResponsiveDialogHeader>
           <FormErrors messages={formErrors} />
           <FieldGroup>
             <div className="grid gap-6 sm:grid-cols-2">
@@ -270,7 +270,7 @@ function AddPriceDialog({ plan, open, onOpenChange }: { plan: Plan; open: boolea
               </AlertDescription>
             </Alert>
           ) : null}
-          <DialogFooter>
+          <ResponsiveDialogFooter>
             <Button type="button" variant="outline" onClick={() => close(false)} disabled={add.isPending}>
               Cancel
             </Button>
@@ -278,10 +278,10 @@ function AddPriceDialog({ plan, open, onOpenChange }: { plan: Plan; open: boolea
               {add.isPending ? <Spinner data-icon="inline-start" /> : null}
               Add price
             </Button>
-          </DialogFooter>
+          </ResponsiveDialogFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   )
 }
 
@@ -290,9 +290,9 @@ type TrialValues = z.infer<typeof trialSchema>
 
 function TrialDialog({ plan, price, onClose }: { plan: Plan; price: PlanPrice | null; onClose: () => void }) {
   return (
-    <Dialog open={price !== null} onOpenChange={(open) => (open ? null : onClose())}>
-      <DialogContent className="sm:max-w-md">{price ? <TrialForm key={price.id} plan={plan} price={price} onDone={onClose} /> : null}</DialogContent>
-    </Dialog>
+    <ResponsiveDialog open={price !== null} onOpenChange={(open) => (open ? null : onClose())}>
+      <ResponsiveDialogContent className="sm:max-w-md">{price ? <TrialForm key={price.id} plan={plan} price={price} onDone={onClose} /> : null}</ResponsiveDialogContent>
+    </ResponsiveDialog>
   )
 }
 
@@ -317,10 +317,10 @@ function TrialForm({ plan, price, onDone }: { plan: Plan; price: PlanPrice; onDo
 
   return (
     <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
-      <DialogHeader>
-        <DialogTitle>Trial for {formatMoney(price.amount, price.currency)} {INTERVAL_LABELS[price.interval].toLowerCase()}</DialogTitle>
-        <DialogDescription>Applies to new subscribers only.</DialogDescription>
-      </DialogHeader>
+      <ResponsiveDialogHeader>
+        <ResponsiveDialogTitle>Trial for {formatMoney(price.amount, price.currency)} {INTERVAL_LABELS[price.interval].toLowerCase()}</ResponsiveDialogTitle>
+        <ResponsiveDialogDescription>Applies to new subscribers only.</ResponsiveDialogDescription>
+      </ResponsiveDialogHeader>
       <FormErrors messages={formErrors} />
       <FieldGroup>
         <Controller
@@ -334,7 +334,7 @@ function TrialForm({ plan, price, onDone }: { plan: Plan; price: PlanPrice; onDo
           render={({ field }) => <TrialCardField checked={field.value} onChange={field.onChange} />}
         />
       </FieldGroup>
-      <DialogFooter>
+      <ResponsiveDialogFooter>
         <Button type="button" variant="outline" onClick={onDone} disabled={update.isPending}>
           Cancel
         </Button>
@@ -342,7 +342,7 @@ function TrialForm({ plan, price, onDone }: { plan: Plan; price: PlanPrice; onDo
           {update.isPending ? <Spinner data-icon="inline-start" /> : null}
           Save trial
         </Button>
-      </DialogFooter>
+      </ResponsiveDialogFooter>
     </form>
   )
 }

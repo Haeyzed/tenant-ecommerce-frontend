@@ -14,7 +14,7 @@ import { unwrap } from "@workspace/api-client"
 import type { operations } from "@workspace/contract/landlord"
 import { Alert, AlertDescription, AlertTitle } from "@workspace/ui/components/alert"
 import { Button } from "@workspace/ui/components/button"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@workspace/ui/components/dialog"
+import { ResponsiveDialog, ResponsiveDialogContent, ResponsiveDialogDescription, ResponsiveDialogFooter, ResponsiveDialogHeader, ResponsiveDialogTitle } from "@workspace/ui/components/responsive-dialog"
 import { Field, FieldContent, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldTitle } from "@workspace/ui/components/field"
 import { Input } from "@workspace/ui/components/input"
 import { PageHeader } from "@workspace/ui/components/page-header"
@@ -136,12 +136,12 @@ export function DatabaseServersPage() {
         }
         noResultsState={<StateView icon="search" title="No servers" description="" />}
       />
-      <Dialog open={adding} onOpenChange={setAdding}>
-        <DialogContent className="sm:max-w-lg">{adding ? <AddServerForm onDone={() => setAdding(false)} /> : null}</DialogContent>
-      </Dialog>
-      <Dialog open={editing !== null} onOpenChange={(o) => (o ? null : setEditing(null))}>
-        <DialogContent className="sm:max-w-md">{editing ? <EditServerForm key={editing.id} server={editing} onDone={() => setEditing(null)} /> : null}</DialogContent>
-      </Dialog>
+      <ResponsiveDialog open={adding} onOpenChange={setAdding}>
+        <ResponsiveDialogContent className="sm:max-w-lg">{adding ? <AddServerForm onDone={() => setAdding(false)} /> : null}</ResponsiveDialogContent>
+      </ResponsiveDialog>
+      <ResponsiveDialog open={editing !== null} onOpenChange={(o) => (o ? null : setEditing(null))}>
+        <ResponsiveDialogContent className="sm:max-w-md">{editing ? <EditServerForm key={editing.id} server={editing} onDone={() => setEditing(null)} /> : null}</ResponsiveDialogContent>
+      </ResponsiveDialog>
     </>
   )
 }
@@ -206,10 +206,10 @@ function AddServerForm({ onDone }: { onDone: () => void }) {
 
   return (
     <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
-      <DialogHeader>
-        <DialogTitle>Add database server</DialogTitle>
-        <DialogDescription>The user needs rights to create databases. The password is stored encrypted and never shown again.</DialogDescription>
-      </DialogHeader>
+      <ResponsiveDialogHeader>
+        <ResponsiveDialogTitle>Add database server</ResponsiveDialogTitle>
+        <ResponsiveDialogDescription>The user needs rights to create databases. The password is stored encrypted and never shown again.</ResponsiveDialogDescription>
+      </ResponsiveDialogHeader>
       <FormErrors messages={formErrors} />
       <FieldGroup>
         {text("name", "Name", { description: "For example “db-eu-1”." })}
@@ -237,7 +237,7 @@ function AddServerForm({ onDone }: { onDone: () => void }) {
           )}
         />
       </FieldGroup>
-      <DialogFooter>
+      <ResponsiveDialogFooter>
         <Button type="button" variant="outline" onClick={onDone} disabled={add.isPending}>
           Cancel
         </Button>
@@ -245,7 +245,7 @@ function AddServerForm({ onDone }: { onDone: () => void }) {
           {add.isPending ? <Spinner data-icon="inline-start" /> : null}
           Add server
         </Button>
-      </DialogFooter>
+      </ResponsiveDialogFooter>
     </form>
   )
 }
@@ -280,12 +280,12 @@ function EditServerForm({ server, onDone }: { server: Server; onDone: () => void
 
   return (
     <form noValidate onSubmit={submit} className="flex flex-col gap-6">
-      <DialogHeader>
-        <DialogTitle>{server.name}</DialogTitle>
-        <DialogDescription>
+      <ResponsiveDialogHeader>
+        <ResponsiveDialogTitle>{server.name}</ResponsiveDialogTitle>
+        <ResponsiveDialogDescription>
           {server.tenant_count} stores on {server.host}. Connection details can&apos;t be changed here.
-        </DialogDescription>
-      </DialogHeader>
+        </ResponsiveDialogDescription>
+      </ResponsiveDialogHeader>
       <FieldGroup>
         <Field data-invalid={error ? true : undefined}>
           <FieldLabel htmlFor="server-max">Maximum stores</FieldLabel>
@@ -309,7 +309,7 @@ function EditServerForm({ server, onDone }: { server: Server; onDone: () => void
           <Switch checked={accepting} onCheckedChange={setAccepting} aria-label="Accept new stores" />
         </Field>
       </FieldGroup>
-      <DialogFooter>
+      <ResponsiveDialogFooter>
         <Button type="button" variant="outline" onClick={onDone} disabled={update.isPending}>
           Cancel
         </Button>
@@ -317,7 +317,7 @@ function EditServerForm({ server, onDone }: { server: Server; onDone: () => void
           {update.isPending ? <Spinner data-icon="inline-start" /> : null}
           Save
         </Button>
-      </DialogFooter>
+      </ResponsiveDialogFooter>
     </form>
   )
 }

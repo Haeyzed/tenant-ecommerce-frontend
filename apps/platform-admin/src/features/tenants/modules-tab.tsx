@@ -10,7 +10,7 @@ import { isApiError } from "@workspace/api-client"
 import { formatDate, formatMoney } from "@workspace/format"
 import { Button } from "@workspace/ui/components/button"
 import { ConfirmDialog } from "@workspace/ui/components/confirm-dialog"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@workspace/ui/components/dialog"
+import { ResponsiveDialog, ResponsiveDialogContent, ResponsiveDialogDescription, ResponsiveDialogFooter, ResponsiveDialogHeader, ResponsiveDialogTitle } from "@workspace/ui/components/responsive-dialog"
 import { Field, FieldContent, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldTitle } from "@workspace/ui/components/field"
 import { Input } from "@workspace/ui/components/input"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@workspace/ui/components/input-group"
@@ -157,9 +157,9 @@ function OverrideBadge({ override, display }: { override: FeatureOverride; displ
 
 function OverrideDialog({ tenantId, module, current, onClose }: { tenantId: string; module: TenantModule | null; current: FeatureOverride | null; onClose: () => void }) {
   return (
-    <Dialog open={module !== null} onOpenChange={(o) => (o ? null : onClose())}>
-      <DialogContent className="sm:max-w-lg">{module ? <OverrideForm key={module.key} tenantId={tenantId} module={module} current={current} onDone={onClose} /> : null}</DialogContent>
-    </Dialog>
+    <ResponsiveDialog open={module !== null} onOpenChange={(o) => (o ? null : onClose())}>
+      <ResponsiveDialogContent className="sm:max-w-lg">{module ? <OverrideForm key={module.key} tenantId={tenantId} module={module} current={current} onDone={onClose} /> : null}</ResponsiveDialogContent>
+    </ResponsiveDialog>
   )
 }
 
@@ -210,10 +210,10 @@ function OverrideForm({ tenantId, module, current, onDone }: { tenantId: string;
 
   return (
     <form noValidate onSubmit={submit} className="flex flex-col gap-6">
-      <DialogHeader>
-        <DialogTitle>{module.name}</DialogTitle>
-        <DialogDescription>{module.entitled ? "Included in this store's plan." : "Not included in this store's plan."} An override applies to this store only.</DialogDescription>
-      </DialogHeader>
+      <ResponsiveDialogHeader>
+        <ResponsiveDialogTitle>{module.name}</ResponsiveDialogTitle>
+        <ResponsiveDialogDescription>{module.entitled ? "Included in this store's plan." : "Not included in this store's plan."} An override applies to this store only.</ResponsiveDialogDescription>
+      </ResponsiveDialogHeader>
       {errors.form ? <p className="text-sm text-destructive">{errors.form}</p> : null}
       <FieldGroup>
         <RadioGroup value={effect} onValueChange={(v) => setEffect(v === "revoke" ? "revoke" : v === "suspend" ? "suspend" : "grant")} className="gap-2">
@@ -272,7 +272,7 @@ function OverrideForm({ tenantId, module, current, onDone }: { tenantId: string;
           <Textarea id="override-reason" rows={2} maxLength={255} value={reason} onChange={(e) => setReason(e.target.value)} />
         </Field>
       </FieldGroup>
-      <DialogFooter>
+      <ResponsiveDialogFooter>
         <Button type="button" variant="outline" onClick={onDone} disabled={save.isPending}>
           Cancel
         </Button>
@@ -280,7 +280,7 @@ function OverrideForm({ tenantId, module, current, onDone }: { tenantId: string;
           {save.isPending ? <Spinner data-icon="inline-start" /> : null}
           Save override
         </Button>
-      </DialogFooter>
+      </ResponsiveDialogFooter>
     </form>
   )
 }

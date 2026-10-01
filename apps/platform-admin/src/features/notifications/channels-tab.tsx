@@ -10,7 +10,7 @@ import { isApiError } from "@workspace/api-client"
 import { Badge } from "@workspace/ui/components/badge"
 import { Button } from "@workspace/ui/components/button"
 import { Checkbox } from "@workspace/ui/components/checkbox"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@workspace/ui/components/dialog"
+import { ResponsiveDialog, ResponsiveDialogContent, ResponsiveDialogDescription, ResponsiveDialogFooter, ResponsiveDialogHeader, ResponsiveDialogTitle } from "@workspace/ui/components/responsive-dialog"
 import { Field, FieldError, FieldGroup, FieldLabel } from "@workspace/ui/components/field"
 import { Spinner } from "@workspace/ui/components/spinner"
 import { Switch } from "@workspace/ui/components/switch"
@@ -125,9 +125,9 @@ export function ChannelsTab() {
 
 function AudienceDialog({ row, onClose }: { row: MatrixRow | null; onClose: () => void }) {
   return (
-    <Dialog open={row !== null} onOpenChange={(open) => (open ? null : onClose())}>
-      <DialogContent>{row ? <AudienceForm key={row.key} row={row} onDone={onClose} /> : null}</DialogContent>
-    </Dialog>
+    <ResponsiveDialog open={row !== null} onOpenChange={(open) => (open ? null : onClose())}>
+      <ResponsiveDialogContent>{row ? <AudienceForm key={row.key} row={row} onDone={onClose} /> : null}</ResponsiveDialogContent>
+    </ResponsiveDialog>
   )
 }
 
@@ -152,10 +152,10 @@ function AudienceForm({ row, onDone }: { row: MatrixRow; onDone: () => void }) {
 
   return (
     <>
-      <DialogHeader>
-        <DialogTitle>Who gets “{templateName(row.key)}”</DialogTitle>
-        <DialogDescription>The message is sent to each chosen group when the event applies to them.</DialogDescription>
-      </DialogHeader>
+      <ResponsiveDialogHeader>
+        <ResponsiveDialogTitle>Who gets “{templateName(row.key)}”</ResponsiveDialogTitle>
+        <ResponsiveDialogDescription>The message is sent to each chosen group when the event applies to them.</ResponsiveDialogDescription>
+      </ResponsiveDialogHeader>
       <FieldGroup className="gap-3">
         {AUDIENCES.map((a) => (
           <Field key={a} orientation="horizontal">
@@ -174,7 +174,7 @@ function AudienceForm({ row, onDone }: { row: MatrixRow; onDone: () => void }) {
         ))}
         {error ? <FieldError>{error}</FieldError> : null}
       </FieldGroup>
-      <DialogFooter>
+      <ResponsiveDialogFooter>
         <Button variant="outline" onClick={onDone} disabled={update.isPending}>
           Cancel
         </Button>
@@ -182,7 +182,7 @@ function AudienceForm({ row, onDone }: { row: MatrixRow; onDone: () => void }) {
           {update.isPending ? <Spinner data-icon="inline-start" /> : null}
           Save
         </Button>
-      </DialogFooter>
+      </ResponsiveDialogFooter>
     </>
   )
 }

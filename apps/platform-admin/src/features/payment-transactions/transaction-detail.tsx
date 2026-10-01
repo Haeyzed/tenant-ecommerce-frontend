@@ -11,7 +11,7 @@ import { formatDateTime, formatMoney } from "@workspace/format"
 import { Button } from "@workspace/ui/components/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@workspace/ui/components/card"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@workspace/ui/components/collapsible"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@workspace/ui/components/dialog"
+import { ResponsiveDialog, ResponsiveDialogContent, ResponsiveDialogDescription, ResponsiveDialogFooter, ResponsiveDialogHeader, ResponsiveDialogTitle } from "@workspace/ui/components/responsive-dialog"
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@workspace/ui/components/field"
 import { Input } from "@workspace/ui/components/input"
 import { PageHeader } from "@workspace/ui/components/page-header"
@@ -209,15 +209,15 @@ function RefundDialog({
   }
 
   return (
-    <Dialog open={open} onOpenChange={close}>
-      <DialogContent className="sm:max-w-md">
+    <ResponsiveDialog open={open} onOpenChange={close}>
+      <ResponsiveDialogContent className="sm:max-w-md">
         <form noValidate onSubmit={submit} className="flex flex-col gap-6">
-          <DialogHeader>
-            <DialogTitle>Refund {transaction.tenant?.name ?? "this payment"}</DialogTitle>
-            <DialogDescription>
+          <ResponsiveDialogHeader>
+            <ResponsiveDialogTitle>Refund {transaction.tenant?.name ?? "this payment"}</ResponsiveDialogTitle>
+            <ResponsiveDialogDescription>
               The money goes back through {PROVIDER_LABELS[transaction.provider] ?? transaction.provider}. {formatMoney(refundable, transaction.currency_code)} can be refunded.
-            </DialogDescription>
-          </DialogHeader>
+            </ResponsiveDialogDescription>
+          </ResponsiveDialogHeader>
           {errors.form ? <p className="text-sm text-destructive">{errors.form}</p> : null}
           <FieldGroup>
             <Field data-invalid={errors.amount ? true : undefined}>
@@ -231,7 +231,7 @@ function RefundDialog({
               {errors.reason ? <FieldError>{errors.reason}</FieldError> : null}
             </Field>
           </FieldGroup>
-          <DialogFooter>
+          <ResponsiveDialogFooter>
             <Button type="button" variant="outline" onClick={() => close(false)} disabled={refund.isPending}>
               Cancel
             </Button>
@@ -239,9 +239,9 @@ function RefundDialog({
               {refund.isPending ? <Spinner data-icon="inline-start" /> : null}
               Refund
             </Button>
-          </DialogFooter>
+          </ResponsiveDialogFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   )
 }

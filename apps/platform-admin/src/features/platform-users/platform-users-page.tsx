@@ -17,7 +17,7 @@ import { formatRelative } from "@workspace/format"
 import { Badge } from "@workspace/ui/components/badge"
 import { Button } from "@workspace/ui/components/button"
 import { ConfirmDialog } from "@workspace/ui/components/confirm-dialog"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@workspace/ui/components/dialog"
+import { ResponsiveDialog, ResponsiveDialogContent, ResponsiveDialogDescription, ResponsiveDialogFooter, ResponsiveDialogHeader, ResponsiveDialogTitle } from "@workspace/ui/components/responsive-dialog"
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@workspace/ui/components/field"
 import { Input } from "@workspace/ui/components/input"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@workspace/ui/components/input-group"
@@ -199,12 +199,12 @@ export function PlatformUsersPage() {
         noResultsState={<StateView icon="search" title="No one matches" description="Try another name, role or status." />}
       />
 
-      <Dialog open={inviting} onOpenChange={setInviting}>
-        <DialogContent className="sm:max-w-md">{inviting ? <InviteForm onDone={() => setInviting(false)} /> : null}</DialogContent>
-      </Dialog>
-      <Dialog open={editing !== null} onOpenChange={(o) => (o ? null : setEditing(null))}>
-        <DialogContent className="sm:max-w-md">{editing ? <EditForm key={editing.id} user={editing} onDone={() => setEditing(null)} /> : null}</DialogContent>
-      </Dialog>
+      <ResponsiveDialog open={inviting} onOpenChange={setInviting}>
+        <ResponsiveDialogContent className="sm:max-w-md">{inviting ? <InviteForm onDone={() => setInviting(false)} /> : null}</ResponsiveDialogContent>
+      </ResponsiveDialog>
+      <ResponsiveDialog open={editing !== null} onOpenChange={(o) => (o ? null : setEditing(null))}>
+        <ResponsiveDialogContent className="sm:max-w-md">{editing ? <EditForm key={editing.id} user={editing} onDone={() => setEditing(null)} /> : null}</ResponsiveDialogContent>
+      </ResponsiveDialog>
       {deactivating ? <DeactivateDialog key={deactivating.id} user={deactivating} onClose={() => setDeactivating(null)} /> : null}
     </>
   )
@@ -236,10 +236,10 @@ function InviteForm({ onDone }: { onDone: () => void }) {
 
   return (
     <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
-      <DialogHeader>
-        <DialogTitle>Invite a platform user</DialogTitle>
-        <DialogDescription>They get an email with a link to set their password and sign in.</DialogDescription>
-      </DialogHeader>
+      <ResponsiveDialogHeader>
+        <ResponsiveDialogTitle>Invite a platform user</ResponsiveDialogTitle>
+        <ResponsiveDialogDescription>They get an email with a link to set their password and sign in.</ResponsiveDialogDescription>
+      </ResponsiveDialogHeader>
       <FormErrors messages={formErrors} />
       <FieldGroup>
         <Controller
@@ -276,7 +276,7 @@ function InviteForm({ onDone }: { onDone: () => void }) {
           )}
         />
       </FieldGroup>
-      <DialogFooter>
+      <ResponsiveDialogFooter>
         <Button type="button" variant="outline" onClick={onDone} disabled={invite.isPending}>
           Cancel
         </Button>
@@ -284,7 +284,7 @@ function InviteForm({ onDone }: { onDone: () => void }) {
           {invite.isPending ? <Spinner data-icon="inline-start" /> : null}
           Send invitation
         </Button>
-      </DialogFooter>
+      </ResponsiveDialogFooter>
     </form>
   )
 }
@@ -324,10 +324,10 @@ function EditForm({ user, onDone }: { user: PlatformUser; onDone: () => void }) 
 
   return (
     <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
-      <DialogHeader>
-        <DialogTitle>Edit {user.name}</DialogTitle>
-        <DialogDescription>{user.has_password ? "Role changes apply at their next request." : "This person hasn't set a password yet."}</DialogDescription>
-      </DialogHeader>
+      <ResponsiveDialogHeader>
+        <ResponsiveDialogTitle>Edit {user.name}</ResponsiveDialogTitle>
+        <ResponsiveDialogDescription>{user.has_password ? "Role changes apply at their next request." : "This person hasn't set a password yet."}</ResponsiveDialogDescription>
+      </ResponsiveDialogHeader>
       <FormErrors messages={formErrors} />
       <FieldGroup>
         <Controller
@@ -364,7 +364,7 @@ function EditForm({ user, onDone }: { user: PlatformUser; onDone: () => void }) 
           )}
         />
       </FieldGroup>
-      <DialogFooter>
+      <ResponsiveDialogFooter>
         <Button type="button" variant="outline" onClick={onDone} disabled={pending}>
           Cancel
         </Button>
@@ -372,7 +372,7 @@ function EditForm({ user, onDone }: { user: PlatformUser; onDone: () => void }) 
           {pending ? <Spinner data-icon="inline-start" /> : null}
           Save
         </Button>
-      </DialogFooter>
+      </ResponsiveDialogFooter>
     </form>
   )
 }

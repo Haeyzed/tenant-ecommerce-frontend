@@ -13,7 +13,7 @@ import { formatMoney } from "@workspace/format"
 import { Alert, AlertDescription, AlertTitle } from "@workspace/ui/components/alert"
 import { Button } from "@workspace/ui/components/button"
 import { Checkbox } from "@workspace/ui/components/checkbox"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@workspace/ui/components/dialog"
+import { ResponsiveDialog, ResponsiveDialogContent, ResponsiveDialogDescription, ResponsiveDialogHeader, ResponsiveDialogTitle } from "@workspace/ui/components/responsive-dialog"
 import { Field, FieldContent, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@workspace/ui/components/field"
 import { Input } from "@workspace/ui/components/input"
 import { Spinner } from "@workspace/ui/components/spinner"
@@ -339,15 +339,15 @@ export function SignupForm({
         </p>
       </div>
 
-      <Dialog open={reading !== null} onOpenChange={(open) => (open ? null : setReading(null))}>
-        <DialogContent className="max-h-[85svh] overflow-y-auto sm:max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>{reading?.title}</DialogTitle>
-            <DialogDescription>Version {reading?.version}</DialogDescription>
-          </DialogHeader>
+      <ResponsiveDialog open={reading !== null} onOpenChange={(open) => (open ? null : setReading(null))}>
+        <ResponsiveDialogContent className="max-h-[85svh] overflow-y-auto sm:max-w-2xl">
+          <ResponsiveDialogHeader>
+            <ResponsiveDialogTitle>{reading?.title}</ResponsiveDialogTitle>
+            <ResponsiveDialogDescription>Version {reading?.version}</ResponsiveDialogDescription>
+          </ResponsiveDialogHeader>
           <div className="text-sm whitespace-pre-wrap">{reading?.body}</div>
-        </DialogContent>
-      </Dialog>
+        </ResponsiveDialogContent>
+      </ResponsiveDialog>
     </form>
   )
 }
