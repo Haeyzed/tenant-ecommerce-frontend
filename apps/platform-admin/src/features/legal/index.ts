@@ -1,0 +1,6 @@
+export { DOCUMENT_TYPES } from "./api"
+export { LegalDetail } from "./legal-detail"
+export { LegalEdit } from "./legal-edit"
+export { LegalForm } from "./legal-form"
+export { LegalPage } from "./legal-page"
+export { legalNav } from "./nav"

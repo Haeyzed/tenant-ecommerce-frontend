@@ -4,9 +4,12 @@ import { commissionsNav } from "@/features/commissions/nav"
 import { couponsNav } from "@/features/coupons/nav"
 import { dashboardNav } from "@/features/dashboard/nav"
 import { databaseServersNav } from "@/features/database-servers/nav"
+import { legalNav } from "@/features/legal/nav"
+import { notificationsNav } from "@/features/notifications/nav"
 import { paymentGatewaysNav } from "@/features/payment-gateways/nav"
 import { transactionsNav } from "@/features/payment-transactions/nav"
 import { plansNav } from "@/features/plans/nav"
+import { platformUsersNav } from "@/features/platform-users/nav"
 import { registrationsNav } from "@/features/registrations/nav"
 import { settingsNav } from "@/features/settings/nav"
 import { subscriptionsNav } from "@/features/subscriptions/nav"
@@ -35,5 +38,8 @@ export const navEntries: NavEntry[] = [
   ...commissionsNav,
   ...couponsNav,
   ...paymentGatewaysNav,
+  ...legalNav,
+  ...platformUsersNav,
+  ...notificationsNav,
   ...settingsNav,
 ]
