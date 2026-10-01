@@ -154,6 +154,8 @@ function ExtendTrialDialog({ subscription, open, onOpenChange }: { subscription:
   const [days, setDays] = useState("7")
   const [reason, setReason] = useState("")
   const [errors, setErrors] = useState<{ days?: string; reason?: string; form?: string }>({})
+  // "Now" for the end-date preview, taken once rather than on every render.
+  const [now] = useState(() => Date.now())
 
   function close(next: boolean) {
     if (!next) {
@@ -190,7 +192,7 @@ function ExtendTrialDialog({ subscription, open, onOpenChange }: { subscription:
     }
   }
 
-  const base = subscription.trial_ends_at && Date.parse(subscription.trial_ends_at) > Date.now() ? new Date(subscription.trial_ends_at) : new Date()
+  const base = subscription.trial_ends_at && Date.parse(subscription.trial_ends_at) > now ? new Date(subscription.trial_ends_at) : new Date(now)
   const n = Number(days)
   const preview = Number.isInteger(n) && n >= 1 && n <= 365 ? new Date(base.getTime() + n * 86_400_000) : null
 

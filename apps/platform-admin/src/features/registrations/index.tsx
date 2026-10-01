@@ -5,12 +5,12 @@ import { parseAsInteger, parseAsString, parseAsStringLiteral, useQueryStates } f
 import { useEffect, useMemo, useState } from "react"
 
 import { StateView } from "@workspace/admin-kit/states"
-import { DataTable, type DataColumn } from "@workspace/admin-kit/table"
+import { DataTable, FilterSelect, type DataColumn } from "@workspace/admin-kit/table"
 import { unwrapPage } from "@workspace/api-client"
+import type { operations } from "@workspace/contract/landlord"
 import { formatDateTime } from "@workspace/format"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@workspace/ui/components/input-group"
 import { PageHeader } from "@workspace/ui/components/page-header"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@workspace/ui/components/select"
 import { StatusBadge, type StatusTone } from "@workspace/ui/components/status-badge"
 import { Icon } from "@workspace/ui/icons"
 
@@ -34,20 +34,7 @@ const params = {
 }
 
 /** @source App\Modules\Tenancy\Http\Controllers\Landlord\Admin\TenantRegistrationController */
-type Registration = {
-  id: string
-  business_name: string
-  slug: string
-  owner_name: string
-  email: string
-  plan: string
-  billing_interval: string
-  status: string
-  verification_attempts: number
-  verified_at: string | null
-  tenant_id: string | null
-  created_at: string | null
-}
+type Registration = operations["landlord.tenancy.registrations.index"]["responses"][200]["content"]["application/json"]["data"][number]
 
 /** Self-service sign-ups (spec §25.1): read-only, filterable by status and email. */
 export function RegistrationsPage() {
@@ -71,7 +58,8 @@ export function RegistrationsPage() {
             query: {
               status: filters.status ?? undefined,
               email: filters.email || undefined,
-              ...({ page: filters.page, per_page: filters.per_page } as Record<string, number>),
+              page: filters.page,
+              per_page: filters.per_page,
             },
           },
           signal,
@@ -128,7 +116,7 @@ export function RegistrationsPage() {
       <DataTable<Registration>
         tableId="tenant-registrations"
         columns={columns}
-        rows={query.data?.items as Registration[] | undefined}
+        rows={query.data?.items}
         getRowId={(r) => r.id}
         isLoading={query.isPending}
         isFetching={query.isFetching}
@@ -148,25 +136,14 @@ export function RegistrationsPage() {
               </InputGroupAddon>
               <InputGroupInput value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Search by email" aria-label="Search by email" />
             </InputGroup>
-            <Select
-              value={filters.status ?? "all"}
-              onValueChange={(value) => void setFilters({ status: value === "all" || value === null ? null : (value as (typeof STATUSES)[number]), page: 1 })}
-              items={[{ value: "all", label: "Any status" }, ...STATUSES.map((s) => ({ value: s, label: STATUS[s]?.label ?? s }))]}
-            >
-              <SelectTrigger aria-label="Status" className="w-full sm:w-52">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="all">Any status</SelectItem>
-                  {STATUSES.map((s) => (
-                    <SelectItem key={s} value={s}>
-                      {STATUS[s]?.label}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <FilterSelect
+              label="Status"
+              anyLabel="Any status"
+              value={filters.status}
+              options={STATUSES.map((s) => ({ value: s, label: STATUS[s]?.label ?? s }))}
+              onChange={(status) => void setFilters({ status, page: 1 })}
+              className="sm:w-52"
+            />
           </>
         }
         emptyState={<StateView icon="userAdd" title="No sign-ups yet" description="Stores that register on the platform website appear here." />}
