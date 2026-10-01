@@ -16,6 +16,11 @@ const PAGES = [
   "/platform-coupons",
   "/platform-coupons/new",
   "/payment-gateways",
+  "/legal-documents",
+  "/legal-documents/new",
+  "/platform-users",
+  "/notifications",
+  "/notifications?tab=channels",
   "/platform-settings",
 ]
 

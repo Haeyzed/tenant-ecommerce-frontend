@@ -1,5 +1,5 @@
 {
-  "backendCommit": "1e4ae4e870e0788d29df68dc2454ac20681af8b0",
+  "backendCommit": "48f15ba3a709dc41015b099ef0b3a56ce42fae82",
   "files": {
     "landlord.openapi.json": "44961eeb7b9ca34310a3a5a36acff58ede51b6fc05e045f799fd7a51d137ec37",
     "tenant.openapi.json": "9181d004fde4351ec4bb1dd4d573a3640f5a78170b9244f578ce5e953922ecad",
