@@ -116,7 +116,12 @@ export function SubscriptionsPage() {
   return (
     <>
       <PageHeader title="Subscriptions" description="Every store's plan, billing status and next renewal. Test subscriptions are marked." />
-      <KpiStrip kpis={metrics.data} loading={metrics.isPending} placeholders={5} />
+      <KpiStrip
+        kpis={metrics.data}
+        loading={metrics.isPending}
+        placeholders={5}
+        caption={filters.mode === "test" ? "Figures for test billing." : "Figures for live billing. Choose “Test only” to see test figures."}
+      />
       <DataTable<Subscription>
         tableId="subscriptions"
         columns={columns}

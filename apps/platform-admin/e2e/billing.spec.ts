@@ -66,7 +66,7 @@ test("transactions filter by type and a charge offers a bounded refund", async (
   test.skip((await row.textContent())?.includes("No transactions") ?? true, "No successful charge to open")
   await row.getByRole("link").first().click()
   await expect(page).toHaveURL(/\/payment-transactions\/\d+/)
-  await expect(page.getByText("References")).toBeVisible()
+  await expect(page.getByText("References", { exact: true })).toBeVisible()
 
   const refund = page.getByRole("button", { name: "Refund" })
   if (await refund.isVisible()) {

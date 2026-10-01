@@ -105,7 +105,11 @@ export function TransactionsPage() {
   return (
     <>
       <PageHeader title="Payment transactions" description="Subscription charges, refunds and chargebacks across every gateway. Test transactions are marked." />
-      <KpiStrip kpis={metrics.data} loading={metrics.isPending} />
+      <KpiStrip
+        kpis={metrics.data}
+        loading={metrics.isPending}
+        caption={filters.mode === "test" ? "Figures for test billing." : "Figures for live billing. Choose “Test only” to see test figures."}
+      />
       <DataTable<Transaction>
         tableId="payment-transactions"
         columns={columns}
