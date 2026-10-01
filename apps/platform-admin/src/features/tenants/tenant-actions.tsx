@@ -164,7 +164,7 @@ export function TenantActions({ tenant }: { tenant: Tenant }) {
               }}
               aria-invalid={error ? true : undefined}
             />
-            {error ? <FieldError>{error}</FieldError> : <FieldDescription>Shown on the store's record.</FieldDescription>}
+            {error ? <FieldError>{error}</FieldError> : <FieldDescription>Shown on the store&apos;s record.</FieldDescription>}
           </Field>
         ) : error ? (
           <p className="text-sm text-destructive">{error}</p>

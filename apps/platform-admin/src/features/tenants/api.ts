@@ -67,7 +67,7 @@ export const tenantSettingsQuery = (id: string) =>
   })
 
 /** Any tenant change can move its state, modules and limits: refresh it all in the background. */
-function useRefreshTenant(id: string) {
+function useRefreshTenant() {
   const client = useQueryClient()
   return () => void client.invalidateQueries({ queryKey: tenantKeys.all })
 }
@@ -75,7 +75,7 @@ function useRefreshTenant(id: string) {
 export type LifecycleAction = "suspend" | "reactivate" | "close" | "restore" | "export"
 
 export function useTenantAction(id: string) {
-  const refresh = useRefreshTenant(id)
+  const refresh = useRefreshTenant()
   const client = useQueryClient()
   return useMutation({
     mutationFn: async ({ action, reason }: { action: LifecycleAction; reason?: string }) => {
@@ -103,7 +103,7 @@ export function useTenantAction(id: string) {
 }
 
 export function useSetFeatureOverride(id: string) {
-  const refresh = useRefreshTenant(id)
+  const refresh = useRefreshTenant()
   return useMutation({
     mutationFn: async (body: FeatureOverrideBody) => unwrap(api.POST("/admin/tenants/{tenant}/features", { params: { path: { tenant: id } }, body })),
     onSuccess: refresh,
@@ -111,7 +111,7 @@ export function useSetFeatureOverride(id: string) {
 }
 
 export function useRemoveFeatureOverride(id: string) {
-  const refresh = useRefreshTenant(id)
+  const refresh = useRefreshTenant()
   return useMutation({
     mutationFn: async (featureKey: string) =>
       unwrap(api.DELETE("/admin/tenants/{tenant}/features/{featureKey}", { params: { path: { tenant: id, featureKey } } })),
@@ -120,7 +120,7 @@ export function useRemoveFeatureOverride(id: string) {
 }
 
 export function useSetLimitOverride(id: string) {
-  const refresh = useRefreshTenant(id)
+  const refresh = useRefreshTenant()
   return useMutation({
     mutationFn: async (body: LimitOverrideBody) => unwrap(api.PATCH("/admin/tenants/{tenant}/limit-overrides", { params: { path: { tenant: id } }, body })),
     onSuccess: refresh,
@@ -128,7 +128,7 @@ export function useSetLimitOverride(id: string) {
 }
 
 export function useRemoveLimitOverride(id: string) {
-  const refresh = useRefreshTenant(id)
+  const refresh = useRefreshTenant()
   return useMutation({
     mutationFn: async (limitKey: string) =>
       unwrap(api.DELETE("/admin/tenants/{tenant}/limit-overrides/{limitKey}", { params: { path: { tenant: id, limitKey } } })),
@@ -137,7 +137,7 @@ export function useRemoveLimitOverride(id: string) {
 }
 
 export function useUpdateTenantSettings(id: string) {
-  const refresh = useRefreshTenant(id)
+  const refresh = useRefreshTenant()
   return useMutation({
     mutationFn: async (values: { commission_rate: string | null }) =>
       unwrap(api.PATCH("/admin/tenants/{tenant}/settings", { params: { path: { tenant: id } }, body: { values } })),

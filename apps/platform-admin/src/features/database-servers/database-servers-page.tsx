@@ -269,7 +269,7 @@ function EditServerForm({ server, onDone }: { server: Server; onDone: () => void
       <DialogHeader>
         <DialogTitle>{server.name}</DialogTitle>
         <DialogDescription>
-          {server.tenant_count} stores on {server.host}. Connection details can't be changed here.
+          {server.tenant_count} stores on {server.host}. Connection details can&apos;t be changed here.
         </DialogDescription>
       </DialogHeader>
       <FieldGroup>

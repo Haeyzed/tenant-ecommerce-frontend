@@ -84,7 +84,7 @@ export function LimitsTab({ details }: { details: TenantDetails }) {
   return (
     <div className="flex flex-col gap-4">
       <p className="max-w-2xl text-sm text-muted-foreground">
-        An override replaces the plan's limit for this store, for example a temporary raise or a paid extra. Lowering a limit never deletes data.
+        An override replaces the plan&apos;s limit for this store, for example a temporary raise or a paid extra. Lowering a limit never deletes data.
       </p>
       <div className="overflow-x-auto rounded-lg border">
         <Table>
@@ -241,7 +241,7 @@ function LimitForm({
         <Field orientation="horizontal">
           <FieldContent>
             <FieldTitle>Charge for it</FieldTitle>
-            <FieldDescription>Bill a monthly extra with the store's subscription.</FieldDescription>
+            <FieldDescription>Bill a monthly extra with the store&apos;s subscription.</FieldDescription>
           </FieldContent>
           <Switch checked={billed} onCheckedChange={setBilled} aria-label="Charge for it" />
         </Field>

@@ -75,7 +75,7 @@ export function OverviewTab({ details }: { details: TenantDetails }) {
         <Card className="min-w-0">
           <CardHeader>
             <CardTitle>Domains</CardTitle>
-            <CardDescription>The store's addresses. Custom domains are managed by the store.</CardDescription>
+            <CardDescription>The store&apos;s addresses. Custom domains are managed by the store.</CardDescription>
           </CardHeader>
           <CardContent className="px-0">
             {(t.domains ?? []).length === 0 ? (
@@ -105,7 +105,7 @@ export function OverviewTab({ details }: { details: TenantDetails }) {
       <Card>
         <CardHeader>
           <CardTitle>Usage</CardTitle>
-          <CardDescription>Against the plan's limits, including any store-specific overrides.</CardDescription>
+          <CardDescription>Against the plan&apos;s limits, including any store-specific overrides.</CardDescription>
         </CardHeader>
         <CardContent>
           {details.usage === null ? (
