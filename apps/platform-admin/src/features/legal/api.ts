@@ -10,10 +10,8 @@ import { api } from "@/shell/api-client"
 export type LegalDocument = components["schemas"]["LegalDocumentResource"]
 export type LegalFilters = NonNullable<operations["landlord.legal.index"]["parameters"]["query"]>
 export type DraftBody = operations["landlord.legal.store"]["requestBody"]["content"]["application/json"]
-export type DocumentType = DraftBody["document_type"]
-
-export const DOCUMENT_TYPES: readonly DocumentType[] = ["terms_of_service", "privacy_policy", "data_processing_agreement", "acceptable_use_policy", "affiliate_agreement"]
-export const LEGAL_STATUSES = ["draft", "published", "retired"] as const
+export type { DocumentType } from "./labels"
+export { DOCUMENT_TYPES, LEGAL_STATUSES } from "./labels"
 
 export const legalKeys = {
   all: ["legal-documents"] as const,

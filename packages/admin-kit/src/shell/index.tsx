@@ -385,3 +385,5 @@ export function HeaderIconButton({
     </Button>
   )
 }
+
+export { NotificationBell, unreadLabel, type BellItem } from "./notification-bell"

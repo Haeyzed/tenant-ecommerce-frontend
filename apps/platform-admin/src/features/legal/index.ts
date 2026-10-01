@@ -1,4 +1,4 @@
-export { DOCUMENT_TYPES } from "./api"
+export { DOCUMENT_TYPES } from "./labels"
 export { LegalDetail } from "./legal-detail"
 export { LegalEdit } from "./legal-edit"
 export { LegalForm } from "./legal-form"

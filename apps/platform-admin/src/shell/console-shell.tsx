@@ -9,6 +9,8 @@ import type { VisibleGroup } from "@workspace/admin-kit/nav"
 import { AppShell } from "@workspace/admin-kit/shell"
 import type { DisplaySettings } from "@workspace/format"
 
+import { InboxBell } from "@/features/inbox"
+
 import { ConsoleProvider } from "./console-context"
 
 type Props = {
@@ -43,6 +45,7 @@ export function ConsoleShell({ brand, user, groups, allowedRoutes, display, defa
           onLogout={logout}
           defaultOpen={defaultOpen}
           homeHref="/dashboard"
+          headerEnd={<InboxBell />}
         >
           {children}
         </AppShell>

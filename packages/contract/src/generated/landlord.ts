@@ -8232,6 +8232,7 @@ export interface operations {
     "landlord.notifications.inbox.index": {
         parameters: {
             query?: {
+                page?: number;
                 per_page?: number;
                 unread?: boolean;
             };
@@ -8248,15 +8249,21 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: {
-                            body: unknown;
+                            body: string | null;
                             created_at: string | null;
-                            data: unknown;
+                            /** @description Links and ids for the resource it is about, e.g. `import_url` */
+                            data: {
+                                [key: string]: unknown;
+                            };
                             id: string;
                             key: string;
                             read_at: string | null;
-                            /** @description "platform" for messages from the platform (UD-10), else "store". */
-                            source: unknown;
-                            subject: unknown;
+                            /**
+                             * @description "platform" for messages from the platform (UD-10), else "store".
+                             * @enum {string}
+                             */
+                            source: "store" | "platform";
+                            subject: string | null;
                         }[];
                         errors: {
                             [key: string]: unknown;
@@ -8282,6 +8289,7 @@ export interface operations {
                     };
                 };
             };
+            422: components["responses"]["ValidationException"];
         };
     };
     "landlord.notifications.inbox.read": {

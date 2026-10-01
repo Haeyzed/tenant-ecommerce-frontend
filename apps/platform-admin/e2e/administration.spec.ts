@@ -51,7 +51,7 @@ test("a message's wording rejects unknown placeholders and previews known ones",
   await row.getByRole("button", { name: "Edit" }).click()
 
   const sheet = page.getByRole("dialog")
-  const message = sheet.getByLabel("Message")
+  const message = sheet.getByLabel("Message", { exact: true })
   await message.fill("Hello {{ownr_name}}, ")
   await sheet.getByRole("button", { name: "Save" }).click()
   await expect(sheet.getByText(/Unknown placeholder \{\{ownr_name\}\}/)).toBeVisible()
