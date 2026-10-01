@@ -6,6 +6,8 @@ import { trackPageErrors } from "./helpers"
 const PAGES = [
   "/dashboard",
   "/tenant-registrations",
+  "/tenants",
+  "/database-servers",
   "/plans",
   "/plans/new",
   "/subscriptions",
