@@ -62,7 +62,6 @@ export function ChannelsTab() {
         id: channel,
         header: CHANNEL_LABELS[channel] ?? channel,
         mobile: "detail",
-        align: "end",
         cell: (r) => {
           const on = r.channels[channel] ?? false
           // A required message keeps at least one channel (the API refuses otherwise).
