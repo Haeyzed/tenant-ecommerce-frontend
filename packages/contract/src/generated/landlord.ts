@@ -10751,6 +10751,7 @@ export interface operations {
         parameters: {
             query?: {
                 country?: number;
+                page?: number;
                 per_page?: number;
                 plan?: string;
                 search?: string;
@@ -10819,27 +10820,31 @@ export interface operations {
                                 activation: string | null;
                                 activation_mode: string;
                                 class: string;
-                                dependents: unknown[];
+                                dependents: string[];
                                 entitled: boolean;
-                                inactive_periods: ({
-                                    from: string | null;
+                                inactive_periods: {
+                                    from: string;
                                     to: string | null;
-                                } | {
-                                    from: null;
-                                    to: null;
-                                })[];
+                                }[];
                                 key: string;
-                                missing_requirements: unknown[];
+                                missing_requirements: string[];
                                 name: string;
-                                read_when_inactive: string;
-                                requires: string;
+                                read_when_inactive: boolean;
+                                requires: string[];
                                 section: string;
                                 source: string;
                                 state: string;
                             }[];
-                            subscription: components["schemas"]["SubscriptionResource"] & Record<string, never>;
-                            tenant: components["schemas"]["TenantResource"] & Record<string, never>;
-                            usage: string[] | null;
+                            subscription: components["schemas"]["SubscriptionResource"] | null;
+                            tenant: components["schemas"]["TenantResource"];
+                            /** @description Usage and limit per count and storage key; null before provisioning. */
+                            usage: {
+                                [key: string]: {
+                                    label: string;
+                                    limit: number | null;
+                                    used: number | null;
+                                };
+                            } | null;
                         };
                         errors: {
                             [key: string]: unknown;
@@ -11222,20 +11227,17 @@ export interface operations {
                             activation: string | null;
                             activation_mode: string;
                             class: string;
-                            dependents: unknown[];
+                            dependents: string[];
                             entitled: boolean;
-                            inactive_periods: ({
-                                from: string | null;
+                            inactive_periods: {
+                                from: string;
                                 to: string | null;
-                            } | {
-                                from: null;
-                                to: null;
-                            })[];
+                            }[];
                             key: string;
-                            missing_requirements: unknown[];
+                            missing_requirements: string[];
                             name: string;
-                            read_when_inactive: string;
-                            requires: string;
+                            read_when_inactive: boolean;
+                            requires: string[];
                             section: string;
                             source: string;
                             state: string;
@@ -11368,7 +11370,16 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description Setting key to value, e.g. {"commission_rate": "2.5"}; null resets to the platform default. */
+                    values: {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
         responses: {
             200: {
                 headers: {
@@ -11394,6 +11405,7 @@ export interface operations {
                 };
             };
             404: components["responses"]["ModelNotFoundException"];
+            422: components["responses"]["ValidationException"];
         };
     };
     "landlord.tenancy.tenants.suspend": {

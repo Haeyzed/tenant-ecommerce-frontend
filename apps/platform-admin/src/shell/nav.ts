@@ -3,12 +3,14 @@ import type { NavEntry, NavGroup } from "@workspace/admin-kit/nav"
 import { commissionsNav } from "@/features/commissions/nav"
 import { couponsNav } from "@/features/coupons/nav"
 import { dashboardNav } from "@/features/dashboard/nav"
+import { databaseServersNav } from "@/features/database-servers/nav"
 import { paymentGatewaysNav } from "@/features/payment-gateways/nav"
 import { transactionsNav } from "@/features/payment-transactions/nav"
 import { plansNav } from "@/features/plans/nav"
 import { registrationsNav } from "@/features/registrations/nav"
 import { settingsNav } from "@/features/settings/nav"
 import { subscriptionsNav } from "@/features/subscriptions/nav"
+import { tenantsNav } from "@/features/tenants/nav"
 
 /** Sidebar groups in display order (spec §25.1). */
 export const navGroups: NavGroup[] = [
@@ -24,7 +26,9 @@ export const navGroups: NavGroup[] = [
 /** Each feature contributes its entries; visibility comes from permissions (spec §17.2). */
 export const navEntries: NavEntry[] = [
   ...dashboardNav,
+  ...tenantsNav,
   ...registrationsNav,
+  ...databaseServersNav,
   ...plansNav,
   ...subscriptionsNav,
   ...transactionsNav,

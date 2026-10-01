@@ -32108,20 +32108,17 @@ export interface operations {
                             activation: string | null;
                             activation_mode: string;
                             class: string;
-                            dependents: unknown[];
+                            dependents: string[];
                             entitled: boolean;
-                            inactive_periods: ({
-                                from: string | null;
+                            inactive_periods: {
+                                from: string;
                                 to: string | null;
-                            } | {
-                                from: null;
-                                to: null;
-                            })[];
+                            }[];
                             key: string;
-                            missing_requirements: unknown[];
+                            missing_requirements: string[];
                             name: string;
-                            read_when_inactive: string;
-                            requires: string;
+                            read_when_inactive: boolean;
+                            requires: string[];
                             section: string;
                             source: string;
                             state: string;
@@ -32160,20 +32157,17 @@ export interface operations {
                             activation: string | null;
                             activation_mode: string;
                             class: string;
-                            dependents: unknown[];
+                            dependents: string[];
                             entitled: boolean;
-                            inactive_periods: ({
-                                from: string | null;
+                            inactive_periods: {
+                                from: string;
                                 to: string | null;
-                            } | {
-                                from: null;
-                                to: null;
-                            })[];
+                            }[];
                             key: string;
-                            missing_requirements: unknown[];
+                            missing_requirements: string[];
                             name: string;
-                            read_when_inactive: string;
-                            requires: string;
+                            read_when_inactive: boolean;
+                            requires: string[];
                             section: string;
                             source: string;
                             state: string;
@@ -32212,20 +32206,17 @@ export interface operations {
                             activation: string | null;
                             activation_mode: string;
                             class: string;
-                            dependents: unknown[];
+                            dependents: string[];
                             entitled: boolean;
-                            inactive_periods: ({
-                                from: string | null;
+                            inactive_periods: {
+                                from: string;
                                 to: string | null;
-                            } | {
-                                from: null;
-                                to: null;
-                            })[];
+                            }[];
                             key: string;
-                            missing_requirements: unknown[];
+                            missing_requirements: string[];
                             name: string;
-                            read_when_inactive: string;
-                            requires: string;
+                            read_when_inactive: boolean;
+                            requires: string[];
                             section: string;
                             source: string;
                             state: string;
