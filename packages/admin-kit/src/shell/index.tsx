@@ -14,6 +14,7 @@ import { Badge } from "@workspace/ui/components/badge"
 import {
   Breadcrumb,
   BreadcrumbItem,
+  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -160,15 +161,30 @@ function NavBreadcrumb({
 
   if (!match) return null
 
+  // "Tenants › Tenants" adds nothing: skip the group when it repeats the page.
+  const showGroup = match.group.label !== match.entry.label
+  // Below a list (a record or a form), the list crumb links back to it.
+  const isNested = pathname !== match.entry.href
+
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        <BreadcrumbItem className="hidden sm:inline-flex">
-          {match.group.label}
-        </BreadcrumbItem>
-        <BreadcrumbSeparator className="hidden sm:inline-flex" />
+        {showGroup ? (
+          <>
+            <BreadcrumbItem className="hidden sm:inline-flex">
+              {match.group.label}
+            </BreadcrumbItem>
+            <BreadcrumbSeparator className="hidden sm:inline-flex" />
+          </>
+        ) : null}
         <BreadcrumbItem>
-          <BreadcrumbPage>{match.entry.label}</BreadcrumbPage>
+          {isNested ? (
+            <BreadcrumbLink render={<Link href={match.entry.href} />}>
+              {match.entry.label}
+            </BreadcrumbLink>
+          ) : (
+            <BreadcrumbPage>{match.entry.label}</BreadcrumbPage>
+          )}
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

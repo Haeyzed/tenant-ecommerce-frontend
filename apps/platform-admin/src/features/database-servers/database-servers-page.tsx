@@ -12,6 +12,7 @@ import { StateView } from "@workspace/admin-kit/states"
 import { DataTable, type DataColumn } from "@workspace/admin-kit/table"
 import { unwrap } from "@workspace/api-client"
 import type { operations } from "@workspace/contract/landlord"
+import { Alert, AlertDescription, AlertTitle } from "@workspace/ui/components/alert"
 import { Button } from "@workspace/ui/components/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@workspace/ui/components/dialog"
 import { Field, FieldContent, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldTitle } from "@workspace/ui/components/field"
@@ -102,6 +103,13 @@ export function DatabaseServersPage() {
           ) : null
         }
       />
+      {query.data && query.data.length > 0 && !query.data.some((s) => s.is_accepting_tenants && s.tenant_count < s.max_tenants) ? (
+        <Alert variant="destructive">
+          <Icon name="alert" />
+          <AlertTitle>New sign-ups will fail</AlertTitle>
+          <AlertDescription>No registered server is accepting new stores with room to spare. Raise a server&apos;s capacity or turn on “Accept new stores”.</AlertDescription>
+        </Alert>
+      ) : null}
       <DataTable<Server>
         tableId="database-servers"
         columns={columns}
@@ -119,7 +127,13 @@ export function DatabaseServersPage() {
             </Button>
           ) : null
         }
-        emptyState={<StateView icon="device" title="No database servers" description="Add a server so new stores can be set up." />}
+        emptyState={
+          <StateView
+            icon="device"
+            title="Single-server mode"
+            description="Every store's database is on the main database server. Register servers to spread new stores across several machines; once one is registered, new stores only go to registered servers."
+          />
+        }
         noResultsState={<StateView icon="search" title="No servers" description="" />}
       />
       <Dialog open={adding} onOpenChange={setAdding}>
