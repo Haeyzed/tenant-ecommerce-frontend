@@ -74,3 +74,15 @@ test("required messages keep their last channel", async ({ page }) => {
   await expect(row.getByRole("switch", { name: "Email for Registration verification" })).toBeDisabled()
   await expect(row.getByRole("switch", { name: "SMS for Registration verification" })).toBeEnabled()
 })
+
+test("the header bell opens the platform user's inbox", async ({ page }) => {
+  const errors = trackPageErrors(page)
+  await page.goto("/dashboard")
+  await page.getByRole("button", { name: /^Notifications/ }).click()
+  const panel = page.getByRole("dialog")
+  await expect(panel.getByText("Notifications", { exact: true })).toBeVisible()
+  await expect(panel.getByText("You're all caught up.").or(panel.getByRole("listitem").first())).toBeVisible()
+  await page.keyboard.press("Escape")
+  await expect(panel).toBeHidden()
+  expect(errors).toEqual([])
+})

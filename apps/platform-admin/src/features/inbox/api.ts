@@ -29,7 +29,8 @@ export function unreadCountOf(page: Pick<Page<unknown>, "meta">): number {
   return typeof count === "number" && count >= 0 ? count : 0
 }
 
-function markLocally(inbox: Inbox | undefined, ids: Set<string> | "all"): Inbox | undefined {
+/** Marks items read in a cached inbox and lowers the unread count to match. */
+export function markLocally(inbox: Inbox | undefined, ids: Set<string> | "all"): Inbox | undefined {
   if (!inbox) return inbox
   const now = new Date().toISOString()
   let marked = 0
