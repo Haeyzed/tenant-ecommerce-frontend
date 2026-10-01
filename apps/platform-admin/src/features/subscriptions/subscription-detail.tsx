@@ -208,12 +208,18 @@ function ExtendTrialDialog({ subscription, open, onOpenChange }: { subscription:
           <FieldGroup>
             <Field data-invalid={errors.days ? true : undefined}>
               <FieldLabel htmlFor="trial-days">Extra days</FieldLabel>
-              <Input id="trial-days" inputMode="numeric" value={days} onChange={(e) => setDays(e.target.value)} className="w-32" aria-invalid={errors.days ? true : undefined} />
+              <Input id="trial-days" inputMode="numeric" value={days} onChange={(e) => {
+                  setDays(e.target.value)
+                  setErrors((e) => ({ ...e, days: undefined }))
+                }} className="w-32" aria-invalid={errors.days ? true : undefined} />
               {errors.days ? <FieldError>{errors.days}</FieldError> : preview ? <FieldDescription>New end date: {formatDate(preview.toISOString())}</FieldDescription> : null}
             </Field>
             <Field data-invalid={errors.reason ? true : undefined}>
               <FieldLabel htmlFor="trial-reason">Reason</FieldLabel>
-              <Textarea id="trial-reason" rows={3} maxLength={500} value={reason} onChange={(e) => setReason(e.target.value)} aria-invalid={errors.reason ? true : undefined} />
+              <Textarea id="trial-reason" rows={3} maxLength={500} value={reason} onChange={(e) => {
+                  setReason(e.target.value)
+                  setErrors((e) => ({ ...e, reason: undefined }))
+                }} aria-invalid={errors.reason ? true : undefined} />
               {errors.reason ? <FieldError>{errors.reason}</FieldError> : <FieldDescription>Recorded in the activity log with your name.</FieldDescription>}
             </Field>
           </FieldGroup>
