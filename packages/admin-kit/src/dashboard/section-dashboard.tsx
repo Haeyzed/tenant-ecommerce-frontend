@@ -5,7 +5,7 @@ import dynamic from "next/dynamic"
 import { parseAsString, parseAsStringLiteral, useQueryStates } from "nuqs"
 import type { ReactNode } from "react"
 
-import { formatDate, formatDateTime, formatMoney, formatNumber, formatPercent, type DisplaySettings } from "@workspace/format"
+import { formatDate, formatDateTime, formatMoney, formatNumber, formatPercent, formatRelative, type DisplaySettings } from "@workspace/format"
 import { Alert, AlertTitle } from "@workspace/ui/components/alert"
 import { Card, CardContent, CardHeader, CardTitle } from "@workspace/ui/components/card"
 import { PageHeader } from "@workspace/ui/components/page-header"
@@ -59,7 +59,7 @@ function kpiColumns(count: number): number {
 }
 
 /** TableBlock cell formats: text, count, quantity, money (currency_code on the row), percent, datetime, status. */
-function cellValue(row: Record<string, unknown>, key: string, format: string, display: DisplaySettings | undefined): string {
+function cellValue(row: Record<string, unknown>, key: string, format: string): string {
   const value = row[key]
   if (value === null || value === undefined || value === "") return "—"
 
@@ -73,7 +73,8 @@ function cellValue(row: Record<string, unknown>, key: string, format: string, di
     case "percent":
       return formatPercent(String(value))
     case "datetime":
-      return formatDateTime(String(value), display)
+      // Dashboard cards are narrow summaries: relative time, full timestamp on hover.
+      return formatRelative(String(value))
     case "status":
       return String(value).replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase())
     default:
@@ -105,8 +106,12 @@ function BlockTable({ table, display }: { table: TableBlock; display: DisplaySet
               {table.rows.map((row, r) => (
                 <TableRow key={r}>
                   {table.columns.map((c, i) => (
-                    <TableCell key={c.key} className={i === 0 ? "max-w-56 truncate ps-4 font-medium" : "text-end tabular-nums last:pe-4"}>
-                      {cellValue(row, c.key, c.format, display)}
+                    <TableCell
+                      key={c.key}
+                      className={i === 0 ? "max-w-56 truncate ps-4 font-medium" : "text-end whitespace-nowrap tabular-nums last:pe-4"}
+                      title={c.format === "datetime" && row[c.key] ? formatDateTime(String(row[c.key]), display) : undefined}
+                    >
+                      {cellValue(row, c.key, c.format)}
                     </TableCell>
                   ))}
                 </TableRow>

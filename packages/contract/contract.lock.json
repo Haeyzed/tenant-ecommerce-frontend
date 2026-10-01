@@ -1,7 +1,7 @@
 {
   "backendCommit": "c59a6113f76f8fcf8fcb639e79faa998b05b6eda",
   "files": {
-    "landlord.openapi.json": "da37a50196e3810f283cfd588f6d3ba6958d38b39b879f619389a30bdf9dd95d",
+    "landlord.openapi.json": "b2664cbcf08424f18ca9d9e35037ac7fa38ce34418645013a2c28e0e1f890e6a",
     "tenant.openapi.json": "faecea34fcf5024c9a4e491ecb40103ff6af113f3e812325e58737dcc1fd6a86",
     "routes.landlord.json": "e076cf47e7b4713828f3dbb26905265561dd37612a9f82617641e35d7e7fbf3a",
     "routes.tenant.json": "f6ba7df01cebb96f315482309adbed4cd3085a6eeb2cbf692d08d073e1680bbd",

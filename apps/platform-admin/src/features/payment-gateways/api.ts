@@ -59,9 +59,8 @@ export function normalizeGateway(row: RawGateway): Gateway | null {
     mode: row.mode,
     configured: row.configured,
     publicKey: row.public_key,
-    // Typed as strings by the generator; the API sends booleans.
-    hasSecretKey: Boolean(row.has_secret_key),
-    hasWebhookSecret: Boolean(row.has_webhook_secret),
+    hasSecretKey: row.has_secret_key,
+    hasWebhookSecret: row.has_webhook_secret,
     enabled: row.is_enabled,
     isDefault: row.is_default,
     sortOrder: row.sort_order,

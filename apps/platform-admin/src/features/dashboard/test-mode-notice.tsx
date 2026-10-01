@@ -1,23 +1,41 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import Link from "next/link"
+import { parseAsStringLiteral, useQueryState } from "nuqs"
 
 import { useCan } from "@workspace/access/react"
-import { Alert, AlertDescription, AlertTitle } from "@workspace/ui/components/alert"
+import { BILLING_MODES } from "@workspace/admin-kit/dashboard"
+import { Alert, AlertAction, AlertDescription, AlertTitle } from "@workspace/ui/components/alert"
+import { Button } from "@workspace/ui/components/button"
 import { Icon } from "@workspace/ui/icons"
 
 import { gatewaysQuery } from "@/features/payment-gateways/api"
 
 /**
- * Subscription, MRR, revenue and payment figures count live money only
- * (the metrics filter on live mode, and test subscriptions record no MRR,
- * spec §14.10). While billing is in test mode, sign-ups and payments made in
- * testing therefore never appear; say so instead of showing silent zeros.
+ * Money figures (subscriptions, MRR, revenue, payments) read one billing
+ * mode at a time (§22.1 `mode`). Viewing test data is flagged so it is
+ * never mistaken for real money; viewing live data while billing is in
+ * test mode offers the switch, since new sign-ups are then test data.
  */
 export function TestModeNotice() {
-  const canSee = useCan("landlord.billing.payment-gateways.index")
-  const gateways = useQuery({ ...gatewaysQuery, enabled: canSee })
+  const [mode, setMode] = useQueryState("mode", parseAsStringLiteral(BILLING_MODES).withDefault("live"))
+  const canSeeGateways = useCan("landlord.billing.payment-gateways.index")
+  const gateways = useQuery({ ...gatewaysQuery, enabled: canSeeGateways && mode === "live" })
+
+  if (mode === "test") {
+    return (
+      <Alert className="border-warning/40 bg-warning/5">
+        <Icon name="alert" className="text-warning" />
+        <AlertTitle>Showing test data</AlertTitle>
+        <AlertDescription>Subscriptions, MRR, revenue and payments come from test gateways. No real money is included. Tenant counts include every store.</AlertDescription>
+        <AlertAction>
+          <Button size="sm" variant="outline" onClick={() => void setMode(null)}>
+            Show live data
+          </Button>
+        </AlertAction>
+      </Alert>
+    )
+  }
 
   if (gateways.data?.billingMode !== "test") return null
 
@@ -25,13 +43,12 @@ export function TestModeNotice() {
     <Alert>
       <Icon name="info" />
       <AlertTitle>Billing is in test mode</AlertTitle>
-      <AlertDescription>
-        Subscriptions, MRR, revenue and payments count live payments only, so stores and payments created in test mode don&apos;t appear in
-        those figures. Tenant counts and sign-ups include every store.{" "}
-        <Link href="/payment-gateways" className="underline underline-offset-4">
-          Payment gateways
-        </Link>
-      </AlertDescription>
+      <AlertDescription>New sign-ups and payments are test data, so they don&apos;t appear in the live money figures.</AlertDescription>
+      <AlertAction>
+        <Button size="sm" variant="outline" onClick={() => void setMode("test")}>
+          Show test data
+        </Button>
+      </AlertAction>
     </Alert>
   )
 }

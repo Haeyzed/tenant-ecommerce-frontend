@@ -7,9 +7,8 @@ const raw = {
   mode: "test",
   configured: true,
   public_key: "pk_test_…1234",
-  // The generator types these as strings; the API sends booleans.
-  has_secret_key: "1",
-  has_webhook_secret: "",
+  has_secret_key: true,
+  has_webhook_secret: false,
   is_enabled: false,
   is_default: false,
   sort_order: 0,

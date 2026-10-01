@@ -57,10 +57,6 @@ export type PlanLimit = {
 }
 
 const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v)
-const toInt = (v: unknown): number | null => {
-  const n = typeof v === "number" ? v : typeof v === "string" && v.trim() !== "" ? Number(v) : Number.NaN
-  return Number.isInteger(n) ? n : null
-}
 
 function normalizePrice(row: RawPrice): PlanPrice {
   return {
@@ -69,8 +65,7 @@ function normalizePrice(row: RawPrice): PlanPrice {
     interval: row.billing_interval === "yearly" ? "yearly" : "monthly",
     amount: row.amount,
     trialDays: row.trial_days,
-    // Generated as a string; the API sends an integer.
-    resolvedTrialDays: toInt(row.resolved_trial_days) ?? 0,
+    resolvedTrialDays: row.resolved_trial_days,
     trialRequiresCard: row.trial_requires_payment_method,
     active: row.is_active,
     createdAt: row.created_at,
@@ -78,12 +73,6 @@ function normalizePrice(row: RawPrice): PlanPrice {
 }
 
 export function normalizePlan(row: RawPlan): Plan {
-  // Generated as an array; the API sends a map of limit key to value.
-  const limitsSource: unknown = row.limits
-  const limits: Record<string, number | null> = {}
-  if (isRecord(limitsSource)) {
-    for (const [key, value] of Object.entries(limitsSource)) limits[key] = toInt(value)
-  }
 
   return {
     id: row.id,
@@ -98,7 +87,7 @@ export function normalizePlan(row: RawPlan): Plan {
     sortOrder: row.sort_order,
     prices: (row.prices ?? []).map(normalizePrice),
     features: row.features ?? [],
-    limits,
+    limits: row.limits ?? {},
   }
 }
 
@@ -107,8 +96,7 @@ export function normalizeLimit(row: RawLimit): PlanLimit {
     key: row.limit_key,
     label: row.label,
     kind: row.kind,
-    // Generated as a string; the API sends an integer or null.
-    value: toInt(row.limit_value),
+    value: row.limit_value,
     configured: row.configured,
     unlimitedAllowed: row.unlimited_allowed,
   }

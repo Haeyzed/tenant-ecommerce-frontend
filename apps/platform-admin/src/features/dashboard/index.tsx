@@ -29,6 +29,7 @@ export function PlatformDashboardPage({ userName }: { userName: string }) {
       loadSections={loadSections}
       loadSection={loadSection}
       before={<TestModeNotice />}
+      billingModeToggle
       display={display}
     />
   )

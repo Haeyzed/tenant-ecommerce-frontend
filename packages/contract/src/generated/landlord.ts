@@ -3488,7 +3488,7 @@ export interface components {
             id: number;
             is_active: boolean;
             plan_id: number;
-            resolved_trial_days: string;
+            resolved_trial_days: number;
             trial_days: number | null;
             trial_requires_payment_method: boolean;
         };
@@ -3501,7 +3501,10 @@ export interface components {
             is_active: boolean;
             is_public: boolean;
             is_recommended: boolean;
-            limits?: (number | null)[];
+            /** @description Limit key to value; null is unlimited. */
+            limits?: {
+                [key: string]: number | null;
+            };
             marketing_badge: string | null;
             name: string;
             prices?: components["schemas"]["PlanPriceResource"][];
@@ -8380,8 +8383,8 @@ export interface operations {
                             gateways: {
                                 configured: boolean;
                                 credentials_verified_at: string | null;
-                                has_secret_key: string;
-                                has_webhook_secret: string;
+                                has_secret_key: boolean;
+                                has_webhook_secret: boolean;
                                 is_default: boolean;
                                 is_enabled: boolean;
                                 last_webhook_at: string | null;
@@ -8440,8 +8443,8 @@ export interface operations {
                         data: {
                             configured: boolean;
                             credentials_verified_at: string | null;
-                            has_secret_key: string;
-                            has_webhook_secret: string;
+                            has_secret_key: boolean;
+                            has_webhook_secret: boolean;
                             is_default: boolean;
                             is_enabled: boolean;
                             last_webhook_at: string | null;
@@ -8487,8 +8490,8 @@ export interface operations {
                         data: {
                             configured: boolean;
                             credentials_verified_at: string | null;
-                            has_secret_key: string;
-                            has_webhook_secret: string;
+                            has_secret_key: boolean;
+                            has_webhook_secret: boolean;
                             is_default: boolean;
                             is_enabled: boolean;
                             last_webhook_at: string | null;
@@ -8534,8 +8537,8 @@ export interface operations {
                         data: {
                             configured: boolean;
                             credentials_verified_at: string | null;
-                            has_secret_key: string;
-                            has_webhook_secret: string;
+                            has_secret_key: boolean;
+                            has_webhook_secret: boolean;
                             is_default: boolean;
                             is_enabled: boolean;
                             last_webhook_at: string | null;
@@ -8581,8 +8584,8 @@ export interface operations {
                         data: {
                             configured: boolean;
                             credentials_verified_at: string | null;
-                            has_secret_key: string;
-                            has_webhook_secret: string;
+                            has_secret_key: boolean;
+                            has_webhook_secret: boolean;
                             is_default: boolean;
                             is_enabled: boolean;
                             last_webhook_at: string | null;
@@ -9167,7 +9170,7 @@ export interface operations {
                             kind: string;
                             label: string;
                             limit_key: string;
-                            limit_value: string | null;
+                            limit_value: number | null;
                             unlimited_allowed: boolean;
                         }[];
                         errors: {
@@ -9214,7 +9217,7 @@ export interface operations {
                             kind: string;
                             label: string;
                             limit_key: string;
-                            limit_value: string | null;
+                            limit_value: number | null;
                             unlimited_allowed: boolean;
                         }[];
                         errors: {

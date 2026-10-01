@@ -41,11 +41,25 @@ test("presets, custom ranges and comparison reach the API and show their dates",
   expect(errors).toEqual([])
 })
 
-test("test-mode billing explains why money figures exclude test data", async ({ page }) => {
+test("money figures switch between live and test billing data", async ({ page }) => {
   await page.goto("/payment-gateways")
+  await expect(page.getByTestId("gateway-name").first()).toBeVisible()
   const testBilling = await page.getByText("Test billing").isVisible()
-  await page.goto("/dashboard")
-  const notice = page.getByText("Billing is in test mode")
-  if (testBilling) await expect(notice).toBeVisible()
-  else await expect(notice).toHaveCount(0)
+
+  await page.goto("/dashboard?range=this_month")
+  await expect(page.getByText(/^Showing /)).toBeVisible()
+  const liveMrr = page.getByText("MRR", { exact: true }).first()
+  await expect(liveMrr).toBeVisible()
+
+  // Live view while billing is in test mode offers the switch.
+  if (testBilling) await expect(page.getByText("Billing is in test mode")).toBeVisible()
+
+  await page.getByRole("radio", { name: "Test data" }).or(page.getByRole("button", { name: "Test data" })).first().click()
+  await expect(page).toHaveURL(/mode=test/)
+  await expect(page.getByText("Showing test data")).toBeVisible()
+  await expect(page.getByText(/^Showing .+\.$/)).toBeVisible()
+
+  await page.getByRole("button", { name: "Show live data" }).click()
+  await expect(page).not.toHaveURL(/mode=test/)
+  await expect(page.getByText("Showing test data")).toHaveCount(0)
 })
