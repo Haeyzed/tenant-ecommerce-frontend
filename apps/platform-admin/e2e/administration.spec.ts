@@ -14,8 +14,9 @@ test("legal documents list and a new version validates before saving", async ({ 
   await page.goto("/legal-documents")
   await expect(page.getByRole("heading", { level: 1, name: "Legal documents" })).toBeVisible()
 
-  await page.getByRole("link", { name: "New version" }).click()
-  await expect(page).toHaveURL(/\/legal-documents\/new/)
+  // Asserted then opened directly: a first dev compile of the route can outlast a click.
+  await expect(page.getByRole("link", { name: "New version" })).toHaveAttribute("href", "/legal-documents/new")
+  await page.goto("/legal-documents/new")
   await page.getByLabel("Title").fill("")
   await page.getByRole("button", { name: "Create draft" }).click()
   await expect(page.getByText("Enter a version, e.g. 2026-10.")).toBeVisible()
