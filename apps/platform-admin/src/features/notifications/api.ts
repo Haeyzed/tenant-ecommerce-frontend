@@ -89,8 +89,29 @@ export function templateName(key: string): string {
   return words.charAt(0).toUpperCase() + words.slice(1)
 }
 
-/** The group a template belongs to, from its key prefix. */
+const GROUPS: Record<string, string> = {
+  tenant: "Stores",
+  subscription: "Billing",
+  affiliate: "Affiliates",
+  platform: "Platform team",
+  platform_user: "Platform team",
+  platform_support: "Support",
+  module_notice: "Module notices",
+}
+
+/** The area a template belongs to, from its key prefix. */
 export function templateGroup(key: string): string {
-  const prefix = key.split(".")[0] ?? ""
-  return { tenant: "Stores", platform: "Platform team", affiliate: "Affiliates", billing: "Billing", support: "Support" }[prefix] ?? prefix
+  const prefix = key.split(".")[0] ?? key
+  return GROUPS[prefix] ?? templateName(prefix)
+}
+
+/** Placeholders used in a text that the template doesn't offer. */
+export function unknownPlaceholders(text: string, allowed: readonly string[]): string[] {
+  const used = Array.from(text.matchAll(/\{\{\s*([a-z0-9_]+)\s*\}\}/g), (m) => m[1] ?? "")
+  return [...new Set(used.filter((v) => !allowed.includes(v)))]
+}
+
+/** Live preview with the same sample values the API uses: {{name}} → [name]. */
+export function previewText(text: string): string {
+  return text.replace(/\{\{\s*([a-z0-9_]+)\s*\}\}/g, "[$1]")
 }
