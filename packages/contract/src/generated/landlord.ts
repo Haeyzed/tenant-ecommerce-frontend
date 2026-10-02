@@ -3286,6 +3286,8 @@ export interface components {
             reverses_commission_id: number | null;
             status: string;
             tenant_id?: string;
+            /** @description The referred store's name */
+            tenant_name?: string | null;
             type: string;
         };
         /** AffiliatePayoutResource */
@@ -3325,6 +3327,8 @@ export interface components {
                 reverses_commission_id: number | null;
                 status: string;
                 tenant_id?: string;
+                /** @description The referred store's name */
+                tenant_name?: string | null;
                 type: string;
             }[];
             created_at: string;
@@ -3334,7 +3338,10 @@ export interface components {
             failure_reason: string | null;
             id?: number;
             paid_at: string | null;
-            payout_details?: string;
+            /** @description The account the transfer goes to; billing admins only */
+            payout_details?: {
+                [key: string]: string;
+            };
             payout_method: string;
             period_end: string;
             period_start: string;
@@ -3354,7 +3361,11 @@ export interface components {
             id: number;
             ineligible_reason: string | null;
             requires_review?: boolean;
-            risk_flags?: string;
+            risk_flags?: {
+                detail: string;
+                detected_at: string;
+                flag: string;
+            }[];
             source: string;
             status: string;
             tenant_id?: string;
@@ -3372,7 +3383,14 @@ export interface components {
             id?: number;
             last_login_at?: string | null;
             name: string;
-            payout: string;
+            /** @description Account numbers show their last four digits only */
+            payout: {
+                details: {
+                    [key: string]: string;
+                };
+                method: string | null;
+                updated_at: string | null;
+            };
             phone: string | null;
             promotion_methods?: string | null;
             public_id: string;
@@ -3709,6 +3727,7 @@ export interface operations {
                 affiliate_id?: number;
                 currency_code?: string;
                 eligible_only?: boolean;
+                page?: number;
                 per_page?: number;
                 status?: "pending" | "approved" | "rejected" | "reversed" | "paid";
                 type?: "commission" | "clawback";
@@ -3836,7 +3855,13 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": {
+                    reason: string;
+                };
+            };
+        };
         responses: {
             200: {
                 headers: {
@@ -3857,6 +3882,7 @@ export interface operations {
                 };
             };
             404: components["responses"]["ModelNotFoundException"];
+            422: components["responses"]["ValidationException"];
         };
     };
     "landlord.affiliates.admin.commissions.reverse": {
@@ -3869,7 +3895,13 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": {
+                    reason: string;
+                };
+            };
+        };
         responses: {
             200: {
                 headers: {
@@ -3890,6 +3922,7 @@ export interface operations {
                 };
             };
             404: components["responses"]["ModelNotFoundException"];
+            422: components["responses"]["ValidationException"];
         };
     };
     "landlord.affiliates.admin.commissions.metrics": {
@@ -3936,6 +3969,7 @@ export interface operations {
             query?: {
                 affiliate_id?: number;
                 currency_code?: string;
+                page?: number;
                 per_page?: number;
                 period_end?: string;
                 status?: "pending" | "paid" | "failed" | "cancelled";
@@ -4206,6 +4240,7 @@ export interface operations {
         parameters: {
             query?: {
                 affiliate_id?: number;
+                page?: number;
                 per_page?: number;
                 requires_review?: boolean;
                 status?: "registered" | "converted" | "ineligible" | "rejected";
@@ -4334,6 +4369,7 @@ export interface operations {
         parameters: {
             query?: {
                 has_flags?: boolean;
+                page?: number;
                 per_page?: number;
                 search?: string;
                 status?: "pending" | "approved" | "rejected" | "suspended" | "closed";
@@ -4407,7 +4443,10 @@ export interface operations {
                                 };
                             };
                             rapid_refund: boolean;
-                            referrals: unknown[];
+                            /** @description Referral count per status */
+                            referrals: {
+                                [key: string]: number;
+                            };
                         };
                         errors: {
                             [key: string]: unknown;
@@ -4473,7 +4512,13 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": {
+                    reason: string;
+                };
+            };
+        };
         responses: {
             200: {
                 headers: {
@@ -4494,6 +4539,7 @@ export interface operations {
                 };
             };
             404: components["responses"]["ModelNotFoundException"];
+            422: components["responses"]["ValidationException"];
         };
     };
     "landlord.affiliates.admin.commission-rate": {
@@ -4620,7 +4666,13 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": {
+                    reason: string;
+                };
+            };
+        };
         responses: {
             200: {
                 headers: {
@@ -4641,6 +4693,7 @@ export interface operations {
                 };
             };
             404: components["responses"]["ModelNotFoundException"];
+            422: components["responses"]["ValidationException"];
         };
     };
     "landlord.affiliates.admin.suspend": {
@@ -4653,7 +4706,13 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": {
+                    reason: string;
+                };
+            };
+        };
         responses: {
             200: {
                 headers: {
@@ -4674,6 +4733,7 @@ export interface operations {
                 };
             };
             404: components["responses"]["ModelNotFoundException"];
+            422: components["responses"]["ValidationException"];
         };
     };
     "landlord.affiliates.admin.metrics": {

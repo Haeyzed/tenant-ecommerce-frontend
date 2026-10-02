@@ -43,7 +43,13 @@ describe("bell", () => {
   })
 
   it("links only to screens that exist", () => {
-    expect(inboxHref({ key: "platform.onboarding_paused" })).toBe("/platform-settings")
-    expect(inboxHref({ key: "platform.export_ready" })).toBeNull()
+    expect(inboxHref({ key: "platform.onboarding_paused", data: {} })).toBe("/platform-settings")
+    expect(inboxHref({ key: "platform.export_ready", data: { export_id: 3 } })).toBeNull()
+  })
+
+  it("opens the affiliate an application came from", () => {
+    expect(inboxHref({ key: "affiliate.application_submitted", data: { affiliate_id: 12 } })).toBe("/affiliates/12")
+    expect(inboxHref({ key: "affiliate.application_submitted", data: { affiliate_id: "x" } })).toBe("/affiliates?status=pending")
+    expect(inboxHref({ key: "affiliate.referral_flagged", data: {} })).toBe("/affiliate-referrals?review=true")
   })
 })

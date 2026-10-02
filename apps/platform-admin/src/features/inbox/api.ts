@@ -80,10 +80,14 @@ export function useMarkAllRead() {
 
 /**
  * Where a notification leads in this console, or null. Only screens that
- * exist are linked: affiliates (`affiliate_id`), exports (`export_id`) and
- * helpdesk conversations (`conversation_id`) join as those screens ship.
+ * exist are linked: exports (`export_id`) and helpdesk conversations
+ * (`conversation_id`) join as those screens ship.
  */
-export function inboxHref(item: Pick<InboxItem, "key">): string | null {
+export function inboxHref(item: Pick<InboxItem, "key" | "data">): string | null {
+  if (item.key === "affiliate.application_submitted") {
+    const id = item.data.affiliate_id
+    return typeof id === "number" && Number.isInteger(id) ? `/affiliates/${id}` : "/affiliates?status=pending"
+  }
   return SCREENS[item.key] ?? null
 }
 
@@ -93,4 +97,7 @@ const SCREENS: Record<string, string> = {
   "platform.webhook_failures": "/payment-gateways",
   "platform.provisioning_failed": "/tenant-registrations",
   "platform.billing_payment_failed_alert": "/payment-transactions",
+  "affiliate.referral_flagged": "/affiliate-referrals?review=true",
+  "affiliate.commissions_awaiting_approval": "/affiliate-commissions?eligible=true",
+  "affiliate.payouts_ready": "/affiliate-payouts?pstatus=pending",
 }

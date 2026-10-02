@@ -104,6 +104,18 @@ pnpm --filter platform-web dev     # http://localhost:3003
 
 Mailtrap's free plan limits emails per second. If a code doesn't arrive, wait a minute and use "send a new code".
 
+### Demo affiliates
+
+```bash
+php artisan affiliates:demo           # in tenant-ecommerce-api; local only
+php artisan affiliates:demo --remove  # deletes exactly what it created
+```
+
+It creates affiliate `E2EAFF`, a pending applicant, referrals on up to three stores that already have a paid charge, and a payout. platform-admin's `affiliates.spec.ts` needs this data.
+
+- **Payouts need a minimum per currency.** A currency missing from Settings → Affiliate programme → Minimum payout is never paid out. The local database has `NGN 5000` for this reason.
+- **Referral links need the programme on.** With "Run the affiliate programme" off, `http://localhost:3003/?ref=E2EAFF` records nothing and the code stays in the address bar.
+
 ### Checks
 
 ```bash
@@ -111,6 +123,7 @@ pnpm turbo run typecheck
 pnpm turbo run lint
 pnpm turbo run test
 pnpm --filter tenant-admin test:e2e     # needs Herd and the demo store
+E2E_PASSWORD=DemoPass123! pnpm --filter platform-admin test:e2e   # needs the demo affiliates
 ```
 
 ## 5. Paid plans and payment webhooks

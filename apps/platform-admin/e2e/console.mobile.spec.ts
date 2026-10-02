@@ -21,6 +21,10 @@ const PAGES = [
   "/platform-users",
   "/notifications",
   "/notifications?tab=channels",
+  "/affiliates",
+  "/affiliate-referrals",
+  "/affiliate-commissions",
+  "/affiliate-payouts",
   "/platform-settings",
 ]
 

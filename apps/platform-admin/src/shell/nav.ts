@@ -1,5 +1,6 @@
 import type { NavEntry, NavGroup } from "@workspace/admin-kit/nav"
 
+import { affiliatesNav } from "@/features/affiliates/nav"
 import { commissionsNav } from "@/features/commissions/nav"
 import { couponsNav } from "@/features/coupons/nav"
 import { dashboardNav } from "@/features/dashboard/nav"
@@ -38,6 +39,7 @@ export const navEntries: NavEntry[] = [
   ...commissionsNav,
   ...couponsNav,
   ...paymentGatewaysNav,
+  ...affiliatesNav,
   ...legalNav,
   ...platformUsersNav,
   ...notificationsNav,
